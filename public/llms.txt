@@ -11,8 +11,7 @@
 - [Confluence](https://www.mahirmalik.in/work/confluence): Interactive ML learning playground with 38 scikit-learn algorithms, live decision boundaries, frame-by-frame training playback, and 25 datasets.
 
 ## Blog
-- [Blog home](https://www.mahirmalik.in/blog): Long-form writing on LLM deployment, retrieval systems, evaluation discipline, and product decisions around AI.
-- [Why Efficient Models Are Winning](https://www.mahirmalik.in/blog/efficiency-era-of-ai): Why raw parameter count is no longer the main story, and how efficient models, routing, compression, and compound systems are reshaping AI deployment.
+- [Blog home](https://www.mahirmalik.in/blog): Long-form writing on LLM deployment, retrieval systems, evaluation discipline, and product decisions around AI. New essays coming soon.
 
 ## Elsewhere
 - [GitHub](https://github.com/mahirmlk): Open-source projects and code.

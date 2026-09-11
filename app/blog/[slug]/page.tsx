@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getBlogPost, blogPosts } from "@/lib/blogs";
-import { EfficiencyEraArticle } from "@/components/blog/EfficiencyEraArticle";
 import { StandardBlogArticle } from "@/components/blog/StandardBlogArticle";
 import { JsonLd, blogPostingSchema } from "@/lib/schema";
 
@@ -79,15 +78,6 @@ export default async function BlogPostPage({ params }: BlogPageProps) {
 
   if (!post) {
     notFound();
-  }
-
-  if (post.layout === "feature") {
-    return (
-      <>
-        <JsonLd data={blogPostingSchema(post)} />
-        <EfficiencyEraArticle post={post} />
-      </>
-    );
   }
 
   return (

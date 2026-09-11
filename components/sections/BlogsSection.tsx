@@ -16,6 +16,24 @@ function formatDate(date: string) {
 export function BlogsSection() {
   const featured = blogPosts.find((post) => post.featured) ?? blogPosts[0];
 
+  if (!featured) {
+    return (
+      <section id="blogs" className="site-container section-block">
+        <Reveal>
+          <div className="space-y-8">
+            <div>
+              <p className="section-eyebrow">Blogs</p>
+              <h2 className="section-title">Writing that turns technical shifts into usable mental models.</h2>
+              <p className="section-copy mt-5">
+                New essays are on the way. Check back soon.
+              </p>
+            </div>
+          </div>
+        </Reveal>
+      </section>
+    );
+  }
+
   return (
     <section id="blogs" className="site-container section-block">
       <Reveal>

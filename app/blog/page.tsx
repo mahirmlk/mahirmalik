@@ -54,9 +54,13 @@ export default function BlogIndexPage() {
         </div>
 
         <div className="mt-4">
-          {blogPosts.map((post) => (
-            <BlogListItem key={post.slug} post={post} />
-          ))}
+          {blogPosts.length === 0 ? (
+            <p className="border-t border-white/10 py-10 text-[0.95rem] leading-7 text-white/60">
+              New essays are on the way. Check back soon.
+            </p>
+          ) : (
+            blogPosts.map((post) => <BlogListItem key={post.slug} post={post} />)
+          )}
         </div>
       </section>
     </div>
