@@ -20,11 +20,13 @@ export function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const lastScrollY = useRef(0);
 
   useEffect(() => {
     lastScrollY.current = window.scrollY;
+    setScrolled(window.scrollY > 16);
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -38,6 +40,8 @@ export function Navbar() {
         setIsVisible(true);
       }
 
+      setScrolled(currentScrollY > 16);
+
       lastScrollY.current = currentScrollY;
     };
 
@@ -48,6 +52,12 @@ export function Navbar() {
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (open) {
+      setIsVisible(true);
+    }
+  }, [open]);
 
   useEffect(() => {
     if (pathname !== "/") {
@@ -117,7 +127,7 @@ export function Navbar() {
         isVisible ? "translate-y-0 opacity-100" : "-translate-y-[110%] opacity-0"
       )}
     >
-      <div className="nav-shell">
+      <div className={cn("nav-shell", scrolled && "nav-shell-scrolled")}>
         <div className="nav-frame">
           <Button variant="ghost" size="icon-sm" asChild className="nav-home-button">
             <Link href="/" aria-label="Go to home">

@@ -5,11 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --bg: #f7f7f4;
-  --bg-elevated: #efefeb;
-  --bg-card: rgba(255, 255, 255, 0.88);
-  --bg-raised: #f1f1ed;
-  --bg-tag: rgba(255, 255, 255, 0.9);
+  --bg: #ffffff;
+  --bg-elevated: #eef0ee;
+  --bg-card: #ffffff;
+  --bg-raised: #f4f5f4;
+  --bg-tag: #ffffff;
   --border: oklch(0.922 0 0);
   --border-mid: rgba(17, 17, 17, 0.14);
   --border-strong: rgba(17, 17, 17, 0.22);
@@ -19,11 +19,11 @@
   --fg-subtle: rgba(17, 17, 17, 0.62);
   --accent-green: #111111;
   --nav-bg: #ffffff;
-  --btn-bg: #f3f3f3;
+  --btn-bg: #f4f4f4;
   --btn-fg: #111111;
   --nav-line: rgba(17, 17, 17, 0.1);
-  --nav-shell: rgba(248, 248, 244, 0.84);
-  --nav-panel: rgba(255, 255, 255, 0.82);
+  --nav-shell: rgba(255, 255, 255, 0.72);
+  --nav-panel: rgba(255, 255, 255, 0.64);
   --nav-pill: rgba(17, 17, 17, 0.04);
   --nav-kbd: rgba(17, 17, 17, 0.05);
   --cta-bg: #2f3a32;
@@ -82,7 +82,7 @@ body {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--fg) 18%, transparent);
+  background: var(--fg);
   color: var(--bg);
 }
 
@@ -576,11 +576,33 @@ body {
 }
 
 .nav-shell {
-  border-top: 1px solid var(--nav-line);
-  border-bottom: 1px solid var(--nav-line);
-  background: color-mix(in srgb, var(--nav-shell) 96%, transparent);
-  backdrop-filter: blur(22px) saturate(170%);
-  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition:
+    background-color 320ms ease,
+    border-color 320ms ease,
+    box-shadow 320ms ease,
+    backdrop-filter 320ms ease;
+}
+
+.nav-shell-scrolled {
+  border-top-color: var(--nav-line);
+  border-bottom-color: var(--nav-line);
+  background: color-mix(in srgb, var(--nav-shell) 72%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.dark .nav-shell-scrolled {
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .nav-frame {
@@ -698,10 +720,12 @@ body {
 .gh-graph-error {
   margin-top: 1rem;
   border-radius: 0.75rem;
+  border: 1px solid var(--border);
   background: var(--bg-card);
   padding: 1rem;
   font-size: 0.875rem;
   color: var(--fg-subtle);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
 }
 
 .gh-live-dot {
@@ -717,8 +741,10 @@ body {
 
 .gh-commits-container {
   border-radius: 1.25rem;
+  border: 1px solid var(--border);
   background: var(--bg-card);
   padding: 1.5rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.05);
 }
 
 .gh-commits-header {
@@ -744,11 +770,13 @@ body {
 
 .gh-commits-empty {
   border-radius: 1.25rem;
+  border: 1px solid var(--border);
   background: var(--bg-card);
   padding: 1.5rem;
   font-size: 0.875rem;
   line-height: 1.75;
   color: var(--fg-muted);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.05);
 }
 
 @media (min-width: 769px) {

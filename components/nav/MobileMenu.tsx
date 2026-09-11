@@ -25,7 +25,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -12 }}
-          className="mx-auto w-[min(1180px,calc(100vw-1.5rem))] border-x border-b border-[var(--nav-line)] bg-[color-mix(in_srgb,var(--nav-shell)_96%,transparent)] px-4 pb-4 pt-3 shadow-[0_26px_70px_rgba(0,0,0,0.28)] backdrop-blur-xl md:hidden"
+          className="mx-auto w-[min(1180px,calc(100vw-1.5rem))] rounded-b-[1.25rem] border-x border-b border-[var(--nav-line)] bg-[color-mix(in_srgb,var(--nav-shell)_78%,transparent)] px-4 pb-4 pt-3 shadow-[0_26px_70px_rgba(0,0,0,0.18)] backdrop-blur-[20px] backdrop-saturate-[180%] md:hidden"
         >
           <nav className="flex flex-col gap-2">
             {links.map((link) => (

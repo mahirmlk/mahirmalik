@@ -23,8 +23,7 @@ export const AnimatedThemeToggler = ({
     const updateTheme = () => {
       const root = document.documentElement
       const storedTheme = localStorage.getItem("theme")
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-      const dark = storedTheme ? storedTheme === "dark" : systemTheme
+      const dark = storedTheme === "dark"
 
       root.classList.toggle("dark", dark)
       root.style.colorScheme = dark ? "dark" : "light"
