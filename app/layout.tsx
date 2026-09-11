@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Navbar } from "@/components/nav/Navbar";
 import { Noise } from "@/components/ui/Noise";
-import { inter, jetbrainsMono, sora, playfairDisplay, montserrat, spaceGrotesk } from "@/lib/fonts";
+import { inter, jetbrainsMono, sora, playfairDisplay, montserrat, spaceGrotesk, gochiHand } from "@/lib/fonts";
 import "@/app/globals.css";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
@@ -85,7 +85,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(inter.variable, jetbrainsMono.variable, sora.variable, playfairDisplay.variable, montserrat.variable, spaceGrotesk.variable, "font-sans", geist.variable)}
+      className={cn(inter.variable, jetbrainsMono.variable, sora.variable, playfairDisplay.variable, montserrat.variable, spaceGrotesk.variable, gochiHand.variable, "font-sans", geist.variable)}
     >
       <head>
         <Script id="theme-init" strategy="beforeInteractive">

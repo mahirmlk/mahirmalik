@@ -1,4 +1,4 @@
-import { Inter, JetBrains_Mono, Sora, Playfair_Display, Montserrat, Space_Grotesk } from "next/font/google";
+import { Inter, JetBrains_Mono, Sora, Playfair_Display, Montserrat, Space_Grotesk, Gochi_Hand } from "next/font/google";
 
 export const inter = Inter({
   subsets: ["latin"],
@@ -16,7 +16,7 @@ export const jetbrainsMono = JetBrains_Mono({
 
 export const sora = Sora({
   subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-heading",
   display: "swap",
 });
@@ -40,5 +40,12 @@ export const playfairDisplay = Playfair_Display({
   weight: ["400", "600", "700"],
   style: ["normal", "italic"],
   variable: "--font-serif",
+  display: "swap",
+});
+
+export const gochiHand = Gochi_Hand({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-hand",
   display: "swap",
 });

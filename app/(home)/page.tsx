@@ -10,7 +10,9 @@ import { SkillsSection } from "@/components/sections/SkillsSection";
 import { TheorySection } from "@/components/sections/TheorySection";
 
 export const metadata: Metadata = {
-  title: "Mahir Malik — AI Engineer & ML Systems Developer",
+  title: {
+    absolute: "mahir malik.",
+  },
   description:
     "Mahir Malik is an AI engineer building intelligent systems, ML products, and production-grade software — LLM agents, RAG pipelines, and full-stack AI applications.",
   alternates: {
