@@ -1,4 +1,4 @@
-import { blogPosts } from "@/lib/blogs";
+import { getAllWritingPosts } from "@/lib/writing";
 import { personDescription, siteName, siteUrl } from "@/lib/site";
 
 export const dynamic = "force-static";
@@ -13,12 +13,12 @@ function escapeXml(value: string) {
 }
 
 export async function GET() {
-  const items = blogPosts
+  const items = getAllWritingPosts()
     .map(
       (post) => `    <item>
       <title>${escapeXml(post.title)}</title>
-      <link>${siteUrl}/blog/${post.slug}</link>
-      <guid isPermaLink="true">${siteUrl}/blog/${post.slug}</guid>
+      <link>${siteUrl}/writing/${post.slug}</link>
+      <guid isPermaLink="true">${siteUrl}/writing/${post.slug}</guid>
       <description>${escapeXml(post.excerpt)}</description>
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
     </item>`
@@ -28,8 +28,8 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>${escapeXml(siteName)} — Blog</title>
-    <link>${siteUrl}/blog</link>
+    <title>${escapeXml(siteName)} — Writing</title>
+    <link>${siteUrl}/writing</link>
     <description>${escapeXml(personDescription)}</description>
     <language>en</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>

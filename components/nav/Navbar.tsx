@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { href: "/about", label: "About" },
   { href: "/work", label: "Work" },
-  { href: "/blog", label: "Blog" },
+  { href: "/writing", label: "Writing" },
   { href: "/#contact", label: "Contact" }
 ];
 
@@ -154,7 +154,7 @@ export function Navbar() {
 
           <div className="nav-actions">
             <Button variant="ghost" size="sm" asChild className="nav-search hidden lg:inline-flex">
-              <Link href="/blog">
+              <Link href="/writing">
                 <Search className="size-4" strokeWidth={1.9} />
                 <span>Explore</span>
                 <span className="nav-kbd">Ctrl</span>

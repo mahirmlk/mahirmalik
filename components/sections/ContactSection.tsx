@@ -120,7 +120,7 @@ export function ContactSection() {
               Archive
             </a>
             <a
-              href="/blog"
+              href="/writing"
               className="mono text-[11px] uppercase tracking-[0.16em] text-[var(--fg-subtle)]"
             >
               Writing

@@ -65,15 +65,14 @@ export function breadcrumbSchema(items: { name: string; path: string }[]) {
   };
 }
 
-export function blogPostingSchema(post: {
+export function writingPostingSchema(post: {
   slug: string;
   title: string;
   description: string;
   date: string;
   tags: string[];
-  previewImage?: { url: string; width: number; height: number; type: string; alt: string };
 }) {
-  const url = `${siteUrl}/blog/${post.slug}`;
+  const url = `${siteUrl}/writing/${post.slug}`;
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -89,21 +88,11 @@ export function blogPostingSchema(post: {
         author: { "@id": personId },
         publisher: { "@id": personId },
         keywords: post.tags.join(", "),
-        ...(post.previewImage
-          ? {
-              image: {
-                "@type": "ImageObject",
-                url: `${siteUrl}${post.previewImage.url}`,
-                width: post.previewImage.width,
-                height: post.previewImage.height,
-              },
-            }
-          : {}),
       },
       breadcrumbSchema([
         { name: "Home", path: "/" },
-        { name: "Blog", path: "/blog" },
-        { name: post.title, path: `/blog/${post.slug}` },
+        { name: "Writing", path: "/writing" },
+        { name: post.title, path: `/writing/${post.slug}` },
       ]),
     ],
   };

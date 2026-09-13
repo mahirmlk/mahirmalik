@@ -10,8 +10,9 @@
 - [Sellable](https://www.mahirmalik.in/work/sellable): AI agents that buy things autonomously with guardrails — machine-readable storefront, policy engine, Razorpay payment rails, and an XAI audit ledger.
 - [Confluence](https://www.mahirmalik.in/work/confluence): Interactive ML learning playground with 38 scikit-learn algorithms, live decision boundaries, frame-by-frame training playback, and 25 datasets.
 
-## Blog
-- [Blog home](https://www.mahirmalik.in/blog): Long-form writing on LLM deployment, retrieval systems, evaluation discipline, and product decisions around AI. New essays coming soon.
+## Writing
+- [Writing home](https://www.mahirmalik.in/writing): Long-form writing on LLM deployment, retrieval systems, evaluation discipline, and product decisions around AI.
+- [Context vs Loop vs Harness Engineering](https://www.mahirmalik.in/writing/context-vs-loop-vs-harness-engineering): What context engineering, harness engineering, and loop engineering each do, where they overlap, and how to build a simple production-style agent system.
 
 ## Elsewhere
 - [GitHub](https://github.com/mahirmlk): Open-source projects and code.

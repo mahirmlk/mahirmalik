@@ -1,9 +1,8 @@
-"use client";
-
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
-import { blogPosts } from "@/lib/blogs";
+import { Folder } from "@/components/ui/folder-component";
+import { getAllWritingPosts } from "@/lib/writing";
 
 function formatDate(date: string) {
   return new Intl.DateTimeFormat("en-US", {
@@ -13,44 +12,33 @@ function formatDate(date: string) {
   }).format(new Date(date));
 }
 
+const writingPosts = getAllWritingPosts();
+
 export function BlogsSection() {
-  const featured = blogPosts.find((post) => post.featured) ?? blogPosts[0];
-
-  if (!featured) {
-    return (
-      <section id="blogs" className="site-container section-block">
-        <Reveal>
-          <div className="space-y-8">
-            <div>
-              <p className="section-eyebrow">Blogs</p>
-              <h2 className="section-title">Writing that turns technical shifts into usable mental models.</h2>
-              <p className="section-copy mt-5">
-                New essays are on the way. Check back soon.
-              </p>
-            </div>
-          </div>
-        </Reveal>
-      </section>
-    );
-  }
-
   return (
     <section id="blogs" className="site-container section-block">
       <Reveal>
         <div className="space-y-8">
           <div>
-            <p className="section-eyebrow">Blogs</p>
-            <h2 className="section-title">Writing that turns technical shifts into usable mental models.</h2>
+            <p className="section-eyebrow">Writing</p>
+            <h2
+              className="section-title"
+              style={{ fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)" }}
+            >
+              Stuff I&apos;ve been thinking about.
+            </h2>
             <p className="section-copy mt-5">
-              Writing on model behavior, retrieval systems, evaluation, and deployment tradeoffs
-              behind reliable, production-grade machine learning systems.
+              Tech moves stupidly fast, so I write down the things I&apos;m learning, building,
+              breaking, and obsessing over before the next rabbit hole gets me.
             </p>
           </div>
 
           <div className="flex flex-col items-start gap-3 md:flex-row md:items-center md:justify-between md:gap-4">
-            <p className="mono text-[11px] uppercase tracking-[0.18em] text-[var(--fg-subtle)]">Featured post</p>
+            <p className="mono text-[11px] uppercase tracking-[0.18em] text-[var(--fg-subtle)]">
+              {writingPosts.length > 0 ? "Latest" : "Essays"}
+            </p>
             <Link
-              href="/blog"
+              href="/writing"
               className="mono inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-[var(--fg-muted)] transition hover:text-[var(--fg)]"
             >
               Browse all <ArrowRight size={14} />
@@ -60,36 +48,31 @@ export function BlogsSection() {
       </Reveal>
 
       <Reveal delay={120} className="mt-8">
-        <div className="max-w-[720px]">
-          <Link
-            href={`/blog/${featured.slug}`}
-            className="group block border-t border-[var(--border)] py-5 transition duration-300 hover:border-[var(--border-hover)]"
-          >
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <span className="mono text-[10px] uppercase tracking-[0.16em] text-[var(--fg-subtle)]">
-                {formatDate(featured.date)}
-              </span>
-              <span className="mono text-[10px] uppercase tracking-[0.16em] text-[var(--fg-subtle)]">
-                {featured.readTime}
-              </span>
-            </div>
-
-            <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div className="min-w-0">
-                <h3 className="font-feature text-[1.55rem] font-normal uppercase leading-[0.94] tracking-[-0.06em] text-[var(--fg)] sm:text-[1.9rem]">
-                  {featured.title}
-                </h3>
-                <p className="mt-3 max-w-[34rem] text-sm leading-7 text-[var(--fg-muted)]">
-                  {featured.description}
-                </p>
-              </div>
-              <span className="inline-flex shrink-0 items-center gap-2 text-[var(--fg-muted)] transition group-hover:text-[var(--fg)] sm:mt-1">
-                <span className="mono text-[10px] uppercase tracking-[0.16em]">Read</span>
-                <ArrowUpRight size={14} />
-              </span>
-            </div>
-          </Link>
-        </div>
+        {writingPosts.length === 0 ? (
+          <p className="section-copy">New essays are on the way. Check back soon.</p>
+        ) : (
+          <div className="flex flex-wrap items-start gap-x-14 gap-y-10">
+            {writingPosts.map((post) => (
+              <Link
+                key={post.slug}
+                href={`/writing/${post.slug}`}
+                className="group flex max-w-[15rem] flex-col items-center text-center"
+              >
+                <span className="flex h-[150px] w-[178px] items-center justify-center">
+                  <span className="block h-[176px] w-[209px] scale-[0.85]">
+                    <Folder color="white" size="sm" />
+                  </span>
+                </span>
+                <span className="mt-4 font-[Georgia,'Times_New_Roman',serif] text-[1.0625rem] leading-snug text-[var(--fg)] transition group-hover:text-[var(--fg-muted)] group-hover:underline group-hover:underline-offset-4">
+                  {post.shortTitle}
+                </span>
+                <span className="mono mt-2 text-[10px] uppercase tracking-[0.16em] text-[var(--fg-subtle)]">
+                  {formatDate(post.date)} · {post.readTime}
+                </span>
+              </Link>
+            ))}
+          </div>
+        )}
       </Reveal>
     </section>
   );

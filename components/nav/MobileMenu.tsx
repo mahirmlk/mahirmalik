@@ -13,7 +13,7 @@ interface MobileMenuProps {
 const links = [
   { href: "/about", label: "About" },
   { href: "/work", label: "Work" },
-  { href: "/blog", label: "Blog" },
+  { href: "/writing", label: "Writing" },
   { href: "/#contact", label: "Contact" }
 ];
 
@@ -45,7 +45,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
 
           <div className="mt-4 grid grid-cols-2 gap-2 border-t border-[var(--nav-line)] pt-4">
             <Link
-              href="/blog"
+              href="/writing"
               className="mono inline-flex items-center justify-center gap-2 rounded-2xl border border-[var(--border-mid)] bg-[var(--nav-pill)] px-4 py-3 text-[11px] uppercase tracking-[0.16em] text-[var(--fg)] transition hover:border-[var(--border-hover)]"
               onClick={onClose}
             >
