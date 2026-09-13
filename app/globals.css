@@ -617,7 +617,6 @@ body {
 
 .nav-links {
   justify-self: center;
-  display: flex;
   align-items: center;
   gap: 0.35rem;
 }

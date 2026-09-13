@@ -74,21 +74,26 @@ export const AnimatedThemeToggler = ({
 
     const ready = transition?.ready
     if (ready && typeof ready.then === "function") {
-      ready.then(() => {
-        document.documentElement.animate(
-          {
-            clipPath: [
-              `circle(0px at ${x}px ${y}px)`,
-              `circle(${maxRadius}px at ${x}px ${y}px)`,
-            ],
-          },
-          {
-            duration,
-            easing: "ease-in-out",
-            pseudoElement: "::view-transition-new(root)",
-          }
-        )
-      })
+      ready.then(
+        () => {
+          document.documentElement.animate(
+            {
+              clipPath: [
+                `circle(0px at ${x}px ${y}px)`,
+                `circle(${maxRadius}px at ${x}px ${y}px)`,
+              ],
+            },
+            {
+              duration,
+              easing: "ease-in-out",
+              pseudoElement: "::view-transition-new(root)",
+            }
+          )
+        },
+        // A rapid second toggle skips the running transition, which rejects
+        // `ready`. Swallow it: the newer transition already took over.
+        () => {}
+      )
     }
   }, [isDark, duration])
 
