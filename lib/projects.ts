@@ -6,7 +6,7 @@ export const projects: Project[] = [
     title: "Sellable",
     category: "Agentic Commerce",
     description:
-      "AI agents that buy things on their own — with guardrails. Sellable gives them a machine-readable storefront: discover products, haggle quotes, pass policy checks, and pay over real Razorpay rails, while every decision lands in an audit ledger. The model suggests; deterministic code decides.",
+      "Sellable lets AI agents buy stuff on their own, with guardrails that actually hold. They get a storefront they can read: find products, haggle quotes, pass policy checks, and pay over real Razorpay rails. Every decision lands in an audit ledger. The model suggests, deterministic code decides.",
     features: [
       "Agent gateway with machine-readable discovery and HMAC-signed transactional API",
       "LangGraph seller and buyer agents bounded by an LLM-independent policy engine",
@@ -31,7 +31,7 @@ export const projects: Project[] = [
     title: "Confluence",
     category: "ML Visualization",
     description:
-      "A playground for learning ML by watching it work: 38 algorithms running real scikit-learn under the hood, decision boundaries you can poke at, training you can scrub through frame by frame, and 25 datasets from Iris to Titanic.",
+      "Confluence teaches ML by showing it. Thirty-eight real scikit-learn algorithms, decision boundaries you can poke at, training you can scrub through frame by frame, and 25 datasets from Iris to Titanic.",
     features: [
       "38 algorithms across classification, regression, clustering, and dimensionality reduction",
       "Real scikit-learn compute with Canvas2D decision-boundary heatmaps and 3D uncertainty surfaces",
@@ -56,7 +56,7 @@ export const projects: Project[] = [
     title: "Helion",
     category: "Agent Harness",
     description:
-      "An AI agent harness shipped as both a TUI and a desktop app — watch agent runs unfold, steer them mid-flight, and gatekeep every tool call from one calm surface. coming soon.",
+      "Helion is an agent harness that lives in your terminal and on your desktop. Watch runs unfold, steer them mid-flight, and approve every tool call from one calm surface. Still cooking, coming soon.",
     features: [
       "Terminal and desktop frontends over one shared agent runtime",
       "Live run timeline with steering, interrupts, and replay",

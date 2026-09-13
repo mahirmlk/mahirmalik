@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
-import { ProjectCard } from "@/components/work/ProjectCard";
+import { ProjectGrid } from "@/components/work/ProjectGrid";
 import { projects } from "@/lib/projects";
 
 export function ProjectsSection() {
@@ -72,13 +72,7 @@ export function ProjectsSection() {
       </Reveal>
 
       <Reveal delay={120} className="mt-8">
-        <div className="mx-auto grid max-w-[1080px] gap-5 lg:grid-cols-2">
-          {visibleProjects.map((project) => (
-            <div key={project.slug} className="mx-auto w-full max-w-[520px]">
-              <ProjectCard project={project} />
-            </div>
-          ))}
-        </div>
+        <ProjectGrid projects={visibleProjects} />
       </Reveal>
     </section>
   );
