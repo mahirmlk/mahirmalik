@@ -25,11 +25,12 @@ export function ProjectsSection() {
         <div className="space-y-8">
           <div>
             <p className="section-eyebrow">Projects</p>
-            <h2 className="section-title">Selected works showcasing engineering depth and problem-solving.</h2>
-            <p className="section-copy mt-5">
-              A focused selection of product and machine learning work spanning agent systems,
-              backend orchestration, and causal inference pipelines.
-            </p>
+            <h2
+              className="section-title"
+              style={{ fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)" }}
+            >
+              Things I&apos;ve been busy building.
+            </h2>
           </div>
 
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
