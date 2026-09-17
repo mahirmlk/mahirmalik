@@ -2,7 +2,7 @@
 
 import type { PointerEventHandler, ReactNode } from "react";
 import Link from "next/link";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface MagneticButtonProps {

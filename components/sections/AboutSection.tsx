@@ -53,10 +53,10 @@ export function AboutSection({ standalone = false }: AboutSectionProps) {
             little more autonomous.
           </p>
           <Image
-            src="/assets/about-illustration.png"
+            src="/assets/about-illustration.webp"
             alt="minimal line illustration of a person working at a desk by a bright window"
-            width={1672}
-            height={592}
+            width={1200}
+            height={425}
             sizes="(max-width: 768px) 100vw, 62rem"
             className="mt-1 block h-auto w-full max-w-[62rem] object-cover"
             priority={false}
