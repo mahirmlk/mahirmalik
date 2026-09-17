@@ -41,6 +41,7 @@ export const playfairDisplay = Playfair_Display({
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
+  preload: false,
 });
 
 export const gochiHand = Gochi_Hand({
@@ -48,6 +49,7 @@ export const gochiHand = Gochi_Hand({
   weight: ["400"],
   variable: "--font-hand",
   display: "swap",
+  preload: false,
 });
 
 export const pixelMono = VT323({
@@ -55,6 +57,7 @@ export const pixelMono = VT323({
   weight: ["400"],
   variable: "--font-pixel",
   display: "swap",
+  preload: false,
 });
 
 export const schoolbell = Schoolbell({
@@ -62,4 +65,5 @@ export const schoolbell = Schoolbell({
   weight: ["400"],
   variable: "--font-schoolbell",
   display: "swap",
+  preload: false,
 });

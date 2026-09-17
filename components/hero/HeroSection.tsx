@@ -5,12 +5,12 @@ import { HeroActions } from "@/components/hero/HeroActions";
 
 export function HeroSection() {
   return (
-    <section className="site-container min-h-[calc(100svh-4.5rem)] py-12 md:min-h-[calc(100vh-4rem)] md:py-16 md:flex md:flex-col md:justify-center">
+    <section className="site-container min-h-[calc(100svh-4.5rem)] py-12 md:min-h-[calc(100svh-4rem)] md:py-16 md:flex md:flex-col md:justify-center">
       <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-6">
         <div className="max-w-4xl">
           <Reveal delay={80}>
             <h1
-              className="whitespace-nowrap text-[clamp(2.9rem,16vw,4.9rem)] font-black leading-[0.92] tracking-[-0.07em] text-[var(--fg)] md:text-[clamp(3.1rem,8vw,6rem)] md:leading-[0.9]"
+              className="whitespace-nowrap text-[clamp(2.9rem,16vw,4.9rem)] font-black leading-[0.92] tracking-[-0.07em] text-[var(--fg)] max-md:whitespace-normal max-md:text-[clamp(2.6rem,13vw,4rem)] max-md:leading-[0.95] md:text-[clamp(3.1rem,8vw,6rem)] md:leading-[0.9]"
               style={{ fontFamily: "var(--font-display)" }}
             >
               Mahir Malik
@@ -77,7 +77,7 @@ export function HeroSection() {
             />
             <div className="relative z-10 px-8 py-6">
               <Image
-                src="/hero-guy.png"
+                src="/hero-guy.webp"
                 alt="Hand-drawn illustration of Mahir working on a laptop with a coffee on the side"
                 width={835}
                 height={1296}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, RefreshCw } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import type {
@@ -169,7 +169,7 @@ function GitHubActivity({ events }: { events: ActivityEvent[] }) {
         return (
           <li
             key={event.id}
-            className="flex items-center gap-2 border-l-2 border-[var(--border)] pl-3 text-sm text-[var(--fg-muted)]"
+              className="flex flex-wrap items-center gap-2 border-l-2 border-[var(--border)] pl-3 text-sm text-[var(--fg-muted)]"
           >
             <time className="mono w-16 shrink-0 text-[11px] uppercase tracking-[0.16em] text-[var(--fg-subtle)]">
               {date}
@@ -179,7 +179,7 @@ function GitHubActivity({ events }: { events: ActivityEvent[] }) {
               href={`https://github.com/${event.repo.name}`}
               target="_blank"
               rel="noreferrer"
-              className="font-medium text-[var(--fg)] underline decoration-[var(--border-hover)] underline-offset-4"
+              className="break-all font-medium text-[var(--fg)] underline decoration-[var(--border-hover)] underline-offset-4"
             >
               {event.repo.name}
             </a>
@@ -195,8 +195,7 @@ export function GitHubCommitsSection() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [tooltip, setTooltip] = useState<{ text: string; x: number; y: number } | null>(null);
-  const graphScrollRef = useRef<HTMLDivElement>(null);
+  const [tooltip, setTooltip] = useState<{ text: string; x: number; y: number; date: string } | null>(null);
 
   const fetchGitHubData = async (isRefresh = false) => {
     if (isRefresh) {
@@ -225,6 +224,7 @@ export function GitHubCommitsSection() {
   useEffect(() => {
     void fetchGitHubData();
     const timer = window.setInterval(() => {
+      if (document.visibilityState !== "visible") return;
       void fetchGitHubData(true);
     }, REFRESH_INTERVAL_MS);
 
@@ -262,14 +262,15 @@ export function GitHubCommitsSection() {
   const svgHeight = monthLabelHeight + 7 * (cellSize + cellGap) + legendHeight;
 
   const handleCellHover = (day: ContributionCell | null, event: React.MouseEvent<SVGRectElement>) => {
-    if (!day || !graphScrollRef.current) return;
-    const wrapperRect = graphScrollRef.current.getBoundingClientRect();
+    if (!day) return;
     const cellRect = event.currentTarget.getBoundingClientRect();
+    const x = Math.min(Math.max(cellRect.left + cellRect.width / 2, 110), window.innerWidth - 110);
 
     setTooltip({
       text: formatDateTooltip(day),
-      x: cellRect.left - wrapperRect.left + cellRect.width / 2,
-      y: cellRect.top - wrapperRect.top,
+      x,
+      y: cellRect.top - 10,
+      date: day.date,
     });
   };
 
@@ -339,19 +340,8 @@ export function GitHubCommitsSection() {
           {loading ? (
             <div className="gh-graph-skeleton" />
           ) : data && graphData.weeks.length > 0 ? (
-            <div className="gh-graph-scroll-wrapper" ref={graphScrollRef}>
-              {tooltip && (
-                <div
-                  className="gh-tooltip"
-                  style={{
-                    left: tooltip.x,
-                    top: tooltip.y - 40,
-                  }}
-                >
-                  {tooltip.text}
-                </div>
-              )}
-
+            <>
+            <div className="gh-graph-scroll-wrapper">
               <svg
                 viewBox={`0 0 ${svgWidth} ${svgHeight - legendHeight}`}
                 className="gh-graph-svg"
@@ -394,6 +384,18 @@ export function GitHubCommitsSection() {
                         className={day ? "gh-cell" : "gh-cell gh-cell-empty"}
                         onMouseEnter={day ? (event) => handleCellHover(day, event) : undefined}
                         onMouseLeave={day ? () => setTooltip(null) : undefined}
+                        onClick={
+                          day
+                            ? (event) => {
+                                if (!window.matchMedia("(pointer: coarse)").matches) return;
+                                if (tooltip?.date === day.date) {
+                                  setTooltip(null);
+                                } else {
+                                  handleCellHover(day, event);
+                                }
+                              }
+                            : undefined
+                        }
                       />
                     ))}
                   </g>
@@ -412,6 +414,18 @@ export function GitHubCommitsSection() {
                 <span className="gh-legend-text">More</span>
               </div>
             </div>
+            {tooltip && (
+              <div
+                className="gh-tooltip"
+                style={{
+                  left: tooltip.x,
+                  top: tooltip.y,
+                }}
+              >
+                {tooltip.text}
+              </div>
+            )}
+            </>
           ) : (
             <div className="gh-graph-error">{error ?? "No contribution data available."}</div>
           )}
@@ -456,7 +470,7 @@ export function GitHubCommitsSection() {
                 <article key={commit.id} className="gh-commit-row">
                   <div className="min-w-0">
                     <p className="text-sm leading-7 text-[var(--fg)]">{commit.message}</p>
-                    <p className="mono mt-2 text-[11px] uppercase tracking-[0.14em] text-[var(--fg-subtle)]">
+                    <p className="mono mt-2 break-words text-[11px] uppercase tracking-[0.14em] text-[var(--fg-subtle)]">
                       {commit.repoName}
                       {commit.shortSha ? ` / ${commit.shortSha}` : ""}
                       {` / ${formatCommitDate(commit.createdAt)}`}

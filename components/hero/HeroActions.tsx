@@ -3,7 +3,7 @@
 import type { FormEvent } from "react";
 import { useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, X } from "lucide-react";
 
 const initialForm = {
@@ -67,14 +67,14 @@ export function HeroActions() {
             onClick={() => setOpen(false)}
           >
             <motion.div
-              className="mx-auto my-auto w-full max-w-[32rem] rounded-[1.1rem] border border-[var(--border-mid)] bg-[color-mix(in_srgb,var(--bg-card)_92%,transparent)] p-4 shadow-[0_30px_90px_rgba(0,0,0,0.22)] backdrop-blur-xl backdrop-saturate-150 sm:rounded-[1.35rem] sm:p-6"
+              className="mx-auto my-auto w-full max-w-[32rem] rounded-[1.1rem] border border-[var(--border-mid)] bg-[color-mix(in_srgb,var(--bg-card)_92%,transparent)] p-4 shadow-[0_30px_90px_rgba(0,0,0,0.22)] backdrop-blur-xl backdrop-saturate-150 max-md:backdrop-blur-lg sm:rounded-[1.35rem] sm:p-6"
               initial={{ opacity: 0, y: 18, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 14, scale: 0.98 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
               onClick={(event) => event.stopPropagation()}
             >
-              <div className="max-h-[min(86vh,44rem)] overflow-y-auto pr-1">
+              <div className="max-h-[min(86vh,44rem)] overflow-y-auto overscroll-contain pr-1 max-md:max-h-[min(86svh,44rem)]">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h3 className="text-[1.35rem] font-black leading-none tracking-[-0.05em] text-[var(--fg)] sm:text-[1.75rem]">
