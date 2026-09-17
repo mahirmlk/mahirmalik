@@ -5,6 +5,7 @@ import { Navbar } from "@/components/nav/Navbar";
 import { Noise } from "@/components/ui/Noise";
 import { inter, jetbrainsMono, sora, playfairDisplay, montserrat, spaceGrotesk, gochiHand, pixelMono, schoolbell } from "@/lib/fonts";
 import "@/app/globals.css";
+import "@/app/mobile.css";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { JsonLd, homeGraph } from "@/lib/schema";

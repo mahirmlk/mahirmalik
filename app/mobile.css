@@ -1,0 +1,143 @@
+/* ─── Mobile-only overrides ─────────────────────────────────────────────
+   Every rule in this file lives inside a max-width media query, so the
+   desktop (web) UI is never affected. Desktop styles stay where they are:
+   app/globals.css for the site chrome, components/writing/writing.css for
+   articles. Add future phone/tablet tweaks here, never in those files.
+
+   Imported in app/layout.tsx immediately after globals.css.
+
+   NOTE on the writing rules below: they are scoped with an extra `.writing`
+   ancestor (e.g. `.writing .w-title`). writing.css loads from the nested
+   /writing layout, so without the added specificity these overrides could
+   lose the cascade on rule ties. The scope changes nothing visually — every
+   writing element already lives inside the `.writing` sheet. */
+
+@media (max-width: 768px) {
+  .site-container {
+    width: min(1120px, calc(100vw - 1.5rem));
+  }
+
+  .section-block {
+    padding-block: 3.5rem;
+  }
+
+  .section-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+  }
+
+  .section-title {
+    margin-top: 0.7rem;
+    font-size: clamp(1.35rem, 6vw, 1.75rem);
+    line-height: 1.12;
+  }
+
+  .section-copy {
+    font-size: 0.98rem;
+    line-height: 1.75;
+  }
+
+  .ambient-grid {
+    background-size: 34px 34px;
+  }
+
+  .gh-graph-container {
+    padding: 0;
+  }
+
+  .gh-graph-count {
+    font-size: 1rem;
+  }
+
+  /* Keep contribution cells at full size and let phones swipe sideways
+     instead of shrinking the whole year into an unreadable strip. */
+  .gh-graph-svg {
+    min-width: 640px;
+  }
+
+  /* Cheaper blur for scroll performance on phones; visually identical. */
+  .nav-shell-scrolled {
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+  }
+
+  .gh-commits-container {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .writing .w-column {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .writing .w-article-head {
+    padding-top: 2.5rem;
+  }
+
+  .writing .w-article-head::after {
+    height: 2.75rem;
+  }
+
+  .writing .w-title {
+    font-size: 1.7rem;
+    line-height: 1.2;
+  }
+
+  .writing .w-index-title {
+    font-size: 1.3rem;
+    line-height: 1.2;
+  }
+
+  .writing .w-index-lede {
+    font-size: 0.875rem;
+    white-space: normal;
+  }
+
+  .writing .w-subtitle {
+    font-size: 1.02rem;
+  }
+
+  .writing .w-body {
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .writing .w-h2 {
+    font-size: 1.4rem;
+  }
+
+  .writing .w-h3 {
+    font-size: 1.2rem;
+  }
+
+  .writing .w-index-head {
+    padding-top: 0.75rem;
+  }
+
+  .writing .w-index-logo {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .writing .w-index-list {
+    margin-top: 2.25rem;
+  }
+
+  .writing .w-row-title {
+    font-size: 1rem;
+  }
+
+  /* Long code spans wrap on narrow screens instead of bursting paragraphs. */
+  .writing .w-inline-code {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  /* Full-bleed diagram scroller aligned to the mobile column padding. */
+  .writing .w-diagram-scroll {
+    margin: 0 -1.25rem;
+    padding: 0 1.25rem;
+  }
+}

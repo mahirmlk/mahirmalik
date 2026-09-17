@@ -802,56 +802,7 @@ body {
   }
 }
 
-@media (max-width: 768px) {
-  .site-container {
-    width: min(1120px, calc(100vw - 1.5rem));
-  }
-
-  .section-block {
-    padding-block: 4rem;
-  }
-
-  .section-eyebrow {
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
-  }
-
-  .section-title {
-    margin-top: 0.7rem;
-    font-size: clamp(1.35rem, 6vw, 1.75rem);
-    line-height: 1.12;
-  }
-
-  .section-copy {
-    font-size: 0.98rem;
-    line-height: 1.75;
-  }
-
-  .ambient-grid {
-    background-size: 34px 34px;
-  }
-
-  .gh-graph-container {
-    padding: 0;
-  }
-
-  .gh-graph-count {
-    font-size: 1rem;
-  }
-
-  .gh-graph-svg {
-    min-width: 640px;
-  }
-
-  .nav-shell-scrolled {
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
-  }
-
-  .gh-commits-container {
-    padding: 1.25rem;
-  }
-}
+/* ─── Mobile overrides live in app/mobile.css (imported below globals) ─── */
 
 @theme inline {
   --font-heading: "Sora", "Inter", ui-sans-serif, system-ui, sans-serif;

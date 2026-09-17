@@ -28,12 +28,7 @@
   padding-right: 1.5rem;
 }
 
-@media (max-width: 640px) {
-  .w-column {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
-  }
-}
+/* ─── Narrow-phone column padding lives in app/mobile.css ─── */
 
 /* ─── Article header ─── */
 
@@ -621,76 +616,7 @@
   line-height: 1.7;
 }
 
-/* ─── Mobile ─── */
-
-@media (max-width: 640px) {
-  .w-article-head {
-    padding-top: 2.5rem;
-  }
-
-  .w-article-head::after {
-    height: 2.75rem;
-  }
-
-  .w-title {
-    font-size: 1.8rem;
-    line-height: 1.2;
-  }
-
-  .w-index-title {
-    font-size: 1.3rem;
-    line-height: 1.2;
-  }
-
-  .w-index-lede {
-    font-size: 0.875rem;
-    white-space: normal;
-  }
-
-  .w-subtitle {
-    font-size: 1.02rem;
-  }
-
-  .w-body {
-    font-size: 1rem;
-    line-height: 1.75;
-  }
-
-  .w-h2 {
-    font-size: 1.4rem;
-  }
-
-  .w-h3 {
-    font-size: 1.2rem;
-  }
-
-  .w-index-head {
-    padding-top: 0.75rem;
-  }
-
-  .w-index-logo {
-    width: 2.75rem;
-    height: 2.75rem;
-  }
-
-  .w-index-list {
-    margin-top: 2.25rem;
-  }
-
-  .w-row-title {
-    font-size: 1rem;
-  }
-
-  .w-inline-code {
-    white-space: normal;
-    overflow-wrap: anywhere;
-  }
-
-  .w-diagram-scroll {
-    margin: 0 -1.25rem;
-    padding: 0 1.25rem;
-  }
-}
+/* ─── Mobile overrides (type scale, scrollers) live in app/mobile.css ─── */
 
 /* ─── Dark mode: keep the sheet coherent when the site theme is dark ─── */
 
