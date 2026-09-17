@@ -58,8 +58,8 @@ export function BlogsSection() {
                 href={`/writing/${post.slug}`}
                 className="group flex max-w-[15rem] flex-col items-center text-center"
               >
-                <span className="flex h-[150px] w-[178px] items-center justify-center">
-                  <span className="block h-[176px] w-[209px] scale-[0.85]">
+                <span className="flex h-[150px] w-[178px] items-center justify-center max-sm:h-[128px] max-sm:w-[152px]">
+                  <span className="block h-[176px] w-[209px] scale-[0.85] max-sm:scale-[0.72]">
                     <AnimatedFolder color="white" size="sm" />
                   </span>
                 </span>

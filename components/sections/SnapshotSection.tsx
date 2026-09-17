@@ -8,7 +8,7 @@ export function SnapshotSection() {
       <div>
         <Reveal>
           <p className="section-eyebrow">Current Snapshot</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em]">
+          <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] max-sm:text-[1.65rem]">
             What I&#39;m Building And Why It Matters
           </h2>
         </Reveal>

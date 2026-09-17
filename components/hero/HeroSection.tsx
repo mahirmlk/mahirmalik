@@ -65,7 +65,7 @@ export function HeroSection() {
           </Reveal>
         </div>
 
-        <Reveal delay={320} className="relative mx-auto w-full max-w-[300px] sm:max-w-[340px] lg:mx-0 lg:-mt-28 lg:max-w-[400px] lg:justify-self-end">
+        <Reveal delay={320} className="relative mx-auto w-full max-w-[260px] sm:max-w-[340px] lg:mx-0 lg:-mt-28 lg:max-w-[400px] lg:justify-self-end">
           <div className="relative">
             <div
               aria-hidden
@@ -73,9 +73,9 @@ export function HeroSection() {
             />
             <div
               aria-hidden
-              className="absolute inset-6 rounded-[3rem] border border-dashed border-[var(--border-strong)] opacity-60"
+              className="absolute inset-6 rounded-[3rem] border border-dashed border-[var(--border-strong)] opacity-60 max-sm:inset-4"
             />
-            <div className="relative z-10 px-8 py-6">
+            <div className="relative z-10 px-8 py-6 max-sm:px-5 max-sm:py-4">
               <Image
                 src="/hero-guy.webp"
                 alt="Hand-drawn illustration of Mahir working on a laptop with a coffee on the side"
@@ -83,7 +83,16 @@ export function HeroSection() {
                 height={1296}
                 priority
                 sizes="(max-width: 1024px) 340px, 400px"
-                className="h-auto w-full select-none rounded-[1.5rem] drop-shadow-[0_24px_48px_rgba(0,0,0,0.16)] dark:invert"
+                className="hidden h-auto w-full select-none rounded-[1.5rem] drop-shadow-[0_24px_48px_rgba(0,0,0,0.16)] dark:invert md:block"
+              />
+              <Image
+                src="/hero-guy-mobile.webp"
+                alt="Hand-drawn illustration of Mahir working on a laptop with a coffee on the side"
+                width={520}
+                height={448}
+                priority
+                sizes="260px"
+                className="h-auto w-full select-none drop-shadow-[0_16px_32px_rgba(0,0,0,0.14)] md:hidden"
               />
             </div>
           </div>
