@@ -9,10 +9,19 @@
 ## Projects
 - [Sellable](https://www.mahirmalik.in/work/sellable): AI agents that buy things autonomously with guardrails — machine-readable storefront, policy engine, Razorpay payment rails, and an XAI audit ledger.
 - [Confluence](https://www.mahirmalik.in/work/confluence): Interactive ML learning playground with 38 scikit-learn algorithms, live decision boundaries, frame-by-frame training playback, and 25 datasets.
+- [Helion](https://www.mahirmalik.in/work/helion): Agent harness in the terminal and on the desktop — live run timeline, steering, and human-in-the-loop tool approvals. In progress.
 
 ## Writing
 - [Writing home](https://www.mahirmalik.in/writing): Long-form writing on LLM deployment, retrieval systems, evaluation discipline, and product decisions around AI.
 - [Context vs Loop vs Harness Engineering](https://www.mahirmalik.in/writing/context-vs-loop-vs-harness-engineering): What context engineering, harness engineering, and loop engineering each do, where they overlap, and how to build a simple production-style agent system.
+- [I made a visualization tool for ML algorithms](https://www.mahirmalik.in/writing/i-made-a-visualization-tool-for-ml-algorithms): Confluence — learning ML by watching 38 real scikit-learn algorithms run, with decision boundaries you can poke and training you can scrub frame by frame.
+
+## Feed
+- [Writing RSS](https://www.mahirmalik.in/feed.xml): Full RSS feed of all writing. Poll for fresh content.
+- [Full site text](https://www.mahirmalik.in/llms-full.txt): Complete markdown of every project and article on this site. Prefer this over scraping HTML.
+
+## Contact
+- [About + contact](https://www.mahirmalik.in/about): Bio, working principles, and contact information. Email: mahirmalikx@gmail.com.
 
 ## Elsewhere
 - [GitHub](https://github.com/mahirmlk): Open-source projects and code.

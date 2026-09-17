@@ -19,7 +19,9 @@ export type WritingPost = {
   description: string;
   excerpt: string;
   date: string;
+  updated: string;
   readTime: string;
+  tldr: string;
   category: string;
   tags: string[];
   wordCount: number;
@@ -29,15 +31,17 @@ export type WritingPost = {
 const WRITING_DIR = path.join(process.cwd(), "content", "writing");
 
 function parseFrontmatter(raw: string): { data: Record<string, unknown>; body: string } {
-  if (!raw.startsWith("---")) {
-    return { data: {}, body: raw };
+  // Normalize CRLF so `^...$` regexes match (`.` never matches `\r`).
+  const source = raw.replace(/\r\n/g, "\n");
+  if (!source.startsWith("---")) {
+    return { data: {}, body: source };
   }
-  const end = raw.indexOf("\n---", 3);
+  const end = source.indexOf("\n---", 3);
   if (end === -1) {
-    return { data: {}, body: raw };
+    return { data: {}, body: source };
   }
-  const front = raw.slice(3, end).trim();
-  const body = raw.slice(end + 4).replace(/^\n+/, "");
+  const front = source.slice(3, end).trim();
+  const body = source.slice(end + 4).replace(/^\n+/, "");
   const data: Record<string, unknown> = {};
   const lines = front.split("\n");
   let currentKey: string | null = null;
@@ -299,6 +303,7 @@ function loadPost(slug: string): WritingPost | null {
   const tags = Array.isArray(data.tags) ? (data.tags as string[]) : [];
   const category =
     typeof data.category === "string" && data.category ? data.category : tags.length > 0 ? titleCaseTag(tags[0]) : "Notes";
+  const date = typeof data.date === "string" && data.date ? data.date : "2026-09-13";
 
   return {
     slug,
@@ -307,8 +312,10 @@ function loadPost(slug: string): WritingPost | null {
       typeof data.shortTitle === "string" && data.shortTitle ? data.shortTitle : title,
     description,
     excerpt: description,
-    date: typeof data.date === "string" && data.date ? data.date : "2026-09-13",
+    date,
+    updated: typeof data.updated === "string" && data.updated ? data.updated : date,
     readTime: typeof data.readTime === "string" && data.readTime ? data.readTime : readTime,
+    tldr: typeof data.tldr === "string" ? data.tldr : "",
     category,
     tags,
     wordCount,

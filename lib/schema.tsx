@@ -3,7 +3,6 @@ import { personDescription, personId, personJobTitle, personKnowsAbout, personSa
 function escapeJsonLd(value: unknown): string {
   return JSON.stringify(value).replace(/</g, "\\u003c");
 }
-
 export function JsonLd({ data }: { data: Record<string, unknown> | Record<string, unknown>[] }) {
   return (
     <script
@@ -11,6 +10,21 @@ export function JsonLd({ data }: { data: Record<string, unknown> | Record<string
       dangerouslySetInnerHTML={{ __html: escapeJsonLd(data) }}
     />
   );
+}
+
+export function authorRef() {
+  return {
+    "@type": "Person",
+    "@id": personId,
+    name: siteName,
+    url: siteUrl,
+  };
+}
+
+export function timeRequiredFromReadTime(readTime: string, wordCount: number): string {
+  const match = readTime.match(/(\d+)/);
+  const minutes = Math.max(1, match ? parseInt(match[1], 10) : Math.max(1, Math.round(wordCount / 200)));
+  return `PT${minutes}M`;
 }
 
 export function personSchema() {
@@ -70,6 +84,10 @@ export function writingPostingSchema(post: {
   title: string;
   description: string;
   date: string;
+  updated: string;
+  readTime: string;
+  wordCount: number;
+  category: string;
   tags: string[];
 }) {
   const url = `${siteUrl}/writing/${post.slug}`;
@@ -83,11 +101,15 @@ export function writingPostingSchema(post: {
         description: post.description,
         url,
         mainEntityOfPage: url,
+        inLanguage: "en",
         datePublished: post.date,
-        dateModified: post.date,
-        author: { "@id": personId },
+        dateModified: post.updated,
+        author: authorRef(),
         publisher: { "@id": personId },
         keywords: post.tags.join(", "),
+        articleSection: post.category,
+        wordCount: post.wordCount,
+        timeRequired: timeRequiredFromReadTime(post.readTime, post.wordCount),
       },
       breadcrumbSchema([
         { name: "Home", path: "/" },
@@ -103,6 +125,7 @@ export function techArticleSchema(project: {
   title: string;
   description: string;
   year: number;
+  category: string;
   tags: string[];
 }) {
   const url = `${siteUrl}/work/${project.slug}`;
@@ -116,17 +139,77 @@ export function techArticleSchema(project: {
         description: project.description,
         url,
         mainEntityOfPage: url,
+        inLanguage: "en",
         datePublished: `${project.year}-01-01`,
         dateModified: `${project.year}-12-31`,
-        author: { "@id": personId },
+        author: authorRef(),
         publisher: { "@id": personId },
         keywords: project.tags.join(", "),
+        articleSection: project.category,
       },
       breadcrumbSchema([
         { name: "Home", path: "/" },
         { name: "Work", path: "/work" },
         { name: project.title, path: `/work/${project.slug}` },
       ]),
+    ],
+  };
+}
+
+export type FaqItem = {
+  question: string;
+  answer: string;
+};
+
+export function faqPageSchema(url: string, faqs: FaqItem[]) {
+  return {
+    "@type": "FAQPage",
+    "@id": `${url}#faq`,
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+}
+
+export function collectionPageSchema(input: {
+  title: string;
+  description: string;
+  path: string;
+  items: { name: string; path: string; datePublished?: string }[];
+}) {
+  const url = `${siteUrl}${input.path}`;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${url}#collection`,
+        url,
+        name: input.title,
+        description: input.description,
+        inLanguage: "en",
+        author: authorRef(),
+        mainEntity: { "@id": `${url}#list` },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${url}#list`,
+        url,
+        name: input.title,
+        numberOfItems: input.items.length,
+        itemListElement: input.items.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          url: `${siteUrl}${item.path}`,
+          name: item.name,
+          ...(item.datePublished ? { datePublished: item.datePublished } : {}),
+        })),
+      },
     ],
   };
 }

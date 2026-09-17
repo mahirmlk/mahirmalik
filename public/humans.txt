@@ -1,0 +1,10 @@
+/* TEAM */
+  Name: Mahir Malik
+  Role: AI Engineer
+  Contact: mahirmalikx@gmail.com
+  Site: https://www.mahirmalik.in/about
+
+/* SITE */
+  Stack: Next.js 15, React 19, FastAPI, scikit-learn, Supabase
+  RSS: https://www.mahirmalik.in/feed.xml
+  AI text: https://www.mahirmalik.in/llms-full.txt

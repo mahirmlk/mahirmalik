@@ -5,29 +5,34 @@ import { siteUrl } from "@/lib/site";
 
 export const dynamic = "force-static";
 
+// Stable last-modified dates: static routes change rarely, so use a fixed
+// date instead of `new Date()` (which busts cache and signals false freshness).
+// Update SITE_LAST_MODIFIED when static page copy meaningfully changes.
+const SITE_LAST_MODIFIED = new Date("2026-09-13");
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: siteUrl,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 1,
     },
     {
       url: `${siteUrl}/about`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${siteUrl}/work`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${siteUrl}/writing`,
-      lastModified: new Date(),
+      lastModified: SITE_LAST_MODIFIED,
       changeFrequency: "weekly",
       priority: 0.9,
     },

@@ -18,11 +18,11 @@ const siteTitle = "Mahir Malik";
 const siteDescription =
   "Portfolio of Mahir Malik building intelligent systems, ML products, and production-grade software.";
 const previewImage = {
-  url: "/port-banner.png",
-  width: 1536,
-  height: 1024,
-  alt: "Mahir Malik portfolio banner for machine learning and AI systems development",
-  type: "image/png"
+  url: "/og-image.jpg",
+  width: 1200,
+  height: 675,
+  alt: "Mahir Malik — portfolio, AI Engineer",
+  type: "image/jpeg"
 };
 
 export const viewport: Viewport = {
@@ -39,6 +39,31 @@ export const metadata: Metadata = {
     default: siteTitle
   },
   description: siteDescription,
+  keywords: [
+    "Mahir Malik",
+    "AI Engineer",
+    "Machine Learning",
+    "LLM agents",
+    "RAG systems",
+    "Next.js",
+    "FastAPI",
+    "PyTorch",
+    "production ML systems",
+  ],
+  authors: [{ name: "Mahir Malik", url: siteUrl }],
+  creator: "Mahir Malik",
+  publisher: "Mahir Malik",
+  category: "technology",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     type: "website",
     locale: "en_IN",

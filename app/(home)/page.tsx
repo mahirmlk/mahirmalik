@@ -11,10 +11,19 @@ import { TheorySection } from "@/components/sections/TheorySection";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "mahir malik.",
+    absolute: "Mahir Malik",
   },
   description:
     "Mahir Malik is an AI engineer building intelligent systems, ML products, and production-grade software — LLM agents, RAG pipelines, and full-stack AI applications.",
+  keywords: [
+    "Mahir Malik",
+    "AI Engineer",
+    "LLM agents",
+    "RAG pipelines",
+    "ML products",
+    "portfolio",
+  ],
+  authors: [{ name: "Mahir Malik", url: "https://www.mahirmalik.in" }],
   alternates: {
     canonical: "/",
   },

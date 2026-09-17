@@ -10,6 +10,7 @@
   margin-top: -6rem;
   padding-top: 6rem;
   min-height: 100vh;
+  min-height: 100svh;
 }
 
 @media (min-width: 768px) {
@@ -93,6 +94,98 @@
 
 .w-byline time {
   white-space: nowrap;
+}
+
+.w-byline-author {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(95, 113, 137, 0.45);
+  text-underline-offset: 3px;
+}
+
+.w-byline-author:hover {
+  color: #29476b;
+}
+
+/* ─── Key-takeaway box (answer-first block for snippets / AI Overviews) ─── */
+
+.w-tldr {
+  margin: 1.75rem 0 0;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid #d7dee7;
+  border-left: 3px solid #29466b;
+  border-radius: 0.5rem;
+  background: #f8fafc;
+  max-width: 42.5rem;
+}
+
+.w-tldr-label {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #29466b;
+  margin: 0 0 0.5rem;
+}
+
+.w-tldr-text {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: #243650;
+  margin: 0;
+}
+
+/* ─── FAQ section (visible Q&A mirrored into FAQPage JSON-LD) ─── */
+
+.w-faq {
+  margin: 1rem 0 0;
+  padding-bottom: 1rem;
+}
+
+.w-faq .w-h2 {
+  margin-top: 2.5rem;
+}
+
+.w-faq-item {
+  margin: 0 0 1.25rem;
+}
+
+.w-faq-item .w-h3 {
+  margin-top: 1.5rem;
+}
+
+.w-faq-item p {
+  margin: 0.5rem 0 0;
+  max-width: 42.5rem;
+}
+
+/* ─── Author bio box (E-E-A-T entity signal) ─── */
+
+.w-author {
+  margin: 0 0 1.5rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid #e6e8eb;
+  border-radius: 0.5rem;
+  background: #f8fafc;
+  max-width: 42.5rem;
+}
+
+.w-author-name {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.35rem;
+}
+
+.w-author-bio {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: #334a68;
+  margin: 0;
 }
 
 .w-article-head::after {
@@ -587,6 +680,16 @@
   .w-row-title {
     font-size: 1rem;
   }
+
+  .w-inline-code {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .w-diagram-scroll {
+    margin: 0 -1.25rem;
+    padding: 0 1.25rem;
+  }
 }
 
 /* ─── Dark mode: keep the sheet coherent when the site theme is dark ─── */
@@ -687,4 +790,35 @@
 
 .dark .w-list li::marker {
   color: #8b99ad;
+}
+
+.dark .w-byline-author:hover {
+  color: #c3d6ec;
+}
+
+.dark .w-tldr {
+  background: #10141a;
+  border-color: #232c3a;
+  border-left-color: #9db8d8;
+}
+
+.dark .w-tldr-label {
+  color: #9db8d8;
+}
+
+.dark .w-tldr-text {
+  color: #c9d4e2;
+}
+
+.dark .w-author {
+  background: #10141a;
+  border-color: #232c3a;
+}
+
+.dark .w-author-name {
+  color: #eef2f7;
+}
+
+.dark .w-author-bio {
+  color: #b7c4d6;
 }

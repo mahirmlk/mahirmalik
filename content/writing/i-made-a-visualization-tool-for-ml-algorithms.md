@@ -2,7 +2,8 @@
 title: "I made a visualization tool for ML algorithms"
 shortTitle: "I made a visualization tool for ML algorithms"
 description: "Confluence is a playground for learning ML by watching it work: 38 real scikit-learn algorithms, decision boundaries you can poke at, and training you can scrub through frame by frame."
-date: "2026-09-13"
+date: "2026-08-28"
+tldr: "Confluence teaches ML by showing it: 38 real scikit-learn algorithms with decision boundaries you can poke, training you can scrub frame by frame, and 25 datasets. One scrubbable parameter teaches more than ten static ones, and every experiment exports runnable Python code."
 tags:
   - machine-learning
   - visualization
@@ -124,3 +125,11 @@ Always give people the way out. The generated code means nothing you learn is lo
 Start with k-NN on the spiral dataset. Drag k from 1 to 50 and watch chaos settle into calm. Thirty seconds, and bias and variance click in a way chapters never managed for me.
 
 It is live at [confluence.website](https://confluence.website/). The code is at [github.com/mahirmlk/Confluence](https://github.com/mahirmlk/Confluence). If something confuses you in there, that is probably the next thing I should fix.
+
+---
+
+# Sources
+
+- [scikit-learn documentation](https://scikit-learn.org/stable/) — the library doing all the compute behind Confluence.
+- [Confluence live app](https://confluence.website/) — try the visualizer, algorithm race, and benchmark suite.
+- [Confluence source code](https://github.com/mahirmlk/Confluence) — FastAPI backend, Next.js frontend, and Docker setup.
