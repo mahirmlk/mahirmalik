@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Github, Globe } from "lucide-react";
 import type { Project } from "@/types";
-import { ProjectCover } from "@/components/work/ProjectCover";
+import { ProjectCardCover } from "@/components/work/ProjectCardCover";
 import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {
@@ -21,7 +21,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-black/[0.08] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_16px_40px_-16px_rgba(0,0,0,0.14)] transition-all duration-300 hover:border-black/[0.14] hover:shadow-[0_1px_2px_rgba(0,0,0,0.05),0_24px_48px_-16px_rgba(0,0,0,0.18)]">
       <Link href={detailsUrl} aria-label={`View ${project.title}`} className="block">
-        <ProjectCover project={project} className="aspect-[16/9]" />
+        <ProjectCardCover project={project} className="aspect-[16/9]" />
       </Link>
 
       <div className="flex flex-1 flex-col px-6 pb-5 pt-6 sm:px-7 sm:pt-7">

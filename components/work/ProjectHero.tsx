@@ -1,6 +1,7 @@
+import Image from "next/image";
 import type { Project } from "@/types";
 
-interface ProjectPreviewProps {
+interface ProjectHeroProps {
   project: Project;
   className?: string;
   style?: React.CSSProperties;
@@ -131,7 +132,29 @@ function HelionScene() {
   );
 }
 
-export function ProjectPreview({ project, className = "", style }: ProjectPreviewProps) {
+export function ProjectHero({ project, className = "", style }: ProjectHeroProps) {
+  const isComingSoon = project.slug === "helion" && !project.image;
+
+  if (project.image) {
+    return (
+      <div
+        role="img"
+        aria-label={`${project.title} preview`}
+        className={`relative overflow-hidden bg-white ${className}`}
+        style={style}
+      >
+        <Image
+          src={project.image}
+          alt={`${project.title} preview`}
+          fill
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className="object-cover object-top"
+          priority={false}
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       role="img"
@@ -162,6 +185,18 @@ export function ProjectPreview({ project, className = "", style }: ProjectPrevie
           {project.title}
         </p>
       </div>
+
+      {isComingSoon ? (
+        <>
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white via-white/60 to-transparent"
+          />
+          <span className="mono absolute bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-black/10 bg-white/85 px-3.5 py-1.5 text-[10px] uppercase tracking-[0.22em] text-black/60 backdrop-blur-sm">
+            Coming soon
+          </span>
+        </>
+      ) : null}
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Github, House, Menu, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { MobileMenu } from "@/components/nav/MobileMenu";
-import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+import { AnimatedThemeToggler } from "@/components/ui/AnimatedThemeToggler";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 

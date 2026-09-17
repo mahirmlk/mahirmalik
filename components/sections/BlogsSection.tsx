@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
-import { Folder } from "@/components/ui/folder-component";
+import { AnimatedFolder } from "@/components/ui/AnimatedFolder";
 import { getAllWritingPosts } from "@/lib/writing";
 
 function formatDate(date: string) {
@@ -60,7 +60,7 @@ export function BlogsSection() {
               >
                 <span className="flex h-[150px] w-[178px] items-center justify-center">
                   <span className="block h-[176px] w-[209px] scale-[0.85]">
-                    <Folder color="white" size="sm" />
+                    <AnimatedFolder color="white" size="sm" />
                   </span>
                 </span>
                 <span className="mt-4 font-[Georgia,'Times_New_Roman',serif] text-[1.0625rem] leading-snug text-[var(--fg)] transition group-hover:text-[var(--fg-muted)] group-hover:underline group-hover:underline-offset-4">

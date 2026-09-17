@@ -52,7 +52,7 @@ const sizeScales = {
   lg: 1.35,
 } as const;
 
-type FolderComponentProps = Omit<React.ComponentProps<"div">, "color"> & {
+type AnimatedFolderProps = Omit<React.ComponentProps<"div">, "color"> & {
   color?: "black" | "white" | "blue";
   size?: "sm" | "md" | "lg";
 };
@@ -63,12 +63,12 @@ const BASE_HEIGHT = 270;
 const FLAP_PATH =
   "M0 25C0 11.1929 11.1929 0 25 0H136.084C143.044 0 149.689 2.90139 154.42 8.00608L178.08 33.5343C182.811 38.639 189.456 41.5404 196.416 41.5404H296C309.807 41.5404 321 52.7333 321 66.5404V216C321 229.807 309.807 241 296 241H25C11.1929 241 0 229.807 0 216V25Z";
 
-const FolderComponent = ({
+const AnimatedFolder = ({
   color = "black",
   size = "md",
   className,
   ...props
-}: FolderComponentProps) => {
+}: AnimatedFolderProps) => {
   const theme = themes[color] ?? themes.black;
   const scale = sizeScales[size];
   const [isHovered, setIsHovered] = useState(false);
@@ -260,10 +260,10 @@ const FolderComponent = ({
   );
 };
 
-export default FolderComponent;
+export default AnimatedFolder;
 
-export { FolderComponent as Folder };
-export type { FolderComponentProps };
+export { AnimatedFolder };
+export type { AnimatedFolderProps };
 
 type Theme = (typeof themes)[keyof typeof themes];
 

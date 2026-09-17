@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Github, Globe } from "lucide-react";
-import { ProjectPreview } from "@/components/work/ProjectPreview";
+import { ProjectHero } from "@/components/work/ProjectHero";
 import { TechBadge } from "@/components/work/TechBadge";
 import { getProjectBySlug, projects } from "@/lib/projects";
 import { JsonLd, techArticleSchema } from "@/lib/schema";
@@ -21,7 +21,7 @@ type Block =
   | { type: "list"; items: string[] };
 
 async function readProjectContent(slug: string) {
-  const filePath = path.join(process.cwd(), "content", "projects", `${slug}.mdx`);
+  const filePath = path.join(process.cwd(), "content", "projects", `${slug}.md`);
 
   try {
     return await fs.readFile(filePath, "utf8");
@@ -109,10 +109,13 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   }
 
   const url = `/work/${project.slug}`;
+  const ogImage = project.image ?? "/og-image.jpg";
 
   return {
     title: project.title,
     description: project.description,
+    keywords: project.tags,
+    authors: [{ name: "Mahir Malik", url: "https://www.mahirmalik.in" }],
     alternates: {
       canonical: url,
     },
@@ -124,11 +127,20 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
       publishedTime: `${project.year}-01-01`,
       section: project.category,
       tags: project.tags,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: `${project.title} — case study by Mahir Malik`,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: project.title,
       description: project.description,
+      images: [ogImage],
     },
   };
 }
@@ -192,7 +204,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </div>
 
         <div className="overflow-hidden rounded-[1.75rem] border border-[var(--border)] shadow-[0_25px_60px_rgba(0,0,0,0.18)]">
-          <ProjectPreview project={project} className="aspect-[16/10] w-full" />
+          <ProjectHero project={project} className="aspect-[16/10] w-full" />
         </div>
       </div>
 
@@ -240,7 +252,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           })
         ) : (
           <p>
-            The case study content for this project lives in <code>content/projects/{project.slug}.mdx</code>{" "}
+            The case study content for this project lives in <code>content/projects/{project.slug}.md</code>{" "}
             and can be expanded with richer narrative detail.
           </p>
         )}

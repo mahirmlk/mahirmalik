@@ -31,3 +31,5 @@ export const personSameAs = [
 export const personId = `${siteUrl}/#person`;
 
 export const websiteId = `${siteUrl}/#website`;
+
+export const papersBaseUrl = "https://papers.mahirmalik.in";

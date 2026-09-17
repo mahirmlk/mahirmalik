@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
-import { papersBaseUrl } from "@/lib/papers";
+import { papersBaseUrl } from "@/lib/site";
 
 export function TheorySection() {
   return (
@@ -28,10 +28,10 @@ export function TheorySection() {
                 className="group shrink-0 rounded-2xl transition duration-300 hover:-translate-y-1"
               >
                 <Image
-                  src="/folder-icon.png"
+                  src="/folder-icon.webp"
                   alt="Implementations folder icon"
-                  width={288}
-                  height={288}
+                  width={512}
+                  height={512}
                   className="h-36 w-36 select-none object-contain transition group-hover:opacity-90 sm:h-48 sm:w-48"
                   priority={false}
                 />
@@ -45,7 +45,7 @@ export function TheorySection() {
                   href={papersBaseUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-2 text-[var(--fg-muted)] transition hover:text-[var(--fg)]"
+                  className="mt-3 inline-flex flex-wrap items-center gap-2 text-[var(--fg-muted)] transition hover:text-[var(--fg)]"
                 >
                   <span className="mono text-[10px] uppercase tracking-[0.16em]">
                     papers.mahirmalik.in

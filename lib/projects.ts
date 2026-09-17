@@ -21,7 +21,7 @@ export const projects: Project[] = [
     ],
     year: 2026,
     tags: ["Python", "FastAPI", "LangGraph", "Next.js 16", "Supabase", "Razorpay"],
-    preview: "light",
+    image: "/assets/img/projects/sellable.webp",
     liveUrl: "https://sellable.shop/",
     githubUrl: "https://github.com/mahirmlk/sellable",
     featured: true
@@ -46,7 +46,7 @@ export const projects: Project[] = [
     ],
     year: 2026,
     tags: ["Next.js 15", "FastAPI", "scikit-learn", "TypeScript", "Redis", "Docker"],
-    preview: "light",
+    image: "/assets/img/projects/confluence.webp",
     liveUrl: "https://confluence.website/",
     githubUrl: "https://github.com/mahirmlk/Confluence",
     featured: true
@@ -70,7 +70,6 @@ export const projects: Project[] = [
     ],
     year: 2026,
     tags: ["TypeScript", "Tauri", "Ink", "React"],
-    preview: "light",
     featured: false
   }
 ];
