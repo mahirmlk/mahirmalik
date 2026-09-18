@@ -16,7 +16,7 @@ const writingPosts = getAllWritingPosts();
 
 export function BlogsSection() {
   return (
-    <section id="blogs" className="site-container section-block">
+    <section id="blogs" className="blogs site-container section-block">
       <Reveal>
         <div className="space-y-8">
           <div>
@@ -51,14 +51,14 @@ export function BlogsSection() {
         {writingPosts.length === 0 ? (
           <p className="section-copy">New essays are on the way. Check back soon.</p>
         ) : (
-          <div className="flex flex-wrap items-start gap-x-14 gap-y-10">
+          <div className="blogs-grid flex flex-wrap items-start gap-x-14 gap-y-10">
             {writingPosts.map((post) => (
               <Link
                 key={post.slug}
                 href={`/writing/${post.slug}`}
-                className="group flex max-w-[15rem] flex-col items-center text-center"
+                className="blog-card group flex max-w-[15rem] flex-col items-center text-center"
               >
-                <span className="flex h-[150px] w-[178px] items-center justify-center max-sm:h-[128px] max-sm:w-[152px]">
+                <span className="blog-folder flex h-[150px] w-[178px] items-center justify-center max-sm:h-[128px] max-sm:w-[152px]">
                   <span className="block h-[176px] w-[209px] scale-[0.85] max-sm:scale-[0.72]">
                     <AnimatedFolder color="white" size="sm" />
                   </span>

@@ -7,7 +7,7 @@ import { papersBaseUrl } from "@/lib/site";
 
 export function TheorySection() {
   return (
-    <section id="implementations" className="site-container section-block">
+    <section id="implementations" className="theory site-container section-block">
       <Reveal>
         <div className="space-y-8">
           <div>
@@ -18,7 +18,7 @@ export function TheorySection() {
             >
               Because reading the paper wasn&apos;t enough.
             </h2>
-            <div className="mt-5 flex items-center gap-3 sm:gap-4">
+            <div className="theory-row mt-5 flex items-center gap-3 sm:gap-4">
               <a
                 href={papersBaseUrl}
                 target="_blank"

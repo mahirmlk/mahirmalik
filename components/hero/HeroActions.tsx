@@ -36,7 +36,7 @@ export function HeroActions() {
 
   return (
     <>
-      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+      <div className="hero-actions mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
         <motion.button
           type="button"
           onClick={() => setOpen(true)}

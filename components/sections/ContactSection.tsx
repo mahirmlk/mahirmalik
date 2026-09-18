@@ -86,7 +86,7 @@ export function ContactSection() {
       </Reveal>
 
       <Reveal delay={200}>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
+        <div className="contact-socials mt-8 flex flex-wrap justify-center gap-3">
           {socials.map(({ label, href, icon: Icon }) => (
             <a
               key={label}

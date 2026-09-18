@@ -27,6 +27,8 @@ const previewImage = {
 };
 
 export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#090b0f" },
@@ -129,8 +131,11 @@ export default function RootLayout({
           <div className="ambient-vignette" />
         </div>
         <Noise />
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
         <Navbar />
-        <main className="relative z-10 pt-24 md:pt-28">{children}</main>
+        <main id="main" className="relative z-10 pt-24 md:pt-28">{children}</main>
         <Analytics />
         <SpeedInsights />
       </body>

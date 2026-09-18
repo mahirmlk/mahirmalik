@@ -1,24 +1,105 @@
 /* ─── Mobile-only overrides ─────────────────────────────────────────────
-   Every rule in this file lives inside a max-width media query, so the
-   desktop (web) UI is never affected. Desktop styles stay where they are:
-   app/globals.css for the site chrome, components/writing/writing.css for
-   articles. Add future phone/tablet tweaks here, never in those files.
+   Every responsive rule in this file lives inside a max-width media query,
+   so the desktop (web) UI is never affected. Desktop styles stay where they
+   are: app/globals.css for the site chrome, components/writing/writing.css
+   for articles. Add future phone tweaks here, never in those files.
 
    Imported in app/layout.tsx immediately after globals.css.
+
+   Breakpoints are intentional, not device-specific:
+     < 480px    small phones
+     481-767px  normal / large phones
+     768px+     tablet / desktop (untouched)
 
    NOTE on the writing rules below: they are scoped with an extra `.writing`
    ancestor (e.g. `.writing .w-title`). writing.css loads from the nested
    /writing layout, so without the added specificity these overrides could
    lose the cascade on rule ties. The scope changes nothing visually — every
-   writing element already lives inside the `.writing` sheet. */
+   writing element already lives inside the `.writing` sheet.
 
-@media (max-width: 768px) {
+   NOTE on `!important` below: it appears exactly once, to beat an inline
+   `style="font-size: clamp(1.05rem, 1.7vw, 1.35rem)"` used by several section
+   titles. Inline styles cannot be overridden any other way. It is scoped to
+   mobile viewports only, so desktop is unaffected. */
+
+/* ─── Shared tokens + global safety (no visual change on desktop) ─── */
+
+:root {
+  --mobile-nav-height: 4.75rem; /* matches .nav-frame min-height (76px) */
+  --mobile-section-space: clamp(4rem, 0.5rem + 10vw, 6rem);
+  --mobile-gutter: 32px; /* 16px each side */
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+@supports (overflow: clip) {
+  html,
+  body {
+    overflow-x: clip;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Prevent iOS Safari from inflating text on orientation change, which would
+   break the carefully bounded mobile type scale. No visual change otherwise. */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Keyboard / screen-reader skip link: fully hidden until focused, so the
+   desktop UI is visually untouched while keyboard users get a bypass. */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  background: var(--fg);
+  color: var(--bg);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 160ms ease;
+}
+
+.skip-link:focus-visible {
+  top: 1rem;
+  outline: 2px solid var(--bg);
+  outline-offset: 2px;
+}
+
+/* ─── Phones: normal + large (up to tablet breakpoint) ─── */
+
+@media (max-width: 767px) {
+  /* Consistent mobile container: ~16px gutters, never touches screen edges.
+     Uses 100% (not 100vw) so the vertical scrollbar can't cause overflow. */
   .site-container {
-    width: min(1120px, calc(100vw - 1.5rem));
+    width: min(1120px, calc(100% - var(--mobile-gutter)));
   }
 
+  /* Compact editorial rhythm between major sections (64-96px). Hero, footer,
+     cards and special layouts get their own values below. */
   .section-block {
-    padding-block: 3.5rem;
+    padding-block: var(--mobile-section-space);
+  }
+
+  /* Anchored sections (#about, #projects, #contact…) must clear the fixed
+     navbar when jumped to. */
+  html {
+    scroll-padding-top: calc(var(--mobile-nav-height) + 1rem);
+  }
+
+  section[id] {
+    scroll-margin-top: calc(var(--mobile-nav-height) + 1.5rem);
   }
 
   .section-eyebrow {
@@ -28,8 +109,20 @@
 
   .section-title {
     margin-top: 0.7rem;
-    font-size: clamp(1.35rem, 6vw, 1.75rem);
+    font-size: clamp(1.35rem, 0.75rem + 2.9vw, 1.75rem);
     line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  /* Sections that pin their title size with an inline style need one scoped
+     override on mobile so headings stay readable without going enormous.
+     Justified `!important`: inline styles lose to nothing else. */
+  .about .section-title,
+  #projects .section-title,
+  .blogs .section-title,
+  .theory .section-title {
+    font-size: clamp(1.3rem, 0.75rem + 2.5vw, 1.7rem) !important;
+    line-height: 1.15 !important;
   }
 
   .section-copy {
@@ -41,6 +134,214 @@
     background-size: 34px 34px;
   }
 
+  /* ─── Navbar: stay minimal, keep in normal flow offset ───
+     main already reserves 6rem (pt-24) for the 4.75rem fixed navbar, leaving
+     a ~20px breathing gap. Re-assert the frame width with the shared gutter
+     and invisibly enlarge touch targets instead of enlarging visuals. */
+  .nav-frame {
+    width: min(1180px, calc(100% - var(--mobile-gutter)));
+    gap: 0.75rem;
+  }
+
+  .nav-icon-button {
+    position: relative;
+  }
+
+  .nav-icon-button::after {
+    content: "";
+    position: absolute;
+    inset: -8px;
+  }
+
+  /* ─── Hero: own the illustration, kill the 100svh stretch ───
+     Single natural flow: name → role → tagline → description → tags →
+     stacked CTAs → illustration → About. Content determines the height. */
+  .hero.hero {
+    min-height: auto;
+    padding-top: 2.5rem;
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-grid.hero-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  /* Fluid clamps use a rem + vw preferred value (not vw alone) so browser
+     zoom and user font-size preferences keep working (WCAG 1.4.4). Every
+     max is ≤ 2.5× its min, which keeps 200% resize effective. */
+  .hero-title.hero-title {
+    font-size: clamp(2.75rem, 1rem + 7.2vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.06em;
+    overflow-wrap: break-word;
+    text-wrap: balance;
+  }
+
+  .hero-role {
+    margin-top: 1rem;
+    max-width: 100%;
+    font-size: clamp(1.15rem, 0.5rem + 2.6vw, 1.35rem);
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  /* Longest rotating role ("Agentic Workflow Developer", 26 mono chars)
+     exceeds 320px viewports: let the typewriter caret wrap instead of
+     forcing horizontal overflow. */
+  .hero-role > span {
+    min-width: 0;
+    max-width: 100%;
+    flex-wrap: wrap;
+    row-gap: 0.25rem;
+  }
+
+  .hero-tagline {
+    margin-top: 1rem;
+    font-size: clamp(1.9rem, 0.75rem + 4.7vw, 2.6rem);
+    line-height: 1.18;
+    text-wrap: balance;
+  }
+
+  .hero-desc {
+    margin-top: 1rem;
+    max-width: 100%;
+    font-size: clamp(1.02rem, 0.625rem + 1.65vw, 1.2rem);
+    line-height: 1.6;
+  }
+
+  .hero-tags {
+    margin-top: 1.25rem;
+    gap: 10px;
+  }
+
+  .hero-tags > span {
+    padding: 10px 16px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .hero-actions.hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 1.5rem;
+  }
+
+  .hero-actions.hero-actions > * {
+    width: 100%;
+    min-height: 56px;
+  }
+
+  /* Illustration belongs to the hero: controlled gap after CTAs, bounded
+     size so it stays an illustration instead of a section background. */
+  .hero-visual.hero-visual {
+    margin-top: clamp(32px, 7vw, 56px);
+    margin-inline: auto;
+    width: min(78vw, 360px);
+    max-width: 360px;
+  }
+
+  .hero-visual img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-inline: auto;
+  }
+
+  /* Tighten the decorative inner padding around the illustration on phones
+     so the visual gap reads as intentional, not empty. */
+  .hero-visual-frame {
+    padding-inline: 1.25rem;
+    padding-block: 1rem;
+  }
+
+  /* ─── About: compact, readable, no giant desktop gaps ─── */
+  .about .font-schoolbell {
+    font-size: clamp(1rem, 4.2vw, 1.1rem);
+    line-height: 1.7;
+    overflow-wrap: break-word;
+  }
+
+  .about img {
+    width: 100%;
+    height: auto;
+  }
+
+  /* ─── Projects: reflow, don't shrink — 1 column, square previews ─── */
+  .projects-grid.projects-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .project-card-cover.project-card-cover {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+  }
+
+  .project-card {
+    overflow-wrap: break-word;
+  }
+
+  /* "More / Less" toggle: guarantee the 24px AA minimum hit area without
+     visibly changing the card. */
+  .project-card-body > button {
+    min-height: 1.75rem;
+  }
+
+  /* ─── Homepage writing preview: centered, compact, no desktop spread ─── */
+  .blogs-grid.blogs-grid {
+    column-gap: 1.5rem;
+    row-gap: 2.5rem;
+    justify-content: center;
+  }
+
+  .blog-card {
+    margin-inline: auto;
+    overflow-wrap: break-word;
+  }
+
+  /* ─── Implementations row: keep icon + copy side by side, shrink icon ─── */
+  .theory img {
+    width: 96px;
+    height: 96px;
+  }
+
+  .theory a span {
+    overflow-wrap: break-word;
+  }
+
+  /* ─── Contact: natural 2-up wrap, email never bursts the layout ─── */
+  .contact-socials a {
+    flex: 1 1 140px;
+    min-width: 0;
+  }
+
+  /* Footer text links are 11px with no padding: enlarge the hit area toward
+     the 44px comfort target without moving the visual layout apart. */
+  #contact footer a {
+    padding-block: 0.55rem;
+  }
+
+  a[href^="mailto:"] {
+    overflow-wrap: anywhere;
+  }
+
+  /* ─── Work detail page: keep the features header and prose compact ─── */
+  .project-detail .features-head {
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+  }
+
+  .project-detail .prose-article {
+    margin-top: 2.5rem;
+  }
+
+  /* ─── GitHub bits (kept from previous mobile pass) ─── */
   .gh-graph-container {
     padding: 0;
   }
@@ -64,9 +365,19 @@
   .gh-commits-container {
     padding: 1.25rem;
   }
-}
 
-@media (max-width: 640px) {
+  /* Tooltips are nowrap by design: clip with ellipsis on phones instead of
+     spilling past the viewport edge. */
+  .gh-tooltip {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ─── Writing index: proper offset under navbar, compact editorial flow ─── */
+  .writing {
+    overflow-x: clip;
+  }
+
   .writing .w-column {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
@@ -83,6 +394,7 @@
   .writing .w-title {
     font-size: 1.7rem;
     line-height: 1.2;
+    overflow-wrap: break-word;
   }
 
   .writing .w-index-title {
@@ -93,6 +405,7 @@
   .writing .w-index-lede {
     font-size: 0.875rem;
     white-space: normal;
+    overflow-wrap: break-word;
   }
 
   .writing .w-subtitle {
@@ -113,7 +426,7 @@
   }
 
   .writing .w-index-head {
-    padding-top: 0.75rem;
+    padding-top: 1.25rem;
   }
 
   .writing .w-index-logo {
@@ -123,10 +436,12 @@
 
   .writing .w-index-list {
     margin-top: 2.25rem;
+    padding-bottom: 3.5rem;
   }
 
   .writing .w-row-title {
     font-size: 1rem;
+    overflow-wrap: break-word;
   }
 
   /* Long code spans wrap on narrow screens instead of bursting paragraphs. */
@@ -139,5 +454,43 @@
   .writing .w-diagram-scroll {
     margin: 0 -1.25rem;
     padding: 0 1.25rem;
+  }
+}
+
+/* ─── Small phones ─── */
+
+@media (max-width: 480px) {
+  .hero-title.hero-title {
+    font-size: clamp(2.5rem, 1rem + 8vw, 3.25rem);
+  }
+
+  .hero-visual.hero-visual {
+    width: min(82vw, 330px);
+  }
+
+  .project-card-body {
+    padding-inline: 1.25rem;
+  }
+
+  .contact-socials a {
+    flex-basis: 100%;
+  }
+}
+
+/* ─── Very small phones: shave the gutter, nothing else ─── */
+
+@media (max-width: 380px) {
+  :root {
+    --mobile-gutter: 28px;
+  }
+
+  .writing .w-column {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .writing .w-diagram-scroll {
+    margin: 0 -1rem;
+    padding: 0 1rem;
   }
 }

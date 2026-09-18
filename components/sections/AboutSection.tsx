@@ -27,7 +27,7 @@ function EmailIcon(props: IconProps) {
 
 export function AboutSection({ standalone = false }: AboutSectionProps) {
   return (
-    <section id="about" className="site-container section-block">
+    <section id="about" className="about site-container section-block">
       <Reveal>
         <p className="section-eyebrow">{standalone ? "Profile" : "About"}</p>
         {standalone ? (

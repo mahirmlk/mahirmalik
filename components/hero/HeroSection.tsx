@@ -5,12 +5,12 @@ import { HeroActions } from "@/components/hero/HeroActions";
 
 export function HeroSection() {
   return (
-    <section className="site-container min-h-[calc(100svh-4.5rem)] py-12 md:min-h-[calc(100svh-4rem)] md:py-16 md:flex md:flex-col md:justify-center">
-      <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-6">
-        <div className="max-w-4xl">
+    <section className="hero site-container min-h-[calc(100svh-4.5rem)] py-12 md:min-h-[calc(100svh-4rem)] md:py-16 md:flex md:flex-col md:justify-center">
+      <div className="hero-grid grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-6">
+        <div className="hero-content max-w-4xl">
           <Reveal delay={80}>
             <h1
-              className="whitespace-nowrap text-[clamp(2.9rem,16vw,4.9rem)] font-black leading-[0.92] tracking-[-0.07em] text-[var(--fg)] max-md:whitespace-normal max-md:text-[clamp(2.6rem,13vw,4rem)] max-md:leading-[0.95] md:text-[clamp(3.1rem,8vw,6rem)] md:leading-[0.9]"
+              className="hero-title whitespace-nowrap text-[clamp(2.9rem,16vw,4.9rem)] font-black leading-[0.92] tracking-[-0.07em] text-[var(--fg)] max-md:whitespace-normal max-md:text-[clamp(2.6rem,13vw,4rem)] max-md:leading-[0.95] md:text-[clamp(3.1rem,8vw,6rem)] md:leading-[0.9]"
               style={{ fontFamily: "var(--font-display)" }}
             >
               Mahir Malik
@@ -19,14 +19,14 @@ export function HeroSection() {
           </Reveal>
 
           <Reveal delay={120}>
-            <div className="mt-5 text-[1.08rem] text-[var(--fg)] sm:text-[1.2rem] md:mt-6 md:text-2xl">
+            <div className="hero-role mt-5 text-[1.08rem] text-[var(--fg)] sm:text-[1.2rem] md:mt-6 md:text-2xl">
               <TypeWriter />
             </div>
           </Reveal>
 
           <Reveal delay={200}>
             <p
-              className="mt-5 text-[clamp(1.2rem,7vw,1.72rem)] font-medium leading-[1.25] tracking-[-0.02em] text-[var(--fg-muted)] md:mt-6 md:text-[clamp(1.5rem,3.5vw,2.2rem)] md:leading-[1.3]"
+              className="hero-tagline mt-5 text-[clamp(1.2rem,7vw,1.72rem)] font-medium leading-[1.25] tracking-[-0.02em] text-[var(--fg-muted)] md:mt-6 md:text-[clamp(1.5rem,3.5vw,2.2rem)] md:leading-[1.3]"
               style={{ fontFamily: "var(--font-heading)" }}
             >
             making ai do more than just{" "}
@@ -38,7 +38,7 @@ export function HeroSection() {
 
           <Reveal delay={280}>
             <p
-              className="mt-5 max-w-[34rem] text-[1.2rem] leading-[1.5] tracking-[0.01em] text-[var(--fg-muted)] md:mt-6 md:max-w-2xl md:text-[1.35rem] md:leading-[1.55]"
+              className="hero-desc mt-5 max-w-[34rem] text-[1.2rem] leading-[1.5] tracking-[0.01em] text-[var(--fg-muted)] md:mt-6 md:max-w-2xl md:text-[1.35rem] md:leading-[1.55]"
               style={{ fontFamily: "var(--font-hand)" }}
             >
               I build AI systems, agents, and automations that handle the tedious stuff while I pretend I planned
@@ -47,7 +47,7 @@ export function HeroSection() {
           </Reveal>
 
           <Reveal delay={320}>
-            <div className="mt-5 flex flex-wrap gap-2">
+            <div className="hero-tags mt-5 flex flex-wrap gap-2">
               <span className="apple-glass mono rounded-full px-3 py-2 text-[11px] uppercase tracking-[0.18em] text-[var(--fg-subtle)]">
                 AI Systems
               </span>
@@ -65,7 +65,7 @@ export function HeroSection() {
           </Reveal>
         </div>
 
-        <Reveal delay={320} className="relative mx-auto w-full max-w-[260px] sm:max-w-[340px] lg:mx-0 lg:-mt-28 lg:max-w-[400px] lg:justify-self-end">
+        <Reveal delay={320} className="hero-visual relative mx-auto w-full max-w-[260px] sm:max-w-[340px] lg:mx-0 lg:-mt-28 lg:max-w-[400px] lg:justify-self-end">
           <div className="relative">
             <div
               aria-hidden
@@ -75,7 +75,7 @@ export function HeroSection() {
               aria-hidden
               className="absolute inset-6 rounded-[3rem] border border-dashed border-[var(--border-strong)] opacity-60 max-sm:inset-4"
             />
-            <div className="relative z-10 px-8 py-6 max-sm:px-5 max-sm:py-4">
+            <div className="hero-visual-frame relative z-10 px-8 py-6 max-sm:px-5 max-sm:py-4">
               <Image
                 src="/hero-guy.webp"
                 alt="Hand-drawn illustration of Mahir working on a laptop with a coffee on the side"

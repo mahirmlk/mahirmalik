@@ -159,7 +159,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <>
       <JsonLd data={techArticleSchema(project)} />
-      <article className="site-container section-block">
+      <article className="project-detail site-container section-block">
       <Link
         href="/work"
         className="glass-chip mono inline-flex rounded-full px-4 py-2 text-[11px] uppercase tracking-[0.18em] text-[var(--fg-muted)] transition hover:text-[var(--fg)]"
@@ -209,7 +209,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       </div>
 
       <div className="mt-10 rounded-[1.5rem] border border-[var(--border)] bg-[var(--bg-card)] p-6 md:p-7">
-        <div className="flex items-end justify-between gap-4 border-b border-[var(--border)] pb-4">
+        <div className="features-head flex items-end justify-between gap-4 border-b border-[var(--border)] pb-4">
           <div>
             <p className="section-eyebrow">Project Features</p>
             <h2 className="font-section mt-3 text-[1.5rem] font-semibold tracking-[-0.02em] text-[var(--fg)]">
