@@ -2,17 +2,13 @@ import type { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { Navbar } from "@/components/nav/Navbar";
-import { Noise } from "@/components/ui/Noise";
 import { inter, jetbrainsMono, sora, playfairDisplay, montserrat, spaceGrotesk, gochiHand, pixelMono, schoolbell } from "@/lib/fonts";
 import "@/app/globals.css";
 import "@/app/mobile.css";
-import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { JsonLd, homeGraph } from "@/lib/schema";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const siteUrl = "https://www.mahirmalik.in";
 const siteTitle = "Mahir Malik";
@@ -113,7 +109,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(inter.variable, jetbrainsMono.variable, sora.variable, playfairDisplay.variable, montserrat.variable, spaceGrotesk.variable, gochiHand.variable, pixelMono.variable, schoolbell.variable, "font-sans", geist.variable)}
+      className={cn(inter.variable, jetbrainsMono.variable, sora.variable, playfairDisplay.variable, montserrat.variable, spaceGrotesk.variable, gochiHand.variable, pixelMono.variable, schoolbell.variable, "font-sans")}
     >
       <head>
         <Script id="theme-init" strategy="beforeInteractive">
@@ -124,13 +120,6 @@ export default function RootLayout({
         <JsonLd data={homeGraph()} />
       </head>
       <body suppressHydrationWarning className="page-shell min-h-screen overflow-x-hidden antialiased">
-        <div aria-hidden className="ambient-layer">
-          <div className="ambient-grid" />
-          <div className="ambient-glow ambient-glow-primary" />
-          <div className="ambient-glow ambient-glow-secondary" />
-          <div className="ambient-vignette" />
-        </div>
-        <Noise />
         <a href="#main" className="skip-link">
           Skip to content
         </a>

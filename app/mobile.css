@@ -17,10 +17,9 @@
    lose the cascade on rule ties. The scope changes nothing visually — every
    writing element already lives inside the `.writing` sheet.
 
-   NOTE on `!important` below: it appears exactly once, to beat an inline
-   `style="font-size: clamp(1.05rem, 1.7vw, 1.35rem)"` used by several section
-   titles. Inline styles cannot be overridden any other way. It is scoped to
-   mobile viewports only, so desktop is unaffected. */
+   NOTE on `!important` below: it appears exactly once, to beat the desktop
+   `.section-title-sm` rule (which itself beats the base `.section-title`).
+   It is scoped to mobile viewports only, so desktop is unaffected. */
 
 /* ─── Shared tokens + global safety (no visual change on desktop) ─── */
 
@@ -132,10 +131,6 @@ html {
   .section-copy {
     font-size: 0.98rem;
     line-height: 1.75;
-  }
-
-  .ambient-grid {
-    background-size: 34px 34px;
   }
 
   /* ─── Navbar: stay minimal, keep in normal flow offset ───
