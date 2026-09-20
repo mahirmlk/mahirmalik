@@ -129,9 +129,11 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
       tags: project.tags,
       images: [
         {
+          // Project covers are 1200x798; declaring the real dimensions keeps
+          // link previews from cropping (the old 1200x630 mismatch did).
           url: ogImage,
           width: 1200,
-          height: 630,
+          height: project.image ? 798 : 675,
           alt: `${project.title} — case study by Mahir Malik`,
         },
       ],

@@ -8,12 +8,32 @@ import { fileURLToPath } from "node:url";
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const siteUrl = "https://www.mahirmalik.in";
 
-// Display titles for project pages (body files have no frontmatter;
-// keep in sync with lib/projects.ts).
-const projectTitles = {
-  sellable: "Sellable",
-  confluence: "Confluence",
-};
+// Single source of truth: lib/projects.ts. Body files in content/projects
+// have no frontmatter, so titles/descriptions come from the data module via
+// regex (plain node can't import TS).
+function parseProjectsTs() {
+  const src = fs.readFileSync(path.join(root, "lib", "projects.ts"), "utf8");
+  const slugs = [...src.matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1]);
+  return slugs.map((slug) => {
+    // Slice from this slug's position to the next one so each regex only
+    // sees the fields belonging to this project.
+    const start = src.indexOf(`slug: "${slug}"`);
+    const nextSlug = slugs[slugs.indexOf(slug) + 1];
+    const end = nextSlug ? src.indexOf(`slug: "${nextSlug}"`) : src.length;
+    const chunk = src.slice(start, end);
+
+    return {
+      slug,
+      title: chunk.match(/title:\s*"([^"]+)"/)?.[1] ?? slug,
+      description:
+        chunk.match(/description:\s*\n?\s*"([\s\S]*?)",\n\s*features/)?.[1] ?? "",
+    };
+  });
+}
+
+const projectEntries = parseProjectsTs();
+const projectTitles = Object.fromEntries(projectEntries.map((p) => [p.slug, p.title ?? p.slug]));
+const projectDescriptions = Object.fromEntries(projectEntries.map((p) => [p.slug, p.description ?? ""]));
 
 function parseFrontmatter(raw) {
   // Normalize CRLF so `^...$` regexes match (`.` never matches `\r`).
@@ -73,10 +93,12 @@ for (const p of posts) {
 }
 
 out += `\n## Project index\n`;
-for (const p of projects) {
-  out += `- [${p.title}](${siteUrl}/work/${p.slug})${p.description ? `: ${p.description}` : ""}\n`;
+// Derived from lib/projects.ts (single source of truth) so entries like the
+// file-less Helion case study stay in sync automatically.
+for (const entry of projectEntries) {
+  const description = projectDescriptions[entry.slug] ?? "";
+  out += `- [${entry.title}](${siteUrl}/work/${entry.slug})${description ? `: ${description}` : ""}\n`;
 }
-out += `- [Helion](${siteUrl}/work/helion): Agent harness in the terminal and on the desktop — live run timeline, steering, and human-in-the-loop tool approvals. In progress.\n`;
 
 for (const p of posts) {
   out += `\n---\n\n# ${p.title}\n\nURL: ${siteUrl}/writing/${p.slug}\n${p.date ? `Date: ${p.date}\n` : ""}\n${p.body}\n`;

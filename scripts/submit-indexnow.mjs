@@ -19,12 +19,19 @@ const host = new URL(siteUrl).host;
 const DRY = process.argv.includes("--dry-run");
 
 function projectSlugs() {
+  // Single source of truth: lib/projects.ts. The regex keeps this script
+  // dependency-free (plain node can't import TS), so it stays in sync with
+  // lib/projects.ts as long as the `slug: "..."` entries exist there.
   try {
     const src = fs.readFileSync(path.join(root, "lib", "projects.ts"), "utf8");
     const slugs = [...src.matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1]);
     if (slugs.length > 0) return slugs;
-  } catch {}
-  return ["sellable", "confluence", "helion"]; // fallback, keep in sync
+  } catch (error) {
+    console.error("Could not read lib/projects.ts:", error);
+  }
+  // Hard failure instead of a silent stale list — a stale sitemap submission
+  // is worse than a failed run.
+  process.exit(1);
 }
 
 function writingSlugs() {

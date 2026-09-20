@@ -3,6 +3,9 @@ import { siteUrl } from "@/lib/site";
 
 export const dynamic = "force-static";
 
+// AI/LLM crawlers only — Googlebot, Bingbot, Applebot etc. are regular search
+// engines and are already covered by the wildcard rule below; listing them
+// here conflated search indexing with AI training/assistants.
 const aiCrawlers = [
   "GPTBot",
   "OAI-SearchBot",
@@ -13,11 +16,8 @@ const aiCrawlers = [
   "anthropic-ai",
   "PerplexityBot",
   "Perplexity-User",
-  "Googlebot",
   "Google-Extended",
   "GoogleOther",
-  "Bingbot",
-  "Applebot",
   "Applebot-Extended",
   "Amazonbot",
   "Meta-ExternalAgent",

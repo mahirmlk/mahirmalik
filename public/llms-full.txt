@@ -10,9 +10,9 @@
 - [Jev Explained: The Small Model That Decides Instead of Writing](https://www.mahirmalik.in/writing/jev-system-one-model-explained) (2026-09-20): Jev by TypeSafe AI is a System One model for fast typed decisions. How Choice, Score and Noul work, what it costs, and where it fits with LLMs.
 
 ## Project index
-- [Confluence](https://www.mahirmalik.in/work/confluence)
-- [Sellable](https://www.mahirmalik.in/work/sellable)
-- [Helion](https://www.mahirmalik.in/work/helion): Agent harness in the terminal and on the desktop — live run timeline, steering, and human-in-the-loop tool approvals. In progress.
+- [Sellable](https://www.mahirmalik.in/work/sellable): Sellable lets AI agents buy stuff on their own, with guardrails that actually hold. They get a storefront they can read: find products, haggle quotes, pass policy checks, and pay over real Razorpay rails. Every decision lands in an audit ledger. The model suggests, deterministic code decides.
+- [Confluence](https://www.mahirmalik.in/work/confluence): Confluence teaches ML by showing it. Thirty-eight real scikit-learn algorithms, decision boundaries you can poke at, training you can scrub through frame by frame, and 25 datasets from Iris to Titanic.
+- [Helion](https://www.mahirmalik.in/work/helion): Helion is an agent harness that lives in your terminal and on your desktop. Watch runs unfold, steer them mid-flight, and approve every tool call from one calm surface. Still cooking, coming soon.
 
 ---
 

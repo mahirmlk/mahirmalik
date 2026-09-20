@@ -102,6 +102,7 @@ export function writingPostingSchema(post: {
         url,
         mainEntityOfPage: url,
         inLanguage: "en",
+        image: `${siteUrl}/og-image.jpg`,
         datePublished: post.date,
         dateModified: post.updated,
         author: authorRef(),
@@ -127,6 +128,7 @@ export function techArticleSchema(project: {
   year: number;
   category: string;
   tags: string[];
+  image?: string;
 }) {
   const url = `${siteUrl}/work/${project.slug}`;
   return {
@@ -140,6 +142,7 @@ export function techArticleSchema(project: {
         url,
         mainEntityOfPage: url,
         inLanguage: "en",
+        image: project.image ?? `${siteUrl}/og-image.jpg`,
         datePublished: `${project.year}-01-01`,
         dateModified: `${project.year}-12-31`,
         author: authorRef(),
