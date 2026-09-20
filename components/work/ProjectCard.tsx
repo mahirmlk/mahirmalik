@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ChevronDown, Github, Globe } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import type { Project } from "@/types";
 import { ProjectCardCover } from "@/components/work/ProjectCardCover";
 import { cn } from "@/lib/utils";
@@ -12,7 +12,6 @@ interface ProjectCardProps {
 }
 
 const SANS = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
-const MONO = "ui-monospace, SFMono-Regular, Menlo, monospace";
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const [expanded, setExpanded] = useState(false);
@@ -24,16 +23,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <ProjectCardCover project={project} className="project-card-cover aspect-[16/9]" />
       </Link>
 
-      <div className="project-card-body flex flex-1 flex-col px-6 pb-5 pt-6 sm:px-7 sm:pt-7">
+      <div className="project-card-body flex flex-1 flex-col px-6 pb-4 pt-6 sm:px-7 sm:pt-7">
         <p
-          className="text-[11px] font-semibold uppercase text-black/45"
-          style={{ fontFamily: SANS, letterSpacing: "0.16em" }}
-        >
-          {project.category}
-        </p>
-
-        <p
-          className={cn("mt-3 text-[15px] text-[#3a3a3c]", !expanded && "line-clamp-2")}
+          className={cn("text-[15px] text-[#3a3a3c]", !expanded && "line-clamp-2")}
           style={{ fontFamily: SANS, lineHeight: 1.65 }}
         >
           {project.description}
@@ -62,13 +54,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
           {project.tags.join("  ·  ")}
         </p>
 
-        <div className="mt-auto pt-5">
+        <div className="mt-auto pt-4">
           <div className="border-t border-black/[0.08]" />
-          <div className="flex items-start gap-4 pt-4">
+          <div className="flex items-center justify-center gap-8 pb-1 pt-3">
             {!project.liveUrl && !project.githubUrl ? (
               <span
-                className="inline-flex items-center border border-dashed border-black/20 px-3 py-1.5 text-[11px] tracking-[0.14em] text-black/45"
-                style={{ fontFamily: MONO }}
+                className="text-[13px] font-medium text-black/50"
+                style={{ fontFamily: SANS }}
               >
                 Coming soon
               </span>
@@ -79,20 +71,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={`Live preview of ${project.title}`}
-                className="group/link flex flex-col items-center gap-1.5"
+                className="text-[13px] font-medium text-black/70 transition-colors hover:text-black"
+                style={{ fontFamily: SANS }}
               >
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-white text-black/60 shadow-[0_1px_2px_rgba(0,0,0,0.06)] transition-all duration-200 group-hover/link:border-black/25 group-hover/link:text-black group-hover/link:shadow-[0_2px_8px_rgba(0,0,0,0.1)]">
-                  <Globe size={14} strokeWidth={1.5} />
-                </span>
-                <span
-                  className="text-[10px] font-medium tracking-wide text-black/45 transition-colors group-hover/link:text-black"
-                  style={{
-                    fontFamily:
-                      "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif",
-                  }}
-                >
-                  Live
-                </span>
+                Live
               </a>
             ) : null}
             {project.githubUrl ? (
@@ -101,20 +83,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={`Source code of ${project.title}`}
-                className="group/link flex flex-col items-center gap-1.5"
+                className="text-[13px] font-medium text-black/70 transition-colors hover:text-black"
+                style={{ fontFamily: SANS }}
               >
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-white text-black/60 shadow-[0_1px_2px_rgba(0,0,0,0.06)] transition-all duration-200 group-hover/link:border-black/25 group-hover/link:text-black group-hover/link:shadow-[0_2px_8px_rgba(0,0,0,0.1)]">
-                  <Github size={14} strokeWidth={1.5} />
-                </span>
-                <span
-                  className="text-[10px] font-medium tracking-wide text-black/45 transition-colors group-hover/link:text-black"
-                  style={{
-                    fontFamily:
-                      "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif",
-                  }}
-                >
-                  GitHub
-                </span>
+                GitHub
               </a>
             ) : null}
           </div>
