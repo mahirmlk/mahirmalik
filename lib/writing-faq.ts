@@ -41,6 +41,33 @@ export const writingFaqs: Record<string, FaqItem[]> = {
         "Open k-NN on the spiral dataset and drag k from 1 to 50. Chaos settles into calm in about thirty seconds, and bias and variance click in a way textbook chapters never manage.",
     },
   ],
+  "jev-system-one-model-explained": [
+    {
+      question: "What is Jev by TypeSafe AI?",
+      answer:
+        "Jev is a System One model released September 15, 2026. You send state plus typed questions, it returns Choice, Score, or Noul answers with probabilities in 70-500ms. Input costs $0.042 per million tokens, output is free. It decides, it does not write.",
+    },
+    {
+      question: "How is Jev different from an LLM?",
+      answer:
+        "An LLM generates text token by token and takes seconds on hard tasks. Jev answers bounded decisions in one parallel pass with fixed shapes and calibrated probabilities. Use the LLM to plan and write, Jev to route, gate, and check, and code to run the branches.",
+    },
+    {
+      question: "What are Choice, Score, and Noul?",
+      answer:
+        "Choice picks one option from up to 255 and returns winner plus distribution and confidence. Score rates input on a 2-10 level scale and can land between levels. Noul returns P(yes) from 0 to 1 with no separate confidence field. Question IDs stay in your code.",
+    },
+    {
+      question: "Can Jev hallucinate?",
+      answer:
+        "It cannot invent options outside your schema or return broken shapes, which removes a class of LLM failures. It can still pick the wrong valid option with confidence. Treat outputs as bets with numbers, set thresholds from your data, and keep humans on risky branches.",
+    },
+    {
+      question: "When should I use Jev?",
+      answer:
+        "Use it for repeated judgments with known answers: model routing, tool risk gating, verification, ranking, and high-volume classification. Browser Use found flights in 7 seconds for $0.0039, and 1,018 papers classified for $0.08. Skip it for writing, chat, code, math, and dates.",
+    },
+  ],
 };
 
 export function getWritingFaqs(slug: string): FaqItem[] {

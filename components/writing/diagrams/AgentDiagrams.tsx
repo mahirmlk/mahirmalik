@@ -784,6 +784,234 @@ function ConfluenceFrames() {
   );
 }
 
+/* Figure J1 — every loop step becomes a slow generative call. */
+function JevProblem() {
+  const nodes = [
+    "action = llm(context)",
+    "run_tool(action)",
+    "context += result",
+    "repeat: judge, route, check",
+  ];
+  const w = 260;
+  const cx = 210;
+  const h = 34;
+  const gap = 22;
+  const top = 34;
+  return (
+    <Frame width={420} height={top + nodes.length * h + (nodes.length - 1) * gap + 66}>
+      <text x={cx} y={16} textAnchor="middle" className="dg-note">
+        while not done:
+      </text>
+      {nodes.map((n, i) => {
+        const y = top + i * (h + gap);
+        return (
+          <g key={`${n}-${i}`}>
+            <Node cx={cx} y={y} w={w} h={h} lines={[{ text: n }]} />
+            {i < nodes.length - 1 && <VArrow x={cx} y1={y + h} y2={y + h + gap} />}
+          </g>
+        );
+      })}
+      <text x={cx} y={top + nodes.length * h + (nodes.length - 1) * gap + 28} textAnchor="middle" className="dg-note">
+        each fork waits for tokens to stream out
+      </text>
+      <text x={cx} y={top + nodes.length * h + (nodes.length - 1) * gap + 46} textAnchor="middle" className="dg-note">
+        parse, validate, retry when shape is wrong
+      </text>
+    </Frame>
+  );
+}
+
+/* Figure J2 — state plus questions in, typed answers out. */
+function JevWhat() {
+  return (
+    <Frame width={620} height={210} minWidth={520}>
+      <Node
+        cx={110}
+        y={40}
+        w={180}
+        h={130}
+        lines={[
+          { text: "state", title: true },
+          { text: "text or JSON", muted: true },
+          { text: "ticket, logs,", muted: true },
+          { text: "page elements", muted: true },
+        ]}
+      />
+      <Node
+        cx={310}
+        y={40}
+        w={180}
+        h={130}
+        lines={[
+          { text: "questions", title: true },
+          { text: "Choice / Score /", muted: true },
+          { text: "Noul, fixed", muted: true },
+          { text: "shapes", muted: true },
+        ]}
+      />
+      <HArrow x1={200} x2={218} y={105} />
+      <HArrow x1={400} x2={418} y={105} />
+      <Node
+        cx={509}
+        y={40}
+        w={164}
+        h={130}
+        lines={[
+          { text: "Jev", title: true },
+          { text: "parallel pass", muted: true },
+          { text: "70-500 ms", muted: true },
+        ]}
+      />
+      <VArrow x={509} y1={170} y2={188} />
+      <text x={509} y={204} textAnchor="middle" className="dg-note">
+        typed answers + probabilities
+      </text>
+    </Frame>
+  );
+}
+
+/* Figure J3 — the three primitives. */
+function JevPrimitives() {
+  const cols = [
+    { title: "CHOICE", lines: ["picks 1 of up to 255", "returns winner +", "full distribution"] },
+    { title: "SCORE", lines: ["rates on 2-10 levels", "result 0 to N-1", "can land between"] },
+    { title: "NOUL", lines: ["yes or no as P(yes)", "0 to 1, no separate", "confidence field"] },
+  ];
+  const centers = [105, 310, 515];
+  return (
+    <Frame width={620} height={190} minWidth={520}>
+      {cols.map((col, i) => (
+        <g key={col.title}>
+          <Node cx={centers[i]} y={20} w={180} h={44} lines={[{ text: col.title, title: true }]} />
+          {col.lines.map((line, j) => (
+            <text key={line} x={centers[i]} y={88 + j * 19} textAnchor="middle" className="dg-note">
+              {line}
+            </text>
+          ))}
+        </g>
+      ))}
+      <text x={310} y={172} textAnchor="middle" className="dg-note">
+        one request can ask all three in parallel
+      </text>
+    </Frame>
+  );
+}
+
+/* Figure J4 — latency and price, vendor comparison. */
+function JevLlmVsJev() {
+  const barX = 170;
+  const maxW = 380;
+  const rows = [
+    { label: "Jev latency", value: "70-500 ms", w: 60 },
+    { label: "LLM latency", value: "3-329 s", w: maxW },
+    { label: "Jev input", value: "$0.042 / 1M", w: 40 },
+    { label: "LLM input", value: "$0.20-$10 / 1M", w: maxW },
+  ];
+  const top = 12;
+  const step = 52;
+  return (
+    <Frame width={600} height={top + rows.length * step + 40} minWidth={500}>
+      {rows.map((row, i) => {
+        const y = top + i * step;
+        return (
+          <g key={row.label}>
+            <text x={barX - 10} y={y + 22} textAnchor="end" className="dg-text">
+              {row.label}
+            </text>
+            <rect x={barX} y={y + 6} width={row.w} height={20} rx={2} className="dg-box" />
+            <text x={barX + row.w + 8} y={y + 22} className="dg-note">
+              {row.value}
+            </text>
+          </g>
+        );
+      })}
+      <text x={310} y={top + rows.length * step + 22} textAnchor="middle" className="dg-note">
+        vendor ceiling: 40-200x faster, up to 400x cheaper
+      </text>
+    </Frame>
+  );
+}
+
+/* Figure J5 — close race means low confidence. Faithful values. */
+function JevConfidence() {
+  const barX = 150;
+  const maxW = 300;
+  const rows = [
+    { label: "billing 0.52", w: Math.round(maxW * 0.52) },
+    { label: "technical 0.46", w: Math.round(maxW * 0.46) },
+    { label: "sales 0.02", w: Math.round(maxW * 0.02) },
+  ];
+  const top = 12;
+  const step = 44;
+  return (
+    <Frame width={560} height={top + rows.length * step + 64} minWidth={460}>
+      {rows.map((row, i) => {
+        const y = top + i * step;
+        return (
+          <g key={row.label}>
+            <text x={barX - 10} y={y + 20} textAnchor="end" className="dg-text">
+              {row.label}
+            </text>
+            <rect x={barX} y={y + 5} width={Math.max(row.w, 6)} height={18} rx={2} className="dg-box" />
+          </g>
+        );
+      })}
+      <text x={300} y={top + rows.length * step + 24} textAnchor="middle" className="dg-title">
+        confidence 0.18: do not auto-route
+      </text>
+      <text x={300} y={top + rows.length * step + 44} textAnchor="middle" className="dg-note">
+        winner tells what won, spread tells how close it was
+      </text>
+    </Frame>
+  );
+}
+
+/* Figure J6 — LLM, Jev, and code each own one job. */
+function JevAgent() {
+  return (
+    <Frame width={620} height={200} minWidth={520}>
+      <Node
+        cx={110}
+        y={30}
+        w={180}
+        h={120}
+        lines={[
+          { text: "LLM", title: true },
+          { text: "plans, writes,", muted: true },
+          { text: "explains", muted: true },
+        ]}
+      />
+      <Node
+        cx={315}
+        y={30}
+        w={190}
+        h={120}
+        lines={[
+          { text: "Jev", title: true },
+          { text: "routes, scores,", muted: true },
+          { text: "gates, checks", muted: true },
+        ]}
+      />
+      <Node
+        cx={525}
+        y={30}
+        w={170}
+        h={120}
+        lines={[
+          { text: "code", title: true },
+          { text: "runs branches,", muted: true },
+          { text: "limits, logs", muted: true },
+        ]}
+      />
+      <HArrow x1={200} x2={218} y={90} />
+      <HArrow x1={410} x2={438} y={90} />
+      <text x={310} y={178} textAnchor="middle" className="dg-note">
+        route with Choice, gate risk, check results, escalate when unsure
+      </text>
+    </Frame>
+  );
+}
+
 export const DIAGRAMS: Record<string, { caption: string; Component: () => React.JSX.Element }> = {
   "old-workflow": { caption: "Figure 1. The old workflow — the human is the control system.", Component: OldWorkflow },
   "agent-flow": { caption: "Figure 2. A modern coding-agent flow — the system drives itself.", Component: AgentFlow },
@@ -798,4 +1026,10 @@ export const DIAGRAMS: Record<string, { caption: string; Component: () => React.
   "confluence-stack": { caption: "Figure 3. Boring on purpose: Next.js, FastAPI, scikit-learn, Redis, Docker.", Component: ConfluenceStack },
   "confluence-taxonomy": { caption: "Figure 4. The organizing idea: algorithms grouped by boundary shape.", Component: ConfluenceTaxonomy },
   "confluence-frames": { caption: "Figure 5. Playback is replay: the backend streams frames, the browser scrubs them.", Component: ConfluenceFrames },
+  "jev-problem": { caption: "Figure 1. Each loop step becomes a generative call that streams tokens and needs parsing.", Component: JevProblem },
+  "jev-what": { caption: "Figure 2. State plus questions in, typed answers with probabilities out.", Component: JevWhat },
+  "jev-primitives": { caption: "Figure 3. Choice, Score, and Noul cover pick, rate, and yes-or-no.", Component: JevPrimitives },
+  "jev-llm-vs-jev": { caption: "Figure 4. Vendor comparison: 70-500 ms vs 3-329 s, $0.042 vs $0.20-$10 per million input tokens.", Component: JevLlmVsJev },
+  "jev-confidence": { caption: "Figure 5. Billing 0.52 vs technical 0.46 with confidence 0.18 means send to review.", Component: JevConfidence },
+  "jev-agent": { caption: "Figure 6. LLM creates work, Jev decides next, code runs it.", Component: JevAgent },
 };
