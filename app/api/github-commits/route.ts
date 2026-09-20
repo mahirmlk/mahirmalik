@@ -8,7 +8,6 @@ import {
 
 export async function GET() {
   try {
-    const setupError = getGitHubSetupError();
     const [contributions, recentActivity] = await Promise.all([
       fetchContributions(),
       fetchRecentActivity(),
@@ -23,7 +22,7 @@ export async function GET() {
         recentActivity,
         commits,
         fetchedAt: new Date().toISOString(),
-        error: setupError ?? undefined,
+        error: getGitHubSetupError() ?? undefined,
       },
       {
         headers: {
@@ -32,7 +31,7 @@ export async function GET() {
       }
     );
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("[github-commits] request failed:", error);
 
     return NextResponse.json(
       {
@@ -42,7 +41,7 @@ export async function GET() {
         recentActivity: [],
         commits: [],
         fetchedAt: new Date().toISOString(),
-        error: message,
+        error: "GitHub activity is temporarily unavailable.",
       },
       {
         status: 500,

@@ -91,8 +91,10 @@ function getGitHubAuth() {
 }
 
 export function getGitHubSetupError() {
+  // Deliberately generic: this string is exposed to browsers via the API
+  // response, so it must never reveal which env var or credential is missing.
   if (!process.env.GITHUB_TOKEN) {
-    return "Missing GITHUB_TOKEN environment variable.";
+    return "GitHub feed is not configured.";
   }
 
   return null;

@@ -8,10 +8,10 @@ import type {
   ContributionWeek,
   RecentCommitMessage,
 } from "@/lib/github";
+import { GITHUB_USERNAME } from "@/lib/github";
 
-const GITHUB_USERNAME = "mahirmlk";
 const GITHUB_PROFILE_URL = `https://github.com/${GITHUB_USERNAME}`;
-const REFRESH_INTERVAL_MS = 30000;
+const REFRESH_INTERVAL_MS = 90000;
 const MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 const EVENT_LABELS: Record<string, string> = {
@@ -287,8 +287,7 @@ export function GitHubCommitsSection() {
           <div>
             <p className="section-eyebrow">GitHub Activity</p>
             <h2
-              className="section-title"
-              style={{ fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)" }}
+              className="section-title section-title-sm"
             >
               Contribution graph and recent commits.
             </h2>
@@ -339,7 +338,7 @@ export function GitHubCommitsSection() {
             <div className="gh-graph-count">
               {data?.totalContributions ?? 0} contributions in {data?.year ?? new Date().getFullYear()}
             </div>
-            <p className="gh-graph-meta">Auto-refreshing every 30 seconds.</p>
+            <p className="gh-graph-meta">Auto-refreshing every 90 seconds.</p>
           </div>
 
           {loading ? (
