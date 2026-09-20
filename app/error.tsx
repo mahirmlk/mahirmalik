@@ -1,6 +1,21 @@
 "use client";
 
-export default function Error({ reset }: { error: Error; reset: () => void }) {
+import { useEffect } from "react";
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  // Render-side logging only: server errors are already logged by Next.
+  // This surfaces client-side render errors (and the digest to correlate
+  // with server logs) in the browser console and the ingestible console.
+  useEffect(() => {
+    console.error("[app error]", error);
+  }, [error]);
+
   return (
     <section className="site-container section-block flex min-h-[60vh] flex-col items-center justify-center text-center">
       <p className="section-eyebrow">Something went wrong</p>

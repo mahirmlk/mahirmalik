@@ -303,7 +303,10 @@ function loadPost(slug: string): WritingPost | null {
   const tags = Array.isArray(data.tags) ? (data.tags as string[]) : [];
   const category =
     typeof data.category === "string" && data.category ? data.category : tags.length > 0 ? titleCaseTag(tags[0]) : "Notes";
-  const date = typeof data.date === "string" && data.date ? data.date : "2026-09-13";
+  // Deterministic fallback so static builds stay reproducible; only used when
+  // frontmatter omits `date` (all current posts provide one).
+  const FALLBACK_DATE = "1970-01-01";
+  const date = typeof data.date === "string" && data.date ? data.date : FALLBACK_DATE;
 
   return {
     slug,
@@ -340,5 +343,11 @@ export function getAllWritingPosts(): WritingPost[] {
 }
 
 export function getWritingPost(slug: string): WritingPost | null {
+  // Defense-in-depth: `slug` reaches this function from route params, so it
+  // must never be interpolated into a filesystem path unchecked. Restrict it
+  // to the exact slug shape used on disk ([a-z0-9-]) and to slugs that
+  // actually exist in content/writing.
+  if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) return null;
+  if (!getWritingSlugs().includes(slug)) return null;
   return loadPost(slug);
 }
