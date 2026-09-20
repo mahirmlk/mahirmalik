@@ -286,7 +286,12 @@ export function GitHubCommitsSection() {
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="section-eyebrow">GitHub Activity</p>
-            <h2 className="section-title">Contribution graph and recent commits.</h2>
+            <h2
+              className="section-title"
+              style={{ fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)" }}
+            >
+              Contribution graph and recent commits.
+            </h2>
             <p className="section-copy mt-5 max-w-3xl">
               A GitHub-style overview of public contributions in {data?.year ?? new Date().getFullYear()},
               followed by recent public activity and commit messages from{" "}

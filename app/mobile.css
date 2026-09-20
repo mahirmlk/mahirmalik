@@ -119,6 +119,10 @@ html {
      Justified `!important`: inline styles lose to nothing else. */
   .about .section-title,
   #projects .section-title,
+  #skills .section-title,
+  #github-activity .section-title,
+  #pulse .section-title,
+  #contact .section-title,
   .blogs .section-title,
   .theory .section-title {
     font-size: clamp(1.3rem, 0.75rem + 2.5vw, 1.7rem) !important;
@@ -237,27 +241,15 @@ html {
     min-height: 56px;
   }
 
-  /* Illustration belongs to the hero: controlled gap after CTAs, bounded
-     size so it stays an illustration instead of a section background. */
+  /* Illustration is desktop-only by request: hide the guy PNG on phones.
+     Root cause of the old "double guy" bug: `.hero-visual img { display:
+     block }` (0,1,1) outranked Tailwind's `.hidden` (0,1,0), so BOTH the
+     desktop (`hidden md:block`) and mobile (`md:hidden`) <Image> rendered
+     on phones. Hiding the whole `.hero-visual` block removes the
+     illustration, its gap, and any chance of duplication. Desktop is
+     untouched (this lives inside max-width: 767px). */
   .hero-visual.hero-visual {
-    margin-top: clamp(32px, 7vw, 56px);
-    margin-inline: auto;
-    width: min(78vw, 360px);
-    max-width: 360px;
-  }
-
-  .hero-visual img {
-    display: block;
-    width: 100%;
-    height: auto;
-    margin-inline: auto;
-  }
-
-  /* Tighten the decorative inner padding around the illustration on phones
-     so the visual gap reads as intentional, not empty. */
-  .hero-visual-frame {
-    padding-inline: 1.25rem;
-    padding-block: 1rem;
+    display: none;
   }
 
   /* ─── About: compact, readable, no giant desktop gaps ─── */
@@ -272,7 +264,11 @@ html {
     height: auto;
   }
 
-  /* ─── Projects: reflow, don't shrink — 1 column, square previews ─── */
+  /* ─── Projects: reflow, don't shrink — 1 column, landscape previews ───
+     Desktop cover is aspect-[16/9]. The old 1/1 square override forced
+     `object-cover` to zoom + crop the sides (e.g. "Make your store..."
+     lost its left/right edges) and made cards excessively tall. 16/10
+     keeps the full preview width visible with a natural landscape shape. */
   .projects-grid.projects-grid {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -280,7 +276,13 @@ html {
 
   .project-card-cover.project-card-cover {
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 16 / 10;
+    max-height: 260px;
+  }
+
+  .project-card-cover.project-card-cover img {
+    object-fit: cover;
+    object-position: top center;
   }
 
   .project-card {
@@ -464,8 +466,9 @@ html {
     font-size: clamp(2.5rem, 1rem + 8vw, 3.25rem);
   }
 
+  /* Hero illustration stays hidden on small phones too (see 767px rule). */
   .hero-visual.hero-visual {
-    width: min(82vw, 330px);
+    display: none;
   }
 
   .project-card-body {
