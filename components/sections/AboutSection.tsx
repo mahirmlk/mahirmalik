@@ -31,11 +31,11 @@ export function AboutSection({ standalone = false }: AboutSectionProps) {
       <Reveal>
         <p className="section-eyebrow">{standalone ? "Profile" : "About"}</p>
         {standalone ? (
-          <h1 className="section-title" style={{ fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)" }}>
+          <h1 className="section-title section-title-sm">
             i like making complicated stuff feel simple.
           </h1>
         ) : (
-          <h2 className="section-title" style={{ fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)" }}>
+          <h2 className="section-title section-title-sm">
             i like making complicated stuff feel simple.
           </h2>
         )}

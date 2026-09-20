@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
@@ -32,10 +30,7 @@ export function SnapshotSection() {
             <p className="section-eyebrow" style={{ color: "rgba(255,255,255,0.55)" }}>
               At the Moment
             </p>
-            <h2
-              className="section-title max-w-3xl text-balance text-white"
-              style={{ fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)" }}
-            >
+            <h2 className="section-title section-title-sm max-w-3xl text-balance text-white">
               Currently in the weeds.
             </h2>
             <p className="mt-5 max-w-xl text-[15px] leading-8 text-white/60 sm:text-base">

@@ -26,8 +26,7 @@ export function ProjectsSection() {
           <div>
             <p className="section-eyebrow">Projects</p>
             <h2
-              className="section-title"
-              style={{ fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)" }}
+              className="section-title section-title-sm"
             >
               Things I&apos;ve been busy building.
             </h2>

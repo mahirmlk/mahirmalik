@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
@@ -13,8 +11,7 @@ export function TheorySection() {
           <div>
             <p className="section-eyebrow">Implementations</p>
             <h2
-              className="section-title"
-              style={{ fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)" }}
+              className="section-title section-title-sm"
             >
               Because reading the paper wasn&apos;t enough.
             </h2>
