@@ -12,8 +12,19 @@ const roles = [
 export function TypeWriter() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [display, setDisplay] = useState("");
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(query.matches);
+    const onChange = (event: MediaQueryListEvent) => setReducedMotion(event.matches);
+    query.addEventListener("change", onChange);
+    return () => query.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) return;
+
     let timeout: number;
     let deleting = false;
     let currentRoleIndex = 0;
@@ -55,7 +66,16 @@ export function TypeWriter() {
     tick();
 
     return () => window.clearTimeout(timeout);
-  }, []);
+  }, [reducedMotion]);
+
+  // Reduced motion: static full first role, no typing loop, no caret blink.
+  if (reducedMotion) {
+    return (
+      <span className="mono inline-flex min-h-[1.4em] items-center text-[1.05em] font-extrabold text-[var(--fg)]">
+        {roles[0]}
+      </span>
+    );
+  }
 
   return (
     <span className="mono inline-flex min-h-[1.4em] items-center text-[1.05em] font-extrabold text-[var(--fg)]">

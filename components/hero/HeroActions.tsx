@@ -1,7 +1,7 @@
 "use client";
 
 import type { FormEvent } from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, X } from "lucide-react";
@@ -13,9 +13,67 @@ const initialForm = {
   message: ""
 };
 
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select, [tabindex]:not([tabindex="-1"])';
+
 export function HeroActions() {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState(initialForm);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const openerRef = useRef<Element | null>(null);
+
+  // Modal a11y: Escape closes, Tab stays inside the dialog, background scroll
+  // is locked, focus moves in on open and returns to the trigger on close.
+  useEffect(() => {
+    if (!open) return;
+
+    openerRef.current = document.activeElement;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const dialog = dialogRef.current;
+    const firstFocusable = dialog?.querySelector<HTMLElement>(FOCUSABLE);
+    firstFocusable?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab" || !dialog) return;
+
+      const focusables = Array.from(dialog.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+        (el) => el.offsetParent !== null
+      );
+      if (focusables.length === 0) return;
+
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      } else if (!dialog.contains(document.activeElement)) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      if (openerRef.current instanceof HTMLElement) {
+        openerRef.current.focus();
+      }
+    };
+  }, [open]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -29,7 +87,7 @@ export function HeroActions() {
     ].join("\n");
 
     window.location.href =
-      `mailto:mahir@email.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      `mailto:mahirmalikx@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
     setOpen(false);
   };
@@ -67,6 +125,10 @@ export function HeroActions() {
             onClick={() => setOpen(false)}
           >
             <motion.div
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="hero-contact-title"
               className="mx-auto my-auto w-full max-w-[32rem] rounded-[1.1rem] border border-[var(--border-mid)] bg-[color-mix(in_srgb,var(--bg-card)_92%,transparent)] p-4 shadow-[0_30px_90px_rgba(0,0,0,0.22)] backdrop-blur-xl backdrop-saturate-150 max-md:backdrop-blur-lg sm:rounded-[1.35rem] sm:p-6"
               initial={{ opacity: 0, y: 18, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -77,7 +139,10 @@ export function HeroActions() {
               <div className="max-h-[min(86vh,44rem)] overflow-y-auto overscroll-contain pr-1 max-md:max-h-[min(86svh,44rem)]">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h3 className="text-[1.35rem] font-black leading-none tracking-[-0.05em] text-[var(--fg)] sm:text-[1.75rem]">
+                  <h3
+                    id="hero-contact-title"
+                    className="text-[1.35rem] font-black leading-none tracking-[-0.05em] text-[var(--fg)] sm:text-[1.75rem]"
+                  >
                     Send a Message
                   </h3>
                   <p className="mt-3 text-[0.98rem] text-[var(--fg-subtle)] sm:text-[1rem]">
