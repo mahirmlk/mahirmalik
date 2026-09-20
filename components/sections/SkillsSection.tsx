@@ -13,8 +13,10 @@ interface StackCategory {
   items: StackLogo[];
 }
 
-const si = (slug: string, color: string) => `https://cdn.simpleicons.org/${slug}/${color}`;
-const favicon = (domain: string) => `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+// Icons are vendored to /public/assets/icons (see scripts/icon-map.json) so
+// the stack section makes zero third-party requests at runtime.
+const si = (slug: string, color: string) => `/assets/icons/si-${slug}-${color}.svg`;
+const favicon = (domain: string) => `/assets/icons/fav-${domain}.png`;
 
 const LIGHT_DARK = "f6f7f8";
 
@@ -51,7 +53,7 @@ const stackCategories: StackCategory[] = [
       { name: "FastAPI", src: si("fastapi", "009688") },
       { name: "Pydantic", src: si("pydantic", "E92063") },
       { name: "SQLAlchemy", src: si("sqlalchemy", "D71F00") },
-      { name: "Alembic", src: "https://github.com/sqlalchemy.png" },
+      { name: "Alembic", src: "/assets/icons/sqlalchemy-org.png" },
       {
         name: "WebSockets",
         src: si("socketdotio", "111111"),
@@ -72,8 +74,8 @@ const stackCategories: StackCategory[] = [
       { name: "SciPy", src: si("scipy", "8CAAE6") },
       {
         name: "Matplotlib",
-        src: "https://matplotlib.org/stable/_static/logo_light.svg",
-        darkSrc: "https://matplotlib.org/stable/_static/logo_dark.svg",
+        src: "/assets/icons/matplotlib-light.svg",
+        darkSrc: "/assets/icons/matplotlib-dark.svg",
       },
       { name: "Plotly", src: si("plotly", "3F4F75") },
       { name: "Jupyter", src: si("jupyter", "F37626") },
@@ -255,7 +257,7 @@ export function SkillsSection() {
     <section id="skills" className="site-container section-block">
       <Reveal>
         <p className="section-eyebrow">The Stack</p>
-        <h2 className="section-title" style={{ fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)" }}>
+        <h2 className="section-title section-title-sm">
           What I build with.
         </h2>
         <p className="section-copy mt-5">

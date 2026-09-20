@@ -2,44 +2,44 @@ import type { ReactNode } from "react";
 
 const TECH_ICONS: Record<string, { light: string; dark: string }> = {
   Python: {
-    light: "https://cdn.simpleicons.org/python/3776AB",
-    dark: "https://cdn.simpleicons.org/python/3776AB"
+    light: "/assets/icons/si-python-3776AB.svg",
+    dark: "/assets/icons/si-python-3776AB.svg"
   },
   FastAPI: {
-    light: "https://cdn.simpleicons.org/fastapi/009688",
-    dark: "https://cdn.simpleicons.org/fastapi/009688"
+    light: "/assets/icons/si-fastapi-009688.svg",
+    dark: "/assets/icons/si-fastapi-009688.svg"
   },
   "Next.js 16": {
-    light: "https://cdn.simpleicons.org/nextdotjs/111111",
-    dark: "https://cdn.simpleicons.org/nextdotjs/f6f7f8"
+    light: "/assets/icons/si-nextdotjs-111111.svg",
+    dark: "/assets/icons/si-nextdotjs-f6f7f8.svg"
   },
   "Next.js 15": {
-    light: "https://cdn.simpleicons.org/nextdotjs/111111",
-    dark: "https://cdn.simpleicons.org/nextdotjs/f6f7f8"
+    light: "/assets/icons/si-nextdotjs-111111.svg",
+    dark: "/assets/icons/si-nextdotjs-f6f7f8.svg"
   },
   Supabase: {
-    light: "https://cdn.simpleicons.org/supabase/3FCF8E",
-    dark: "https://cdn.simpleicons.org/supabase/3FCF8E"
+    light: "/assets/icons/si-supabase-3FCF8E.svg",
+    dark: "/assets/icons/si-supabase-3FCF8E.svg"
   },
   Razorpay: {
-    light: "https://cdn.simpleicons.org/razorpay/111111",
-    dark: "https://cdn.simpleicons.org/razorpay/f6f7f8"
+    light: "/assets/icons/si-razorpay-111111.svg",
+    dark: "/assets/icons/si-razorpay-f6f7f8.svg"
   },
   "scikit-learn": {
-    light: "https://cdn.simpleicons.org/scikit-learn/F7931E",
-    dark: "https://cdn.simpleicons.org/scikit-learn/F7931E"
+    light: "/assets/icons/si-scikit-learn-F7931E.svg",
+    dark: "/assets/icons/si-scikit-learn-F7931E.svg"
   },
   TypeScript: {
-    light: "https://cdn.simpleicons.org/typescript/3178C6",
-    dark: "https://cdn.simpleicons.org/typescript/3178C6"
+    light: "/assets/icons/si-typescript-3178C6.svg",
+    dark: "/assets/icons/si-typescript-3178C6.svg"
   },
   Redis: {
-    light: "https://cdn.simpleicons.org/redis/DC382D",
-    dark: "https://cdn.simpleicons.org/redis/DC382D"
+    light: "/assets/icons/si-redis-DC382D.svg",
+    dark: "/assets/icons/si-redis-DC382D.svg"
   },
   Docker: {
-    light: "https://cdn.simpleicons.org/docker/2496ED",
-    dark: "https://cdn.simpleicons.org/docker/2496ED"
+    light: "/assets/icons/si-docker-2496ED.svg",
+    dark: "/assets/icons/si-docker-2496ED.svg"
   }
 };
 

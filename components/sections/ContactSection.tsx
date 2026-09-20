@@ -64,7 +64,7 @@ const socials: Array<{ label: string; href: string; render: (props: IconProps) =
     href: "https://huggingface.co/mahirmalik",
     render: (p) => (
       <img
-        src="https://cdn.simpleicons.org/huggingface/FFD21E"
+        src="/assets/icons/si-huggingface-FFD21E.svg"
         alt=""
         aria-hidden
         loading="lazy"
@@ -78,14 +78,14 @@ const socials: Array<{ label: string; href: string; render: (props: IconProps) =
     render: (p) => (
       <>
         <img
-          src="https://www.google.com/s2/favicons?domain=daily.dev&sz=128"
+          src="/assets/icons/fav-daily.dev.png"
           alt=""
           aria-hidden
           loading="lazy"
           className={`object-contain dark:hidden ${p.className ?? ""}`}
         />
         <img
-          src="https://www.google.com/s2/favicons?domain=daily.dev&sz=128"
+          src="/assets/icons/fav-daily.dev.png"
           alt=""
           aria-hidden
           loading="lazy"
@@ -100,14 +100,14 @@ const socials: Array<{ label: string; href: string; render: (props: IconProps) =
     render: (p) => (
       <>
         <img
-          src="https://cdn.simpleicons.org/reddit/FF4500"
+          src="/assets/icons/si-reddit-FF4500.svg"
           alt=""
           aria-hidden
           loading="lazy"
           className={`object-contain dark:hidden ${p.className ?? ""}`}
         />
         <img
-          src="https://cdn.simpleicons.org/reddit/FF4500"
+          src="/assets/icons/si-reddit-FF4500.svg"
           alt=""
           aria-hidden
           loading="lazy"
@@ -122,14 +122,14 @@ const socials: Array<{ label: string; href: string; render: (props: IconProps) =
     render: (p) => (
       <>
         <img
-          src="https://cdn.simpleicons.org/devdotto/111111"
+          src="/assets/icons/si-devdotto-111111.svg"
           alt=""
           aria-hidden
           loading="lazy"
           className={`object-contain dark:hidden ${p.className ?? ""}`}
         />
         <img
-          src="https://cdn.simpleicons.org/devdotto/f6f7f8"
+          src="/assets/icons/si-devdotto-f6f7f8.svg"
           alt=""
           aria-hidden
           loading="lazy"
@@ -145,7 +145,7 @@ export function ContactSection() {
     <section id="contact" className="site-container section-block text-center">
       <Reveal>
         <p className="section-eyebrow">Beyond</p>
-        <h2 className="section-title" style={{ fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)" }}>
+        <h2 className="section-title section-title-sm">
           More to build. More to figure out.
         </h2>
         <p className="mx-auto mt-5 max-w-2xl text-[0.98rem] leading-7 text-[var(--fg-muted)] sm:text-base sm:leading-8">
