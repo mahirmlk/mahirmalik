@@ -1,6 +1,5 @@
-import type { SVGProps } from "react";
-import { ArrowUpRight, House } from "lucide-react";
-import { MagneticButton } from "@/components/ui/MagneticButton";
+import type { ReactElement, SVGProps } from "react";
+import { ArrowUp, House } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 
 type BrandIconProps = SVGProps<SVGSVGElement>;
@@ -31,104 +30,183 @@ function XIcon(props: BrandIconProps) {
 
 function KaggleIcon(props: BrandIconProps) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-      <path d="M7 3.5v17" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="m16.8 6.2-6.9 6 7.1 5.6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="m11.3 11.2 5.4-6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M7.6 3.5v17h-2.5v-17h2.5Zm2.6 9.1 6.1 7.9h-3.1l-5.4-7 5.9-6.9h3.2l-6.7 6Z" />
     </svg>
   );
 }
 
-function EmailIcon(props: BrandIconProps) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
-      <path d="M3.75 6.75h16.5v10.5H3.75z" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="m4.5 7.5 7.5 6 7.5-6" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
+type IconProps = { className?: string };
 
-const socials = [
-  { label: "GitHub", href: "https://github.com/mahirmlk", icon: GitHubIcon },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/mahir-malik", icon: LinkedInIcon },
-  { label: "X", href: "https://x.com/mahirmllk", icon: XIcon },
-  { label: "Kaggle", href: "https://www.kaggle.com/mahirmlk", icon: KaggleIcon },
-  { label: "Email", href: "mailto:mahirmalikx@gmail.com", icon: EmailIcon }
+const socials: Array<{ label: string; href: string; render: (props: IconProps) => ReactElement }> = [
+  {
+    label: "GitHub",
+    href: "https://github.com/mahirmlk",
+    render: (p) => <GitHubIcon {...p} />,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/mahir-malik",
+    render: (p) => <LinkedInIcon {...p} />,
+  },
+  {
+    label: "X",
+    href: "https://x.com/mahirmllk",
+    render: (p) => <XIcon {...p} />,
+  },
+  {
+    label: "Kaggle",
+    href: "https://www.kaggle.com/mahirmlk",
+    render: (p) => <KaggleIcon {...p} />,
+  },
+  {
+    label: "Hugging Face",
+    href: "https://huggingface.co/mahirmalik",
+    render: (p) => (
+      <img
+        src="https://cdn.simpleicons.org/huggingface/FFD21E"
+        alt=""
+        aria-hidden
+        loading="lazy"
+        {...p}
+      />
+    ),
+  },
+  {
+    label: "daily.dev",
+    href: "https://daily.dev/mahirmalik",
+    render: (p) => (
+      <>
+        <img
+          src="https://www.google.com/s2/favicons?domain=daily.dev&sz=128"
+          alt=""
+          aria-hidden
+          loading="lazy"
+          className={`object-contain dark:hidden ${p.className ?? ""}`}
+        />
+        <img
+          src="https://www.google.com/s2/favicons?domain=daily.dev&sz=128"
+          alt=""
+          aria-hidden
+          loading="lazy"
+          className={`hidden object-contain dark:block ${p.className ?? ""}`}
+        />
+      </>
+    ),
+  },
+  {
+    label: "Reddit",
+    href: "https://www.reddit.com/user/nightmareofai/",
+    render: (p) => (
+      <>
+        <img
+          src="https://cdn.simpleicons.org/reddit/FF4500"
+          alt=""
+          aria-hidden
+          loading="lazy"
+          className={`object-contain dark:hidden ${p.className ?? ""}`}
+        />
+        <img
+          src="https://cdn.simpleicons.org/reddit/FF4500"
+          alt=""
+          aria-hidden
+          loading="lazy"
+          className={`hidden object-contain dark:block ${p.className ?? ""}`}
+        />
+      </>
+    ),
+  },
+  {
+    label: "DEV",
+    href: "https://dev.to/mahirmlk",
+    render: (p) => (
+      <>
+        <img
+          src="https://cdn.simpleicons.org/devdotto/111111"
+          alt=""
+          aria-hidden
+          loading="lazy"
+          className={`object-contain dark:hidden ${p.className ?? ""}`}
+        />
+        <img
+          src="https://cdn.simpleicons.org/devdotto/f6f7f8"
+          alt=""
+          aria-hidden
+          loading="lazy"
+          className={`hidden object-contain dark:block ${p.className ?? ""}`}
+        />
+      </>
+    ),
+  },
 ];
 
 export function ContactSection() {
   return (
     <section id="contact" className="site-container section-block text-center">
       <Reveal>
-        <p className="section-eyebrow">What's Next?</p>
-        <h2 className="section-title">Let's build something together.</h2>
+        <p className="section-eyebrow">Beyond</p>
+        <h2 className="section-title" style={{ fontSize: "clamp(1.05rem, 1.7vw, 1.35rem)" }}>
+          More to build. More to figure out.
+        </h2>
         <p className="mx-auto mt-5 max-w-2xl text-[0.98rem] leading-7 text-[var(--fg-muted)] sm:text-base sm:leading-8">
-          Actively building ML systems, LLM pipelines, and agentic AI — open to roles,
-          internships, and meaningful collaborations.
+          More systems, deeper work, better agents, and ideas I haven&apos;t figured out yet.
         </p>
       </Reveal>
 
       <Reveal delay={100}>
-        <div className="mt-8 flex justify-center">
-          <MagneticButton href="mailto:mahirmalikx@gmail.com" className="w-full justify-center sm:w-auto">
-            Say Hello
-          </MagneticButton>
-        </div>
-      </Reveal>
-
-      <Reveal delay={150}>
-        <a
-          href="mailto:mahirmalikx@gmail.com"
-          className="mono mt-8 inline-block break-all border-b border-dashed border-[var(--border-mid)] pb-1 text-xs uppercase tracking-[0.18em] text-[var(--fg-muted)] transition hover:border-[var(--border-hover)] hover:text-[var(--fg)]"
-        >
-          mahirmalikx@gmail.com
-        </a>
-      </Reveal>
-
-      <Reveal delay={200}>
-        <div className="contact-socials mt-8 flex flex-wrap justify-center gap-3">
-          {socials.map(({ label, href, icon: Icon }) => (
+        <div className="contact-socials mt-10 flex flex-wrap justify-center gap-3.5">
+          {socials.map(({ label, href, render }) => (
             <a
               key={label}
               href={href}
-              target={href.startsWith("http") ? "_blank" : undefined}
-              rel={href.startsWith("http") ? "noreferrer" : undefined}
-              className="mono inline-flex min-w-[8.5rem] items-center justify-center gap-2 rounded-md border border-[var(--border-mid)] px-4 py-3 text-[11px] uppercase tracking-[0.16em] text-[var(--fg-muted)] transition hover:border-[var(--border-hover)] hover:text-[var(--fg)]"
+              target="_blank"
+              rel="noreferrer"
+              title={label}
+              aria-label={label}
+              className="inline-flex h-12 w-12 items-center justify-center rounded-[16px] border border-white/50 bg-white/40 text-[var(--fg-muted)] shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_6px_20px_-8px_rgba(0,0,0,0.16)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/60 hover:text-[var(--fg)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_12px_28px_-8px_rgba(0,0,0,0.22)] dark:border-white/[0.14] dark:bg-white/[0.07] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_6px_20px_-8px_rgba(0,0,0,0.7)] dark:hover:bg-white/[0.12] dark:hover:text-[var(--fg)]"
             >
-              <Icon className="h-[14px] w-[14px] shrink-0" />
-              {label}
-              <ArrowUpRight size={14} />
+              {render({ className: "h-[19px] w-[19px] shrink-0" })}
             </a>
           ))}
         </div>
       </Reveal>
 
-      <Reveal delay={240}>
-        <footer className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-[var(--border)] pt-6 text-center md:flex-row md:items-center md:text-left">
-          <a
-            href="/"
-            aria-label="Go to home"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border-mid)] text-[var(--fg-subtle)] transition hover:border-[var(--border-hover)] hover:text-[var(--fg)]"
-          >
-            <House size={16} strokeWidth={2} />
-          </a>
-          <div className="flex flex-wrap justify-center gap-4 md:gap-6">
-            <a href="/" className="mono text-[11px] uppercase tracking-[0.16em] text-[var(--fg-subtle)]">
-              Home
-            </a>
-            <a href="/work" className="mono text-[11px] uppercase tracking-[0.16em] text-[var(--fg-subtle)]">
-              Archive
-            </a>
+      <Reveal delay={200}>
+        <footer className="mt-16 border-t border-[var(--border)] pt-7">
+          <div className="flex flex-col items-center gap-5 text-center">
             <a
-              href="/writing"
-              className="mono text-[11px] uppercase tracking-[0.16em] text-[var(--fg-subtle)]"
+              href="/"
+              aria-label="Go to home"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border-mid)] text-[var(--fg-subtle)] transition hover:border-[var(--border-hover)] hover:text-[var(--fg)]"
             >
-              Writing
+              <House size={16} strokeWidth={2} />
+            </a>
+
+            <nav className="flex flex-wrap items-center justify-center gap-x-7 gap-y-2">
+              <a href="/" className="mono text-[11px] uppercase tracking-[0.16em] text-[var(--fg-subtle)] transition hover:text-[var(--fg)]">
+                Home
+              </a>
+              <a href="/work" className="mono text-[11px] uppercase tracking-[0.16em] text-[var(--fg-subtle)] transition hover:text-[var(--fg)]">
+                Archive
+              </a>
+              <a href="/writing" className="mono text-[11px] uppercase tracking-[0.16em] text-[var(--fg-subtle)] transition hover:text-[var(--fg)]">
+                Writing
+              </a>
+            </nav>
+          </div>
+
+          <div className="mt-8 flex items-center justify-between gap-4 pb-2">
+            <p className="mono text-[11px] uppercase tracking-[0.16em] text-[var(--fg-subtle)]">
+              {new Date().getFullYear()} Mahir Malik
+            </p>
+            <a
+              href="#"
+              aria-label="Back to top"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-mid)] text-[var(--fg-subtle)] transition hover:-translate-y-0.5 hover:border-[var(--border-hover)] hover:text-[var(--fg)]"
+            >
+              <ArrowUp size={15} strokeWidth={2} />
             </a>
           </div>
-          <p className="mono text-[11px] uppercase tracking-[0.16em] text-[var(--fg-subtle)]">
-            {new Date().getFullYear()} Mahir Malik
-          </p>
         </footer>
       </Reveal>
     </section>
