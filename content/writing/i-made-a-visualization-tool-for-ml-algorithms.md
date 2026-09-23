@@ -15,7 +15,7 @@ tags:
 
 I have never learned ML from a wall of math. It goes in one eye and out the other. What works for me is messing with things. Change a number, watch something break, change it back, and now I get it.
 
-So I built [Confluence](https://confluence.website/), a playground where you learn ML by watching it run. It is live now, and the code is on [GitHub](https://github.com/mahirmlk/Confluence).
+So I built [Confluence](https://confluence.website/), a playground where you learn ML by watching it run. It is live now, and the code is on [GitHub](https://github.com/mahirmlk/Confluence) — full case study at [Confluence](/work/confluence).
 
 ---
 

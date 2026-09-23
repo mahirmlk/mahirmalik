@@ -6,7 +6,7 @@ import { JsonLd, collectionPageSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Work",
-  description: "Projects archive for Mahir Malik, including AI infrastructure and causal ML work.",
+  description: "Projects archive for Mahir Malik — agentic commerce, ML visualization, and applied AI systems.",
   keywords: ["Mahir Malik", "AI projects", "agentic commerce", "ML visualization", "case studies"],
   authors: [{ name: "Mahir Malik", url: "https://www.mahirmalik.in" }],
   alternates: {
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "/work",
     title: "Work | Mahir Malik",
-    description: "Projects archive for Mahir Malik, including AI infrastructure and causal ML work.",
+    description: "Projects archive for Mahir Malik — agentic commerce, ML visualization, and applied AI systems.",
     images: [
       {
         url: "/og-image.jpg",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Work | Mahir Malik",
-    description: "Projects archive for Mahir Malik, including AI infrastructure and causal ML work.",
+    description: "Projects archive for Mahir Malik — agentic commerce, ML visualization, and applied AI systems.",
     images: ["/og-image.jpg"],
   },
 };
@@ -40,7 +40,7 @@ export default function WorkPage() {
       <JsonLd
         data={collectionPageSchema({
           title: "Work | Mahir Malik",
-          description: "Projects archive for Mahir Malik, including AI infrastructure and causal ML work.",
+          description: "Projects archive for Mahir Malik — agentic commerce, ML visualization, and applied AI systems.",
           path: "/work",
           items: [...projects]
             .sort((a, b) => b.year - a.year)
@@ -57,7 +57,7 @@ export default function WorkPage() {
         <h1 className="section-title">Repository-backed systems and applied ML work.</h1>
         <p className="section-copy mt-5">
           The archive now focuses on real project repos instead of placeholder demos, with work
-          spanning chat infrastructure and causal inference pipelines.
+          spanning agentic commerce infrastructure and interactive ML systems.
         </p>
       </Reveal>
 

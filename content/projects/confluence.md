@@ -17,3 +17,14 @@ Decision boundaries render as interactive heatmaps, hyperparameters retune live,
 - Real ML compute served through a FastAPI engine with Redis caching
 - Canvas2D and 3D rendering of decision surfaces, embeddings, and uncertainty
 - An education product where every visual is grounded in genuine computation
+
+## Implementation notes
+
+- Real scikit-learn compute behind a FastAPI engine with Redis caching; Next.js frontend with Canvas2D decision-boundary heatmaps and 3D uncertainty surfaces.
+- 38 algorithms across classification, regression, clustering, and dimensionality reduction; 25 datasets; animated training playback with loss curves; algorithm race with live leaderboards; auto-generated Python reproduction code per experiment.
+
+## Links
+
+- Live app: https://confluence.website/
+- Source code: https://github.com/mahirmlk/Confluence
+- Build log: [I made a visualization tool for ML algorithms](/writing/i-made-a-visualization-tool-for-ml-algorithms)

@@ -26,6 +26,8 @@ Jev handles those calls. You send state and questions. It sends back typed answe
 
 This post covers what Jev is, how the three question types work, what it costs, where it helps, and where you should skip it.
 
+Verified against the sources below on 2026-09-20 (publication date); model IDs, pricing, and rate limits change — re-check before building.
+
 ---
 
 # The problem Jev is solving
@@ -304,7 +306,7 @@ A safer sentence: Jev cannot break the declared output schema, but it can still 
 
 # Where Jev fits inside an agent
 
-Jev works best next to an LLM. The LLM plans, writes, and explains. Jev makes the frequent calls around that work.
+Jev works best next to an LLM. The LLM plans, writes, and explains. Jev makes the frequent calls around that work — the same evaluate-and-decide slot described in [the context/harness/loop blueprint](/writing/context-vs-loop-vs-harness-engineering).
 
 ```diagram:jev-agent
 ```
@@ -337,7 +339,7 @@ else:
     run_with_snapshot(cmd)
 ```
 
-LangChain's Jev integration uses this shape as middleware that checks a tool call before it executes.
+LangChain's Jev integration uses this shape as middleware that checks a tool call before it executes. The production version of this pattern — single-use consent plus human-in-the-loop approval for high-value actions — is how [Sellable gates risky orders](/work/sellable).
 
 ## Check the result
 

@@ -1421,7 +1421,7 @@ Without feedback, you don't really have a useful autonomous loop.
 
 ---
 
-# Recommended folder structure
+## Recommended folder structure
 
 A tiny implementation can look like this:
 
@@ -1460,7 +1460,7 @@ Future-you will not thank current-you.
 
 ---
 
-# Step 1: Define agent state
+## Step 1: Define agent state
 
 Your agent needs persistent state.
 
@@ -1499,7 +1499,7 @@ Agent state should not be.
 
 ---
 
-# Step 2: Build the context layer
+## Step 2: Build the context layer
 
 The context builder should answer:
 
@@ -1558,7 +1558,7 @@ Keep it focused.
 
 ---
 
-# Step 3: Give the model a small toolset
+## Step 3: Give the model a small toolset
 
 Don't start with 47 tools.
 
@@ -1587,7 +1587,7 @@ If it never needs it, don't.
 
 ---
 
-# Step 4: Put permissions around tools
+## Step 4: Put permissions around tools
 
 This is part of the harness.
 
@@ -1634,9 +1634,11 @@ This is why tool access is not just an API detail.
 
 It's part of agent design.
 
+I built this exact pattern in [Sellable](/work/sellable), where pricing rules, spend limits, consent, and audit logging all live outside the LLM — the model proposes, deterministic code decides.
+
 ---
 
-# Step 5: Add an evaluator
+## Step 5: Add an evaluator
 
 The evaluator should answer:
 
@@ -1677,9 +1679,11 @@ It has:
 
 That is a massive difference.
 
+Hard checks come first; for fuzzy semantic judgments beside them, a [typed decider like Jev](/writing/jev-system-one-model-explained) can sit next to the test suite.
+
 ---
 
-# Step 6: Build the loop
+## Step 6: Build the loop
 
 Now the three ideas finally come together.
 
@@ -1744,7 +1748,7 @@ A good agent system is often a bunch of boring engineering around a very capable
 
 ---
 
-# Step 7: Add progress detection
+## Step 7: Add progress detection
 
 This is where a basic loop becomes a better loop.
 
@@ -1796,7 +1800,7 @@ That's far better than endlessly retrying.
 
 ---
 
-# Step 8: Add explicit checkpoints
+## Step 8: Add explicit checkpoints
 
 Not every action should be autonomous.
 
@@ -1842,9 +1846,11 @@ That is usually much saner than:
 AI = full admin
 ```
 
+Single-use consent plus human-in-the-loop approval is how this looks in production — see how [Sellable gates high-value orders](/work/sellable).
+
 ---
 
-# Step 9: Persist progress outside the model
+## Step 9: Persist progress outside the model
 
 Don't depend on the conversation history to remember everything.
 
@@ -1881,7 +1887,7 @@ Now if the context gets reset, the work does not magically vanish.
 
 ---
 
-# Step 10: Add context retrieval
+## Step 10: Add context retrieval
 
 You can improve the context builder by retrieving only relevant code.
 
@@ -1921,7 +1927,7 @@ This is often a better starting point than throwing a vector database at the pro
 
 ---
 
-# Step 11: Give the agent a "map"
+## Step 11: Give the agent a "map"
 
 Create a small repository-level guide:
 
@@ -1949,7 +1955,7 @@ It also gives the agent a predictable way to discover more information.
 
 ---
 
-# Step 12: Add a review pass
+## Step 12: Add a review pass
 
 A surprisingly useful pattern is:
 
@@ -1994,7 +2000,7 @@ Self-confidence is not a quality metric.
 
 ---
 
-# The complete implementation
+## The complete implementation
 
 Put it all together:
 
@@ -2073,7 +2079,7 @@ That is a concrete agent architecture.
 
 ---
 
-# A production-ready version
+## A production-ready version
 
 Once the basic system works, you can add more advanced pieces.
 
@@ -2121,7 +2127,7 @@ You're building an **agent runtime**.
 
 ---
 
-# Where each engineering concern lives
+## Where each engineering concern lives
 
 Here's the practical mapping.
 
@@ -2182,7 +2188,7 @@ Agent handoffs
 
 ---
 
-# Metrics you should actually track
+## Metrics you should actually track
 
 Once agents run for a while, vibes are not enough.
 
@@ -2246,7 +2252,7 @@ This is where tests and independent review become incredibly valuable.
 
 ---
 
-# The most useful debugging framework
+## The most useful debugging framework
 
 When an agent fails, don't immediately change the prompt.
 
@@ -2290,7 +2296,7 @@ That gives you a much better debugging tree than:
 
 ---
 
-# A practical rollout strategy
+## A practical rollout strategy
 
 Do **not** start with a fully autonomous swarm of 20 agents.
 
@@ -2426,7 +2432,7 @@ Parallelism before basic reliability usually just gives you **more ways to fail 
 
 ---
 
-# The "minimum viable agent" blueprint
+## The "minimum viable agent" blueprint
 
 You can actually boil the whole thing down to this:
 
@@ -2478,7 +2484,7 @@ You don't need a giant agent framework on day one.
 
 ---
 
-# The most important implementation principle
+## The most important implementation principle
 
 Here is the rule I would keep on a sticky note:
 

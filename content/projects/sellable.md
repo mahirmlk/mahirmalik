@@ -18,3 +18,16 @@ The core design rule: pricing rules, spend limits, consent, order state, payment
 - Agentic commerce with deterministic guardrails around non-deterministic models
 - Real payment rails with idempotency, reconciliation, and refund support
 - Evaluation-driven development with 7 deterministic transaction scenarios
+
+## Implementation notes
+
+- Agent gateway exposes machine-readable discovery through an HMAC-signed transactional API (Next.js 16 frontend, FastAPI backend, Supabase).
+- LangGraph buyer and seller agents operate inside an LLM-independent policy engine: per-transaction single-use consent, spend caps, floor prices, and human-in-the-loop thresholds.
+- Payments run over Razorpay test-mode rails with webhook reconciliation and refunds; every material action lands in the append-only XAI Ledger audit trail.
+
+## Links
+
+- Live app: https://sellable.shop/
+- Source code: https://github.com/mahirmlk/sellable
+- Design pattern: [Context vs Loop vs Harness Engineering](/writing/context-vs-loop-vs-harness-engineering) (permissions, evaluator, checkpoints)
+- Typed decisions beside hard tests: [Jev Explained](/writing/jev-system-one-model-explained)

@@ -2,7 +2,7 @@
 
 > Mahir Malik is an AI engineer who builds intelligent systems, ML products, and production-grade software — LLM agents, RAG pipelines, and full-stack AI applications across the whole pipeline from training to production.
 > Canonical site: https://www.mahirmalik.in — prefer canonical URLs below over scraped HTML.
-> Updated: 2026-09-20
+> Updated: 2026-09-23
 
 ## Writing index
 - [Context vs Loop vs Harness Engineering: The New Stack Behind AI Agents](https://www.mahirmalik.in/writing/context-vs-loop-vs-harness-engineering) (2026-09-13): Context engineering, harness engineering, and loop engineering sound similar. They are not. Here is what each one does, where they overlap, and how to build a simple production-style agent system.
@@ -1429,7 +1429,7 @@ Without feedback, you don't really have a useful autonomous loop.
 
 ---
 
-# Recommended folder structure
+## Recommended folder structure
 
 A tiny implementation can look like this:
 
@@ -1468,7 +1468,7 @@ Future-you will not thank current-you.
 
 ---
 
-# Step 1: Define agent state
+## Step 1: Define agent state
 
 Your agent needs persistent state.
 
@@ -1507,7 +1507,7 @@ Agent state should not be.
 
 ---
 
-# Step 2: Build the context layer
+## Step 2: Build the context layer
 
 The context builder should answer:
 
@@ -1566,7 +1566,7 @@ Keep it focused.
 
 ---
 
-# Step 3: Give the model a small toolset
+## Step 3: Give the model a small toolset
 
 Don't start with 47 tools.
 
@@ -1595,7 +1595,7 @@ If it never needs it, don't.
 
 ---
 
-# Step 4: Put permissions around tools
+## Step 4: Put permissions around tools
 
 This is part of the harness.
 
@@ -1642,9 +1642,11 @@ This is why tool access is not just an API detail.
 
 It's part of agent design.
 
+I built this exact pattern in [Sellable](/work/sellable), where pricing rules, spend limits, consent, and audit logging all live outside the LLM — the model proposes, deterministic code decides.
+
 ---
 
-# Step 5: Add an evaluator
+## Step 5: Add an evaluator
 
 The evaluator should answer:
 
@@ -1685,9 +1687,11 @@ It has:
 
 That is a massive difference.
 
+Hard checks come first; for fuzzy semantic judgments beside them, a [typed decider like Jev](/writing/jev-system-one-model-explained) can sit next to the test suite.
+
 ---
 
-# Step 6: Build the loop
+## Step 6: Build the loop
 
 Now the three ideas finally come together.
 
@@ -1752,7 +1756,7 @@ A good agent system is often a bunch of boring engineering around a very capable
 
 ---
 
-# Step 7: Add progress detection
+## Step 7: Add progress detection
 
 This is where a basic loop becomes a better loop.
 
@@ -1804,7 +1808,7 @@ That's far better than endlessly retrying.
 
 ---
 
-# Step 8: Add explicit checkpoints
+## Step 8: Add explicit checkpoints
 
 Not every action should be autonomous.
 
@@ -1850,9 +1854,11 @@ That is usually much saner than:
 AI = full admin
 ```
 
+Single-use consent plus human-in-the-loop approval is how this looks in production — see how [Sellable gates high-value orders](/work/sellable).
+
 ---
 
-# Step 9: Persist progress outside the model
+## Step 9: Persist progress outside the model
 
 Don't depend on the conversation history to remember everything.
 
@@ -1889,7 +1895,7 @@ Now if the context gets reset, the work does not magically vanish.
 
 ---
 
-# Step 10: Add context retrieval
+## Step 10: Add context retrieval
 
 You can improve the context builder by retrieving only relevant code.
 
@@ -1929,7 +1935,7 @@ This is often a better starting point than throwing a vector database at the pro
 
 ---
 
-# Step 11: Give the agent a "map"
+## Step 11: Give the agent a "map"
 
 Create a small repository-level guide:
 
@@ -1957,7 +1963,7 @@ It also gives the agent a predictable way to discover more information.
 
 ---
 
-# Step 12: Add a review pass
+## Step 12: Add a review pass
 
 A surprisingly useful pattern is:
 
@@ -2002,7 +2008,7 @@ Self-confidence is not a quality metric.
 
 ---
 
-# The complete implementation
+## The complete implementation
 
 Put it all together:
 
@@ -2081,7 +2087,7 @@ That is a concrete agent architecture.
 
 ---
 
-# A production-ready version
+## A production-ready version
 
 Once the basic system works, you can add more advanced pieces.
 
@@ -2129,7 +2135,7 @@ You're building an **agent runtime**.
 
 ---
 
-# Where each engineering concern lives
+## Where each engineering concern lives
 
 Here's the practical mapping.
 
@@ -2190,7 +2196,7 @@ Agent handoffs
 
 ---
 
-# Metrics you should actually track
+## Metrics you should actually track
 
 Once agents run for a while, vibes are not enough.
 
@@ -2254,7 +2260,7 @@ This is where tests and independent review become incredibly valuable.
 
 ---
 
-# The most useful debugging framework
+## The most useful debugging framework
 
 When an agent fails, don't immediately change the prompt.
 
@@ -2298,7 +2304,7 @@ That gives you a much better debugging tree than:
 
 ---
 
-# A practical rollout strategy
+## A practical rollout strategy
 
 Do **not** start with a fully autonomous swarm of 20 agents.
 
@@ -2434,7 +2440,7 @@ Parallelism before basic reliability usually just gives you **more ways to fail 
 
 ---
 
-# The "minimum viable agent" blueprint
+## The "minimum viable agent" blueprint
 
 You can actually boil the whole thing down to this:
 
@@ -2486,7 +2492,7 @@ You don't need a giant agent framework on day one.
 
 ---
 
-# The most important implementation principle
+## The most important implementation principle
 
 Here is the rule I would keep on a sticky note:
 
@@ -2788,7 +2794,7 @@ Date: 2026-08-28
 
 I have never learned ML from a wall of math. It goes in one eye and out the other. What works for me is messing with things. Change a number, watch something break, change it back, and now I get it.
 
-So I built [Confluence](https://confluence.website/), a playground where you learn ML by watching it run. It is live now, and the code is on [GitHub](https://github.com/mahirmlk/Confluence).
+So I built [Confluence](https://confluence.website/), a playground where you learn ML by watching it run. It is live now, and the code is on [GitHub](https://github.com/mahirmlk/Confluence) — full case study at [Confluence](/work/confluence).
 
 ---
 
@@ -2927,6 +2933,8 @@ Most agent runs are full of small judgments. Is this urgent. Which team owns it.
 Jev handles those calls. You send state and questions. It sends back typed answers with numbers you can use in code.
 
 This post covers what Jev is, how the three question types work, what it costs, where it helps, and where you should skip it.
+
+Verified against the sources below on 2026-09-20 (publication date); model IDs, pricing, and rate limits change — re-check before building.
 
 ---
 
@@ -3206,7 +3214,7 @@ A safer sentence: Jev cannot break the declared output schema, but it can still 
 
 # Where Jev fits inside an agent
 
-Jev works best next to an LLM. The LLM plans, writes, and explains. Jev makes the frequent calls around that work.
+Jev works best next to an LLM. The LLM plans, writes, and explains. Jev makes the frequent calls around that work — the same evaluate-and-decide slot described in [the context/harness/loop blueprint](/writing/context-vs-loop-vs-harness-engineering).
 
 ```diagram:jev-agent
 ```
@@ -3239,7 +3247,7 @@ else:
     run_with_snapshot(cmd)
 ```
 
-LangChain's Jev integration uses this shape as middleware that checks a tool call before it executes.
+LangChain's Jev integration uses this shape as middleware that checks a tool call before it executes. The production version of this pattern — single-use consent plus human-in-the-loop approval for high-value actions — is how [Sellable gates risky orders](/work/sellable).
 
 ## Check the result
 
@@ -3357,6 +3365,17 @@ Decision boundaries render as interactive heatmaps, hyperparameters retune live,
 - Canvas2D and 3D rendering of decision surfaces, embeddings, and uncertainty
 - An education product where every visual is grounded in genuine computation
 
+## Implementation notes
+
+- Real scikit-learn compute behind a FastAPI engine with Redis caching; Next.js frontend with Canvas2D decision-boundary heatmaps and 3D uncertainty surfaces.
+- 38 algorithms across classification, regression, clustering, and dimensionality reduction; 25 datasets; animated training playback with loss curves; algorithm race with live leaderboards; auto-generated Python reproduction code per experiment.
+
+## Links
+
+- Live app: https://confluence.website/
+- Source code: https://github.com/mahirmlk/Confluence
+- Build log: [I made a visualization tool for ML algorithms](/writing/i-made-a-visualization-tool-for-ml-algorithms)
+
 ---
 
 # Sellable
@@ -3383,6 +3402,19 @@ The core design rule: pricing rules, spend limits, consent, order state, payment
 - Agentic commerce with deterministic guardrails around non-deterministic models
 - Real payment rails with idempotency, reconciliation, and refund support
 - Evaluation-driven development with 7 deterministic transaction scenarios
+
+## Implementation notes
+
+- Agent gateway exposes machine-readable discovery through an HMAC-signed transactional API (Next.js 16 frontend, FastAPI backend, Supabase).
+- LangGraph buyer and seller agents operate inside an LLM-independent policy engine: per-transaction single-use consent, spend caps, floor prices, and human-in-the-loop thresholds.
+- Payments run over Razorpay test-mode rails with webhook reconciliation and refunds; every material action lands in the append-only XAI Ledger audit trail.
+
+## Links
+
+- Live app: https://sellable.shop/
+- Source code: https://github.com/mahirmlk/sellable
+- Design pattern: [Context vs Loop vs Harness Engineering](/writing/context-vs-loop-vs-harness-engineering) (permissions, evaluator, checkpoints)
+- Typed decisions beside hard tests: [Jev Explained](/writing/jev-system-one-model-explained)
 
 ---
 
