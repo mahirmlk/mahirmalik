@@ -167,6 +167,8 @@ export function HeroActions() {
                       value={form.name}
                       onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
                       placeholder="Your Name"
+                      required
+                      autoComplete="name"
                       className="w-full rounded-[0.9rem] border border-[var(--border-mid)] bg-[color-mix(in_srgb,var(--bg)_88%,transparent)] px-4 py-3 text-base text-[var(--fg)] outline-none transition placeholder:text-[var(--fg-subtle)] focus:border-[var(--fg)]"
                     />
                     <span className="mt-2 block text-sm text-[var(--fg-subtle)]">Please enter your full name.</span>
@@ -179,6 +181,8 @@ export function HeroActions() {
                       value={form.email}
                       onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
                       placeholder="email@example.com"
+                      required
+                      autoComplete="email"
                       className="w-full rounded-[0.9rem] border border-[var(--border-mid)] bg-[color-mix(in_srgb,var(--bg)_88%,transparent)] px-4 py-3 text-base text-[var(--fg)] outline-none transition placeholder:text-[var(--fg-subtle)] focus:border-[var(--fg)]"
                     />
                     <span className="mt-2 block text-sm text-[var(--fg-subtle)]">I&apos;ll use this email to contact you.</span>
@@ -203,6 +207,7 @@ export function HeroActions() {
                     onChange={(event) => setForm((current) => ({ ...current, message: event.target.value }))}
                     placeholder="Your message..."
                     rows={5}
+                    required
                     className="w-full resize-none rounded-[0.9rem] border border-[var(--border-mid)] bg-[color-mix(in_srgb,var(--bg)_88%,transparent)] px-4 py-3 text-base text-[var(--fg)] outline-none transition placeholder:text-[var(--fg-subtle)] focus:border-[var(--fg)]"
                   />
                   <span className="mt-2 block text-sm text-[var(--fg-subtle)]">Please enter your message.</span>

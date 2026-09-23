@@ -33,7 +33,7 @@ export function SnapshotSection() {
             <h2 className="section-title section-title-sm max-w-3xl text-balance text-white">
               Currently in the weeds.
             </h2>
-            <p className="mt-5 max-w-xl text-[15px] leading-8 text-white/60 sm:text-base">
+            <p className="mt-5 max-w-xl text-[15px] leading-8 text-white/75 sm:text-base">
               Building things, pulling threads, and figuring out why they broke in the first
               place.
             </p>
@@ -44,7 +44,7 @@ export function SnapshotSection() {
                   <p className="mono w-24 shrink-0 pt-1 text-[11px] uppercase tracking-[0.18em] text-white sm:w-28">
                     {line.label}
                   </p>
-                  <p className="min-w-0 max-w-xl text-sm leading-7 text-white/65 sm:text-[15px]">
+                  <p className="min-w-0 max-w-xl text-sm leading-7 text-white/75 sm:text-[15px]">
                     {line.text}
                   </p>
                 </div>

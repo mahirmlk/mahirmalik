@@ -88,6 +88,11 @@ body {
   color: var(--bg);
 }
 
+:focus-visible {
+  outline: 2px solid var(--fg);
+  outline-offset: 2px;
+}
+
 ::-webkit-scrollbar {
   width: 7px;
 }
