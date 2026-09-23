@@ -15,7 +15,7 @@ I build intelligent systems that make it to production: LLM agents, RAG pipeline
 ML products, and the full-stack software around them. I work across the whole
 pipeline — training to inference to the frontend people actually use.
 
-- 🔭 Currently: building agentic commerce infrastructure ([Sellable](https://mahirmalik.in/work/sellable)) and interactive ML learning tools ([Confluence](https://mahirmalik.in/work/confluence))
+- 🔭 Currently: building agentic commerce infrastructure ([Sellable](https://www.mahirmalik.in/work/sellable)) and interactive ML learning tools ([Confluence](https://www.mahirmalik.in/work/confluence))
 - ✍️ Writing: [mahirmalik.in/writing](https://www.mahirmalik.in/writing) — long-form on LLM deployment, model efficiency, and AI systems engineering
 - 📄 Full portfolio: [mahirmalik.in](https://www.mahirmalik.in)
 - 📫 Reach me: [LinkedIn](https://www.linkedin.com/in/mahir-malik)
@@ -24,8 +24,8 @@ pipeline — training to inference to the frontend people actually use.
 
 | Project | What it is |
 |---|---|
-| [Sellable](https://github.com/mahirmlk/sellable) → [case study](https://mahirmalik.in/work/sellable) | AI agents that buy things autonomously — machine-readable storefront, policy engine, Razorpay rails, XAI audit ledger |
-| [Confluence](https://github.com/mahirmlk/Confluence) → [case study](https://mahirmalik.in/work/confluence) | Interactive ML playground: 38 scikit-learn algorithms, live decision boundaries, frame-by-frame training |
+| [Sellable](https://github.com/mahirmlk/sellable) → [case study](https://www.mahirmalik.in/work/sellable) | AI agents that buy things autonomously — machine-readable storefront, policy engine, Razorpay rails, XAI audit ledger |
+| [Confluence](https://github.com/mahirmlk/Confluence) → [case study](https://www.mahirmalik.in/work/confluence) | Interactive ML playground: 38 scikit-learn algorithms, live decision boundaries, frame-by-frame training |
 ```
 
 **Also do (10 min):** profile pic = same headshot as the site/LinkedIn; bio line = "AI Engineer — building LLM agents, RAG pipelines, and production ML systems | mahirmalik.in"; pin both repos.

@@ -53,6 +53,11 @@ export const metadata: Metadata = {
   creator: "Mahir Malik",
   publisher: "Mahir Malik",
   category: "technology",
+  alternates: {
+    // Fallback canonical for any route without its own.
+    // Every per-page `alternates.canonical` overrides this.
+    canonical: "/",
+  },
   robots: {
     index: true,
     follow: true,
