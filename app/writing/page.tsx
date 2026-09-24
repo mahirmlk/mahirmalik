@@ -4,10 +4,12 @@ import { getAllWritingPosts } from "@/lib/writing";
 import { WritingList } from "@/components/writing/WritingList";
 import { JsonLd, collectionPageSchema } from "@/lib/schema";
 
+const WRITING_DESCRIPTION =
+  "Technical notes on AI agents, harness engineering, model routing, and interactive ML tools.";
+
 export const metadata: Metadata = {
   title: "Writing",
-  description:
-    "A collection of technical notes, experiments, ideas and things I've been building around AI agents and production-grade ML systems.",
+  description: WRITING_DESCRIPTION,
   alternates: {
     canonical: "/writing",
   },
@@ -15,8 +17,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "/writing",
     title: "Writing | Mahir Malik",
-    description:
-      "A collection of technical notes, experiments, ideas and things I've been building around AI agents and production-grade ML systems.",
+    description: WRITING_DESCRIPTION,
     images: [
       {
         url: "/og-image.jpg",
@@ -29,8 +30,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Writing | Mahir Malik",
-    description:
-      "A collection of technical notes, experiments, ideas and things I've been building around AI agents and production-grade ML systems.",
+    description: WRITING_DESCRIPTION,
     images: ["/og-image.jpg"],
   },
 };
@@ -43,8 +43,7 @@ export default function WritingIndexPage() {
       <JsonLd
         data={collectionPageSchema({
           title: "Writing | Mahir Malik",
-          description:
-            "A collection of technical notes, experiments, ideas and things I've been building around AI agents and production-grade ML systems.",
+          description: WRITING_DESCRIPTION,
           path: "/writing",
           items: posts.map((post) => ({
             name: post.title,

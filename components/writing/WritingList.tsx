@@ -17,7 +17,10 @@ export function WritingList({ posts }: { posts: WritingPost[] }) {
               <FolderMark />
               {post.shortTitle}
             </span>
+            <span className="w-row-desc">{post.description}</span>
             <span className="w-row-meta">
+              {post.category}
+              {" · "}
               <time dateTime={post.date}>{formatWritingDate(post.date)}</time>
               {" · "}
               {post.readTime}

@@ -609,6 +609,16 @@
   padding-left: 1.725rem;
 }
 
+.w-row-desc {
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: #334a68;
+  margin: 0.5rem 0 0;
+  padding-left: 1.725rem;
+}
+
 .w-empty {
   border-top: 1px solid #e6e8eb;
   padding: 2.5rem 0;
@@ -642,6 +652,7 @@
 .dark .w-subtitle,
 .dark .w-body,
 .dark .w-index-lede,
+.dark .w-row-desc,
 .dark .w-entry-desc,
 .dark .w-table td {
   color: #c9d4e2;
