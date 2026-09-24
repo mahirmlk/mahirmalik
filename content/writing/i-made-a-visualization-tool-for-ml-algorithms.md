@@ -19,7 +19,7 @@ So I built [Confluence](https://confluence.website/), a playground where you lea
 
 ---
 
-# Why build another one
+## Why build another one
 
 The tools I tried fell into two camps. The fun ones did all the math in the browser, covered three or four algorithms, and stopped before anything got interesting. The serious ones had excellent math and zero buttons. Fixed datasets, fixed plots, nothing to touch.
 
@@ -27,7 +27,7 @@ I wanted the middle. Real compute, with handles on it.
 
 ---
 
-# What it actually is
+## What it actually is
 
 Confluence runs 38 algorithms across classification, regression, clustering, and dimensionality reduction. The part I refused to compromise on: every one of them is real scikit-learn doing the compute. Not a reimplementation that behaves almost like the real thing. The numbers on screen are sklearn's numbers.
 
@@ -44,7 +44,7 @@ That last output is deliberate. A tool that only works inside its own UI is a tr
 
 ---
 
-# An encyclopedia with a point of view
+## An encyclopedia with a point of view
 
 There is a second half to the app that started as an index and turned into the organizing idea. Every algorithm gets a card: a one-line intuition, Big-O notes for fit and predict, and a tag for the geometric shape of its boundary. Linear, tree-based, kernel, instance-based, and the rest:
 
@@ -55,7 +55,7 @@ You can filter the whole collection by boundary shape, which turns out to be a g
 
 ---
 
-# Boundaries you can poke
+## Boundaries you can poke
 
 The main view is a decision boundary heatmap drawn on Canvas2D, with contour overlays so the boundary reads clearly in every region. There is also a 3D uncertainty surface, which shows where the model is basically guessing. That view gets the strongest reaction from people trying it. Beginners walk in assuming the model knows things. Then they see the fog in the middle and adjust.
 
@@ -70,7 +70,7 @@ Anything with a knob works like this. Tree depth, k in k-NN, regularization stre
 
 ---
 
-# Training, not just the result
+## Training, not just the result
 
 Most tools show you where training ended up. Confluence shows the middle of it. Loss curves come with playback controls, so you scrub back and forth through epochs like video. For decision trees there is a step-through builder that grows the tree one split at a time, and you watch it reach for one feature after another. Logistic regression animates down the gradient. Boosting builds round by round.
 
@@ -83,13 +83,13 @@ Overfitting lands differently when you see it happen. Training loss still fallin
 
 ---
 
-# Bring your own data
+## Bring your own data
 
-The built-in datasets cover a lot, but at some point you want your own mess in there. Drag in any CSV and map the columns to features and a target. Or skip files entirely and click points straight onto the canvas with class labels. There is also a generator studio for spirals, XOR, moons, and friends when you want to manufacture a specific pathology.
+The built-in datasets cover a lot, but at some point you want your own mess in there. Drag in any CSV and map the columns to features and a target. Or skip files entirely and click points straight onto the canvas with class labels. There is also a PCA explorer when you want to see what a dimensionality reduction pass actually did to the data. And there is a generator studio for spirals, XOR, moons, and friends when you want to manufacture a specific pathology.
 
 ---
 
-# The side features that took over
+## The side features that took over
 
 A few things I built on a whim turned into the parts people use most.
 
@@ -101,7 +101,7 @@ There is a learning mode that narrates what you are looking at, a seven-topic ro
 
 ---
 
-# The stack is boring on purpose
+## The stack is boring on purpose
 
 ```diagram:confluence-stack
 ```
@@ -110,7 +110,7 @@ Next.js and TypeScript up front, FastAPI in the middle, scikit-learn doing the m
 
 ---
 
-# Three things that stuck with me
+## Three things that stuck with me
 
 One scrubbable parameter teaches more than ten static ones. I could have shipped sixty algorithms. Letting people drag gamma around did more work than all of them combined.
 
@@ -120,7 +120,7 @@ Always give people the way out. The generated code means nothing you learn is lo
 
 ---
 
-# Try it
+## Try it
 
 Start with k-NN on the spiral dataset. Drag k from 1 to 50 and watch chaos settle into calm. Thirty seconds, and bias and variance click in a way chapters never managed for me.
 
@@ -128,7 +128,7 @@ It is live at [confluence.website](https://confluence.website/). The code is at 
 
 ---
 
-# Sources
+## Sources
 
 - [scikit-learn documentation](https://scikit-learn.org/stable/) — the library doing all the compute behind Confluence.
 - [Confluence live app](https://confluence.website/) — try the visualizer, algorithm race, and benchmark suite.

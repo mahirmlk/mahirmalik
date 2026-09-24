@@ -1,7 +1,7 @@
 ---
 title: "Context vs Loop vs Harness Engineering: The New Stack Behind AI Agents"
 shortTitle: "Context vs Loop vs Harness Engineering"
-description: "Context engineering, harness engineering, and loop engineering sound similar. They are not. Here is what each one does, where they overlap, and how to build a simple production-style agent system."
+description: "How context engineering, harness engineering, and loop engineering differ, where they overlap, and how to build a simple production-style agent system."
 date: "2026-09-13"
 tldr: "Context engineering decides what the agent knows, harness engineering decides what it can do and under what rules, and loop engineering decides what happens next and when it stops. The prompt is no longer the whole product — the system around the model is."
 tags:
@@ -33,8 +33,6 @@ Three new terms are now showing up everywhere:
 
 They sound like different names for the same thing.
 
-They are not.
-
 The easiest way to understand them is:
 
 > **Context engineering decides what the agent knows.**  
@@ -43,13 +41,11 @@ The easiest way to understand them is:
 
 There is some overlap, especially between harness and loop engineering. The terminology is still evolving, and there is **no single industry-standard definition of "loop engineering" yet**.
 
-But this mental model is useful.
-
-Let's break it down.
+What follows defines each term against the other two and then builds a small agent system step by step: state, context, tools, permissions, an evaluator, and the loop around them.
 
 ---
 
-# First: Why did these terms appear?
+## First: Why did these terms appear?
 
 The old AI workflow looked roughly like this:
 
@@ -143,7 +139,7 @@ That is where context, harness, and loop engineering come in.
 
 ---
 
-# The easiest mental model
+## The easiest mental model
 
 Think of an AI coding agent as a developer inside a workshop.
 
@@ -177,9 +173,9 @@ The interesting part is that these layers work together.
 
 ---
 
-# 1. Context Engineering
+## 1. Context Engineering
 
-## What is context engineering?
+### What is context engineering?
 
 Context engineering is the practice of deciding **what information goes into the model at a particular moment**.
 
@@ -221,7 +217,7 @@ The **right** information.
 
 ---
 
-## Why not just dump everything into the context?
+### Why not just dump everything into the context?
 
 This sounds reasonable:
 
@@ -255,7 +251,7 @@ The same basic idea applies to agents.
 
 ---
 
-# The context engineering problem
+## The context engineering problem
 
 Suppose your coding agent needs to fix:
 
@@ -288,7 +284,7 @@ The job of context engineering is deciding that difference.
 
 ---
 
-# Context is bigger than the prompt
+## Context is bigger than the prompt
 
 This is one of the biggest mindset shifts.
 
@@ -324,11 +320,11 @@ The prompt is just one piece.
 
 ---
 
-# Context engineering in practice
+## Context engineering in practice
 
 There are several major techniques.
 
-## 1. Retrieval
+### 1. Retrieval
 
 Instead of putting everything into context upfront, retrieve information when it is actually needed.
 
@@ -364,7 +360,7 @@ You navigate to what matters.
 
 ---
 
-## 2. Compaction
+### 2. Compaction
 
 Imagine an agent has been working for two hours.
 
@@ -421,7 +417,7 @@ The point is simple:
 
 ---
 
-## 3. Persistent memory
+### 3. Persistent memory
 
 Another approach is to save important state outside the model's context.
 
@@ -451,7 +447,7 @@ This is especially useful for long-running tasks.
 
 ---
 
-## 4. Sub-agents
+### 4. Sub-agents
 
 Sometimes one giant context is the wrong design.
 
@@ -472,7 +468,7 @@ The specialist can investigate something deeply and then return a compact result
 
 ---
 
-# A real-world context engineering lesson
+## A real-world context engineering lesson
 
 One useful pattern in modern coding-agent systems is to make the repository itself a kind of **navigation system for the agent**.
 
@@ -504,11 +500,11 @@ That is a much more scalable way to provide context.
 
 ---
 
-# 2. Harness Engineering
+## 2. Harness Engineering
 
 Now we get to the bigger system around the model.
 
-## What is a harness?
+### What is a harness?
 
 A harness is the **environment around the model that lets it actually operate**.
 
@@ -546,7 +542,7 @@ In simple terms:
 
 ---
 
-# A simple analogy
+## A simple analogy
 
 Imagine you hire a very smart developer.
 
@@ -596,7 +592,7 @@ That environment is basically the **harness**.
 
 ---
 
-# What belongs inside a harness?
+## What belongs inside a harness?
 
 A production agent harness often contains some combination of:
 
@@ -623,6 +619,8 @@ A production agent harness often contains some combination of:
                  MODEL
 ```
 
+I am designing Helion, a terminal and desktop harness, around a list close to this one. It is not shipped yet.
+
 And this is where things get slightly messy.
 
 **Context engineering can be part of the harness.**
@@ -637,7 +635,7 @@ Think of it as different views of the same system.
 
 ---
 
-# Harness Engineering vs Context Engineering
+## Harness Engineering vs Context Engineering
 
 ### Context engineering asks:
 
@@ -664,7 +662,7 @@ Harness is about the **runtime environment**.
 
 ---
 
-# Harness Engineering vs Tool Calling
+## Harness Engineering vs Tool Calling
 
 Tool calling alone is not the same thing as harness engineering.
 
@@ -704,7 +702,7 @@ That is the harness mindset.
 
 ---
 
-# The OpenAI Codex example
+## The OpenAI Codex example
 
 Recent agent-first engineering work shows that the environment around the coding model can become a major part of the product itself.
 
@@ -748,7 +746,7 @@ This is harness engineering.
 
 ---
 
-# One of the biggest harness lessons: constraints
+## One of the biggest harness lessons: constraints
 
 This sounds backwards.
 
@@ -804,7 +802,7 @@ That is much more scalable.
 
 ---
 
-# Harness engineering is also about observability
+## Harness engineering is also about observability
 
 A production agent should not operate like a black box.
 
@@ -838,13 +836,13 @@ The goal is to make an agent run **debuggable**.
 
 ---
 
-# 3. Loop Engineering
+## 3. Loop Engineering
 
 Now the newest term.
 
 And also the least settled one.
 
-## What is loop engineering?
+### What is loop engineering?
 
 The basic idea is:
 
@@ -895,7 +893,7 @@ The machine handles the repetition.
 
 ---
 
-# The simplest loop
+## The simplest loop
 
 A basic agent loop looks like:
 
@@ -921,7 +919,7 @@ But a useful loop needs much more than "run it again."
 
 ---
 
-# A loop is not just repetition
+## A loop is not just repetition
 
 Bad loop:
 
@@ -971,9 +969,9 @@ Escalation
 
 ---
 
-# What makes a good loop?
+## What makes a good loop?
 
-## 1. A clear goal
+### 1. A clear goal
 
 Bad:
 
@@ -990,7 +988,7 @@ until the integration test suite passes.
 
 ---
 
-## 2. Feedback
+### 2. Feedback
 
 The loop needs some way to tell whether the last action worked.
 
@@ -1026,7 +1024,7 @@ Without feedback, the loop cannot really know whether it is improving.
 
 ---
 
-## 3. A stop condition
+### 3. A stop condition
 
 This is probably the most important part.
 
@@ -1052,7 +1050,7 @@ The system should ideally use something measurable.
 
 ---
 
-## 4. A budget
+### 4. A budget
 
 Loops can burn resources.
 
@@ -1073,7 +1071,7 @@ Not ideal.
 
 ---
 
-# Loop Engineering vs Harness Engineering
+## Loop Engineering vs Harness Engineering
 
 A useful distinction is:
 
@@ -1129,7 +1127,7 @@ LOOP = ongoing execution strategy
 
 ---
 
-# But here's the annoying part
+## But here's the annoying part
 
 The boundary isn't perfectly clean.
 
@@ -1163,7 +1161,7 @@ The difference is one of **focus**.
 
 ---
 
-# Context vs Harness vs Loop
+## Context vs Harness vs Loop
 
 Now let's put all three side by side.
 
@@ -1193,7 +1191,7 @@ LOOP
 
 ---
 
-# A real example: Build a SaaS dashboard
+## A real example: Build a SaaS dashboard
 
 Let's say your goal is:
 
@@ -1203,7 +1201,7 @@ Looks simple.
 
 But a production agent might need all three engineering layers.
 
-## Context engineering
+### Context engineering
 
 Give the agent:
 
@@ -1221,7 +1219,7 @@ Avoid flooding it with irrelevant files.
 
 ---
 
-## Harness engineering
+### Harness engineering
 
 Give the agent:
 
@@ -1248,7 +1246,7 @@ modify protected infrastructure
 
 ---
 
-## Loop engineering
+### Loop engineering
 
 Now define:
 
@@ -1270,9 +1268,9 @@ That is the complete system.
 
 ---
 
-# What happens when one layer is weak?
+## What happens when one layer is weak?
 
-## Good loop + bad context
+### Good loop + bad context
 
 The agent keeps working...
 
@@ -1290,7 +1288,7 @@ very efficient failure
 
 ---
 
-## Good context + bad harness
+### Good context + bad harness
 
 The model understands exactly what needs to happen.
 
@@ -1316,7 +1314,7 @@ nice essay
 
 ---
 
-## Good harness + bad loop
+### Good harness + bad loop
 
 The agent has:
 
@@ -1349,9 +1347,11 @@ underused agent
 
 ---
 
-# Concrete Implementation Blueprint
+## Concrete Implementation Blueprint
 
 Now let's stop talking theory and build one.
+
+The TypeScript in this section is illustrative: it shows the shape of the system, function names included, not source from a running repo.
 
 Imagine we want a small coding agent that can take a task like:
 
@@ -1367,7 +1367,7 @@ The goal is to build a **small, understandable agent system**.
 
 ---
 
-## The architecture
+### The architecture
 
 Start with five pieces:
 
@@ -1421,7 +1421,7 @@ Without feedback, you don't really have a useful autonomous loop.
 
 ---
 
-## Recommended folder structure
+### Recommended folder structure
 
 A tiny implementation can look like this:
 
@@ -1460,7 +1460,7 @@ Future-you will not thank current-you.
 
 ---
 
-## Step 1: Define agent state
+### Step 1: Define agent state
 
 Your agent needs persistent state.
 
@@ -1499,7 +1499,7 @@ Agent state should not be.
 
 ---
 
-## Step 2: Build the context layer
+### Step 2: Build the context layer
 
 The context builder should answer:
 
@@ -1558,7 +1558,7 @@ Keep it focused.
 
 ---
 
-## Step 3: Give the model a small toolset
+### Step 3: Give the model a small toolset
 
 Don't start with 47 tools.
 
@@ -1587,7 +1587,7 @@ If it never needs it, don't.
 
 ---
 
-## Step 4: Put permissions around tools
+### Step 4: Put permissions around tools
 
 This is part of the harness.
 
@@ -1638,7 +1638,7 @@ I built this exact pattern in [Sellable](/work/sellable), where pricing rules, s
 
 ---
 
-## Step 5: Add an evaluator
+### Step 5: Add an evaluator
 
 The evaluator should answer:
 
@@ -1683,7 +1683,7 @@ Hard checks come first; for fuzzy semantic judgments beside them, a [typed decid
 
 ---
 
-## Step 6: Build the loop
+### Step 6: Build the loop
 
 Now the three ideas finally come together.
 
@@ -1748,7 +1748,7 @@ A good agent system is often a bunch of boring engineering around a very capable
 
 ---
 
-## Step 7: Add progress detection
+### Step 7: Add progress detection
 
 This is where a basic loop becomes a better loop.
 
@@ -1800,7 +1800,7 @@ That's far better than endlessly retrying.
 
 ---
 
-## Step 8: Add explicit checkpoints
+### Step 8: Add explicit checkpoints
 
 Not every action should be autonomous.
 
@@ -1850,7 +1850,7 @@ Single-use consent plus human-in-the-loop approval is how this looks in producti
 
 ---
 
-## Step 9: Persist progress outside the model
+### Step 9: Persist progress outside the model
 
 Don't depend on the conversation history to remember everything.
 
@@ -1887,7 +1887,7 @@ Now if the context gets reset, the work does not magically vanish.
 
 ---
 
-## Step 10: Add context retrieval
+### Step 10: Add context retrieval
 
 You can improve the context builder by retrieving only relevant code.
 
@@ -1927,7 +1927,7 @@ This is often a better starting point than throwing a vector database at the pro
 
 ---
 
-## Step 11: Give the agent a "map"
+### Step 11: Give the agent a "map"
 
 Create a small repository-level guide:
 
@@ -1955,7 +1955,7 @@ It also gives the agent a predictable way to discover more information.
 
 ---
 
-## Step 12: Add a review pass
+### Step 12: Add a review pass
 
 A surprisingly useful pattern is:
 
@@ -2000,7 +2000,7 @@ Self-confidence is not a quality metric.
 
 ---
 
-## The complete implementation
+### The complete implementation
 
 Put it all together:
 
@@ -2079,7 +2079,7 @@ That is a concrete agent architecture.
 
 ---
 
-## A production-ready version
+### What production adds
 
 Once the basic system works, you can add more advanced pieces.
 
@@ -2127,11 +2127,11 @@ You're building an **agent runtime**.
 
 ---
 
-## Where each engineering concern lives
+### Where each engineering concern lives
 
 Here's the practical mapping.
 
-## Context engineering
+### Context engineering
 
 Own these:
 
@@ -2147,7 +2147,7 @@ Sub-agent handoffs
 
 ---
 
-## Harness engineering
+### Harness engineering
 
 Own these:
 
@@ -2169,7 +2169,7 @@ Evaluation infrastructure
 
 ---
 
-## Loop engineering
+### Loop engineering
 
 Own these:
 
@@ -2188,13 +2188,15 @@ Agent handoffs
 
 ---
 
-## Metrics you should actually track
+### Metrics you should actually track
 
 Once agents run for a while, vibes are not enough.
 
 Track a few basic metrics.
 
-## Task success rate
+A rate only means something when a fixed set of checks still passes underneath it. In Sellable, changes are measured against [seven deterministic transaction scenarios](/work/sellable) before anything else counts.
+
+### Task success rate
 
 ```text
 successful tasks
@@ -2206,7 +2208,7 @@ This is your north-star metric.
 
 ---
 
-## Iterations per successful task
+### Iterations per successful task
 
 ```text
 total iterations
@@ -2218,7 +2220,7 @@ A lower number isn't always better, but a huge increase usually signals friction
 
 ---
 
-## Cost per successful task
+### Cost per successful task
 
 ```text
 total model + tool cost
@@ -2230,7 +2232,7 @@ This becomes critical when you have long-running loops.
 
 ---
 
-## Human intervention rate
+### Human intervention rate
 
 ```text
 tasks requiring humans
@@ -2242,7 +2244,7 @@ The entire point of autonomy is not to move work around while secretly requiring
 
 ---
 
-## Regression rate
+### Regression rate
 
 Ask:
 
@@ -2252,13 +2254,13 @@ This is where tests and independent review become incredibly valuable.
 
 ---
 
-## The most useful debugging framework
+### The most useful debugging framework
 
 When an agent fails, don't immediately change the prompt.
 
 Ask:
 
-### Did it know the right thing?
+#### Did it know the right thing?
 
 ```text
 NO
@@ -2266,7 +2268,7 @@ NO
 Context problem
 ```
 
-### Could it do the right thing?
+#### Could it do the right thing?
 
 ```text
 NO
@@ -2274,7 +2276,7 @@ NO
 Harness problem
 ```
 
-### Did it keep going intelligently?
+#### Did it keep going intelligently?
 
 ```text
 NO
@@ -2282,7 +2284,7 @@ NO
 Loop problem
 ```
 
-### Did we know whether it succeeded?
+#### Did we know whether it succeeded?
 
 ```text
 NO
@@ -2296,13 +2298,13 @@ That gives you a much better debugging tree than:
 
 ---
 
-## A practical rollout strategy
+### A practical rollout strategy
 
 Do **not** start with a fully autonomous swarm of 20 agents.
 
 Start tiny.
 
-## Stage 1 — Single agent
+### Stage 1 — Single agent
 
 ```text
 Task
@@ -2320,7 +2322,7 @@ Goal:
 
 ---
 
-## Stage 2 — Add context engineering
+### Stage 2 — Add context engineering
 
 ```text
 Task
@@ -2338,7 +2340,7 @@ Goal:
 
 ---
 
-## Stage 3 — Add a harness
+### Stage 3 — Add a harness
 
 ```text
 Model
@@ -2358,7 +2360,7 @@ Goal:
 
 ---
 
-## Stage 4 — Add the loop
+### Stage 4 — Add the loop
 
 ```text
 Act
@@ -2378,7 +2380,7 @@ Goal:
 
 ---
 
-## Stage 5 — Add guardrails
+### Stage 5 — Add guardrails
 
 ```text
 Permissions
@@ -2394,7 +2396,7 @@ Goal:
 
 ---
 
-## Stage 6 — Add reviewers or sub-agents
+### Stage 6 — Add reviewers or sub-agents
 
 ```text
 Builder
@@ -2410,7 +2412,7 @@ Goal:
 
 ---
 
-## Stage 7 — Add parallelism
+### Stage 7 — Add parallelism
 
 Only now consider:
 
@@ -2432,7 +2434,7 @@ Parallelism before basic reliability usually just gives you **more ways to fail 
 
 ---
 
-## The "minimum viable agent" blueprint
+### The "minimum viable agent" blueprint
 
 You can actually boil the whole thing down to this:
 
@@ -2484,7 +2486,7 @@ You don't need a giant agent framework on day one.
 
 ---
 
-## The most important implementation principle
+### The most important implementation principle
 
 Here is the rule I would keep on a sticky note:
 
@@ -2504,7 +2506,7 @@ Only then ask whether the prompt itself needs work.
 
 ---
 
-# Putting everything together
+## Putting everything together
 
 We can now describe the entire stack with one example.
 
@@ -2620,15 +2622,11 @@ budget limit
 human approval needed
 ```
 
-That is the full thing.
-
-And now the words stop sounding like buzzwords.
-
-They become engineering responsibilities.
+That is the full thing. By this point the three words map to parts you can point at above: the context layer, the harness around the model, and the loop that drives the next step.
 
 ---
 
-# One more thing: "loop engineering" is still a moving target
+## One more thing: "loop engineering" is still a moving target
 
 This is worth saying because the internet is currently very confident about a term that is still pretty new.
 
@@ -2648,7 +2646,7 @@ The architecture matters more than the buzzword.
 
 ---
 
-# The future isn't "prompt harder"
+## The future isn't "prompt harder"
 
 The bigger shift is this:
 
@@ -2692,7 +2690,7 @@ That is why context, harness, and loop engineering matter.
 
 ---
 
-# Final mental model
+## Final mental model
 
 Don't overcomplicate it.
 
@@ -2717,15 +2715,11 @@ Or the ultra-simple version:
 
 > **The loop gives the agent a way to keep moving toward the goal.**
 
-Put all three together and you get something much more powerful than a chatbot.
-
-You get an **agent system**.
-
-And that's probably the real shift happening in AI engineering right now.
+Put all three together and you get an **agent system**: a model with the information to act, the boundaries to act within, and a loop that keeps going until the job is done or it stops for a reason.
 
 ---
 
-## TL;DR
+### TL;DR
 
 ```diagram:tldr
 Prompt Engineering
@@ -2753,24 +2747,18 @@ Agent Engineering
 How do all of these work together?
 ```
 
-The prompt is no longer the whole product.
+The prompt is no longer the whole product. The **system around the model** is.
 
-The **system around the model** is becoming the product.
+### Sources
 
-And honestly?
-
-That's where things are getting interesting.
-
-## Sources
-
-- Anthropic — *Effective context engineering for AI agents*
-- Anthropic — *Building effective agents*
-- Anthropic — *Effective harnesses for long-running agents*
-- Anthropic — *Harness design for long-running application development*
-- Anthropic — *Building a C compiler with a team of parallel Claudes*
-- Anthropic — *Demystifying evals for AI agents*
-- OpenAI — *Harness engineering: leveraging Codex in an agent-first world*
-- Addy Osmani — *Loop Engineering*
-- Lulla et al. — *Loop Engineering: Building Blocks, Adoption, and Impact*
-- Zhang et al. — *Agentic Context Engineering*
-- Ye et al. — *Meta Context Engineering via Agentic Skill Evolution*
+- Anthropic — *[Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)*
+- Anthropic — *[Building effective agents](https://www.anthropic.com/research/building-effective-agents)*
+- Anthropic — *[Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)*
+- Anthropic — *[Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps)*
+- Anthropic — *[Building a C compiler with a team of parallel Claudes](https://www.anthropic.com/engineering/building-c-compiler)*
+- Anthropic — *[Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)*
+- OpenAI — *[Harness engineering: leveraging Codex in an agent-first world](https://openai.com/index/harness-engineering/)*
+- Addy Osmani — *[Loop Engineering](https://addyosmani.com/blog/loop-engineering)*
+- Lulla et al. — *[Loop Engineering: Building Blocks, Adoption, and Impact](https://arxiv.org/abs/2608.21884)*
+- Zhang et al. — *[Agentic Context Engineering](https://arxiv.org/abs/2510.04618)*
+- Ye et al. — *[Meta Context Engineering via Agentic Skill Evolution](https://arxiv.org/abs/2601.21557)*

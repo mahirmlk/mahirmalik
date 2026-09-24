@@ -1,7 +1,7 @@
 ---
 title: "Jev Explained: The Small Model That Decides Instead of Writing"
 shortTitle: "Jev Explained"
-description: "Jev by TypeSafe AI is a System One model for fast typed decisions. How Choice, Score and Noul work, what it costs, and where it fits with LLMs."
+description: "Jev by TypeSafe AI is a System One model for fast typed decisions: how its Choice, Score and Noul primitives work, what it costs, and where it fits beside an LLM."
 date: "2026-09-20"
 tldr: "Jev does not write text. You send it state plus typed questions, it returns Choice, Score or Noul answers with probabilities in 70-500ms at $0.042 per million input tokens. Use it next to an LLM to route, gate and check work."
 tags:
@@ -20,17 +20,17 @@ It cannot hold a chat. It cannot write code. It cannot explain itself in paragra
 
 That is on purpose.
 
-Most agent runs are full of small judgments. Is this urgent. Which team owns it. Is this command safe. Did the last step work. Teams send each one to a big LLM, wait for tokens to stream out, parse the text, and retry when the shape is wrong.
+Most agent runs are full of small judgments: is this urgent, which team owns it, is this command safe, did the last step work. Teams send each one to a big LLM, wait for tokens to stream out, parse the text, and retry when the shape is wrong.
 
 Jev handles those calls. You send state and questions. It sends back typed answers with numbers you can use in code.
 
-This post covers what Jev is, how the three question types work, what it costs, where it helps, and where you should skip it.
+This post is for engineers deciding whether a small typed model belongs in their agent. It covers what Jev is, how the three question types work, what it costs, where it helps, and where you should skip it. The examples need Python 3.10 and a key from the TypeSafe console.
 
 Verified against the sources below on 2026-09-20 (publication date); model IDs, pricing, and rate limits change — re-check before building.
 
 ---
 
-# The problem Jev is solving
+## The problem Jev is solving
 
 A normal agent loop looks like this:
 
@@ -45,7 +45,7 @@ Jev starts from a different idea. When code already knows the possible answers, 
 
 ---
 
-# What Jev actually is
+## What Jev actually is
 
 TypeSafe calls Jev a System One model. The name comes from fast intuitive thinking, as opposed to slow deliberate reasoning.
 
@@ -73,14 +73,14 @@ The company behind it is TypeSafe AI in San Francisco. CEO is Diogo Almeida, who
 
 ---
 
-# The three question types
+## The three question types
 
 Jev has three primitives. That is the whole API surface.
 
 ```diagram:jev-primitives
 ```
 
-## Choice picks one option
+### Choice picks one option
 
 Choice selects one option from a list you define. Up to 255 options.
 
@@ -128,7 +128,7 @@ The answer returns the winner, a probability for every option, and confidence:
 
 Write the full question in `instructions`. The question ID (`owner`) is only for your code. Jev does not see it. Always add an `other` option if the list might be incomplete, because Choice always picks a winner.
 
-## Score places input on a scale
+### Score places input on a scale
 
 Score rates the input on an ordered scale you define, from 2 to 10 levels. The result can land between levels.
 
@@ -144,7 +144,7 @@ Score rates the input on an ordered scale you define, from 2 to 10 levels. The r
 
 A three-level Score returns 0 to 2. A result like 1.4 means mostly level 1, leaning toward level 2. You also get probabilities per level and confidence.
 
-## Noul answers yes or no
+### Noul answers yes or no
 
 Noul returns the probability that something is true, from 0 to 1. Near 1 means yes. Near 0 means no. Near 0.5 means unsure.
 
@@ -170,7 +170,7 @@ else:
 
 ---
 
-# How to call it from Python
+## How to call it from Python
 
 Install the official SDK. You need Python 3.10 or newer and a key from the TypeSafe console.
 
@@ -245,7 +245,7 @@ print(r.json()["answers"]["department"]["choice"])
 
 ---
 
-# LLM vs Jev
+## LLM vs Jev
 
 Both can classify a ticket. They reach the answer in different ways.
 
@@ -262,7 +262,7 @@ Rate limits during early access are 250,000 tokens per second and 1,200 requests
 
 ---
 
-# Why probabilities matter
+## Why probabilities matter
 
 The label tells you what won. The distribution tells you how close the race was.
 
@@ -292,7 +292,7 @@ There is no large independent calibration study yet. Plot accuracy against confi
 
 ---
 
-# The hallucination claim, stated carefully
+## The hallucination claim, stated carefully
 
 TypeSafe says Jev cannot hallucinate. That is true in a narrow sense.
 
@@ -304,14 +304,14 @@ A safer sentence: Jev cannot break the declared output schema, but it can still 
 
 ---
 
-# Where Jev fits inside an agent
+## Where Jev fits inside an agent
 
 Jev works best next to an LLM. The LLM plans, writes, and explains. Jev makes the frequent calls around that work — the same evaluate-and-decide slot described in [the context/harness/loop blueprint](/writing/context-vs-loop-vs-harness-engineering).
 
 ```diagram:jev-agent
 ```
 
-## Route to the right model
+### Route to the right model
 
 A lookup does not need the same model as an architecture review.
 
@@ -323,7 +323,7 @@ model = fast_model if route == "fast" else powerful_model
 
 The router never answers the user. It picks which model should.
 
-## Gate risky tools
+### Gate risky tools
 
 Before a shell command runs, classify it as read-only, reversible, or destructive. Ask separate questions for deletes files, rewrites Git history, touches production, or leaves the repo.
 
@@ -339,9 +339,9 @@ else:
     run_with_snapshot(cmd)
 ```
 
-LangChain's Jev integration uses this shape as middleware that checks a tool call before it executes. The production version of this pattern — single-use consent plus human-in-the-loop approval for high-value actions — is how [Sellable gates risky orders](/work/sellable).
+LangChain's Jev integration uses this shape as middleware that checks a tool call before it executes. The production version of this pattern — single-use consent plus human-in-the-loop approval for high-value actions — is how [Sellable gates risky orders](/work/sellable). The checks there are deliberately dull: budget, floor price, stock, and negotiation rounds, decided in code before money moves.
 
-## Check the result
+### Check the result
 
 An agent can claim it is done while tests still fail. Ask bounded questions. Did tests pass. Is the agent repeating the same action. Does the output follow policy. Should a human review this.
 
@@ -349,9 +349,9 @@ Jev does not replace a hard test. It adds a semantic check where the rule depend
 
 ---
 
-# Real runs with real numbers
+## Real runs with real numbers
 
-## Browser control
+### Browser control
 
 Browser Use put Jev inside a web agent in the `jev-ultrafast` repo. Each page observation becomes an element list. One Jev request picks the operation and target. A small LLM only writes text when the action is `TYPE_TEXT`.
 
@@ -361,23 +361,23 @@ The matched comparison ran the same goal six times. Median task time fell from 9
 
 Code: [browser-use/jev-ultrafast](https://github.com/browser-use/jev-ultrafast)
 
-## Paper triage
+### Paper triage
 
 Hassan classified 1,018 AI papers with one Choice over 24 topics. Total cost $0.08. Median 256ms per paper. Summaries came from a generative model first. Jev only did the routing.
 
-## Inbox triage
+### Inbox triage
 
 Riley Brown classified 500 emails in seconds for about $0.035. Email as state, Choice over reply, research, wait, and review, then folders or agents per answer.
 
-## Safety checks
+### Safety checks
 
 Vercel's fx team tested Jev as a command safety reviewer. They report about 5 to 18x faster classification than GPT Luna, with better accuracy on their checks. That is the classifier only, not a full agent run.
 
-The pattern across all four: the LLM or browser does the work, Jev decides what happens next, code runs the decision.
+Across all four, the work stayed with the model or browser, and the choice moved to one typed call.
 
 ---
 
-# Where Jev is the wrong choice
+## Where Jev is the wrong choice
 
 Skip Jev when the answer space is unknown.
 
@@ -392,7 +392,7 @@ One rule covers a lot: if plain code already solves it correctly, keep the code.
 
 ---
 
-# A rollout that avoids new failures
+## A rollout that avoids new failures
 
 A cheap model still costs money if its mistakes cause retries and incidents. Measure the whole task, not the token price.
 
@@ -408,17 +408,17 @@ Treat questions like code. Version them, review them, test them.
 
 ---
 
-# The shift in one line
+## The shift in one line
 
 LLM creates the work. Jev decides what happens next. Code runs it.
 
-Most builders will keep spending frontier tokens on every yes, no, route, and score. The ones who split thinking from deciding get faster agents at a fraction of the cost.
+Most builders will keep spending frontier tokens on every yes, no, route, and score. Even reading TypeSafe's numbers as the ceiling they are, the frequent small calls look like work for something cheaper.
 
 Start with one repeated decision. Give Jev the minimum state, define the answers, log probabilities next to the current result. Let it earn one branch before you hand it the workflow.
 
 ---
 
-# Sources
+## Sources
 
 - [TypeSafe AI: Introducing System One Models and Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev)
 - [TypeSafe docs: Quickstart](https://docs.typesafe.ai/introduction/quickstart)
