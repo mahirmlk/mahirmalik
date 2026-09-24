@@ -7,13 +7,12 @@ import "@/app/globals.css";
 import "@/app/mobile.css";
 import { cn } from "@/lib/utils";
 import { JsonLd, homeGraph } from "@/lib/schema";
+import { siteDescription } from "@/lib/site";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const siteUrl = "https://www.mahirmalik.in";
 const siteTitle = "Mahir Malik";
-const siteDescription =
-  "Portfolio of Mahir Malik building intelligent systems, ML products, and production-grade software.";
 const previewImage = {
   url: "/og-image.jpg",
   width: 1200,

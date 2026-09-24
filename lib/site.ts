@@ -3,7 +3,7 @@ export const siteUrl = "https://www.mahirmalik.in";
 export const siteName = "Mahir Malik";
 
 export const siteDescription =
-  "Portfolio of Mahir Malik building intelligent systems, ML products, and production-grade software.";
+  "Mahir Malik is an AI engineer working with machine learning, LLMs, agents, and model development, from early experiments to working systems.";
 
 export const personJobTitle = "AI Engineer";
 

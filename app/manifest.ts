@@ -1,11 +1,11 @@
 import type { MetadataRoute } from "next";
+import { siteDescription } from "@/lib/site";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Mahir Malik — AI Engineer",
     short_name: "Mahir Malik",
-    description:
-      "Portfolio of Mahir Malik building intelligent systems, ML products, and production-grade software.",
+    description: siteDescription,
     start_url: "/",
     display: "standalone",
     background_color: "#090b0f",
