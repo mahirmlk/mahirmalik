@@ -1,5 +1,11 @@
 # SEO Changelog — mahirmalik.in
 
+## 2026-09-24 — Favicon tight crop: ring removed, face zoom
+- `public/favicon.ico` / `public/icon.png` (512) / `public/apple-icon.png` (180): rebuilt from a tighter face-focused square crop; badge ring, dotted edge texture, and shadow fully removed (pixel-verified: inner avatar dark-pixel count identical before/after, shirt mass preserved via connectivity check).
+- Background is pure white; face centered with gaze room on the right; legibility verified at 16/32/48.
+- URLs and `app/layout.tsx` / `app/manifest.ts` sizes strings unchanged (still `512x512`); stable `/favicon.ico` kept.
+- Deliberately unchanged: OG/social images, hero/logo/person images, robots/sitemap, DNS.
+
 ## 2026-09-24 — Content phase: project pages, article quality, writing index
 - `content/projects/confluence.md` / `sellable.md`: rewritten as proof-of-work case studies (facts traceable to `lib/projects.ts`; `TODO(mahir)` placeholders for metrics/URLs Mahir must supply).
 - Helion deliberately has **no case-study page**: no `content/projects/helion.md`; `/work/helion` 404s (excluded from `generateStaticParams`, sitemap, work JSON-LD, IndexNow submission, and llms links). The archive card keeps its coming-soon cover preview + footer badge and no longer links anywhere.
