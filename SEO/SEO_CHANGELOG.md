@@ -1,5 +1,16 @@
 # SEO Changelog — mahirmalik.in
 
+## 2026-09-24 — Content phase: project pages, article quality, writing index
+- `content/projects/confluence.md` / `sellable.md`: rewritten as proof-of-work case studies (facts traceable to `lib/projects.ts`; `TODO(mahir)` placeholders for metrics/URLs Mahir must supply).
+- Helion deliberately has **no case-study page**: no `content/projects/helion.md`; `/work/helion` 404s (excluded from `generateStaticParams`, sitemap, work JSON-LD, IndexNow submission, and llms links). The archive card keeps its coming-soon cover preview + footer badge and no longer links anywhere.
+- 3 articles: heading hierarchy normalized (title `#`, sections `##`, subs `###`); 11 Sources turned into externally title-verified links; audience/roadmap lines added to openings; blueprint `ts` fences labeled illustrative; overstated "production-ready" heading softened; humanizer pass (staged reveals, filler closers, fragment bursts, one inflated claim grounded to the article's own ceiling warning).
+- New internal bridge: loop article → `/work/sellable` (metrics section, 7 scenarios). The Helion mention in the harness section is plain text — no case-study page to link while it is unshipped.
+- `app/writing/page.tsx`: description string deduped into `WRITING_DESCRIPTION` (was copied 4×), retitled to enumerate actual topics (AI agents, harness engineering, model routing, interactive ML tools).
+- `components/writing/WritingList.tsx` + `writing.css`: each index row now shows the post's real description (`.w-row-desc`, light + dark) and its category in the meta line — real frontmatter data, no new invented copy.
+- `components/writing/ArticleLayout.tsx` renderer: inline markdown links render as anchors (Links blocks converted to `[text](url)`).
+- Regenerated `public/llms-full.txt` (still contains `TODO(mahir)` placeholders — fill before deploy).
+- Deliberately unchanged: schema suite, favicon system, sitemap/robots, diagrams, all metrics/claims; no benchmarks, user counts, or performance numbers added anywhere.
+
 ## 2026-09-23 — Canonical + favicon stabilization (prior task)
 - `app/layout.tsx`: root canonical fallback `alternates: { canonical: "/" }` (per-page canonicals override).
 - `docs/traffic-playbook.md`: 3 bare-apex hrefs → `https://www.mahirmalik.in/…`.

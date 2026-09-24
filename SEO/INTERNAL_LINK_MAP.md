@@ -11,13 +11,14 @@ Canonical: `https://www.mahirmalik.in/`. All internal links are relative and res
 - Project page (`app/work/[slug]/page.tsx`): `/work` (back)
 - Grids: `ProjectGrid`/`WritingList` link every slug; no orphan indexable page exists
 
-## Content links (applied 2026-09-23)
+## Content links (applied 2026-09-23, extended 2026-09-24)
 
 | From | Anchor | To |
 |---|---|---|
 | Loop article, Step 4 permissions | "I built this exact pattern in Sellable…" | `/work/sellable` |
 | Loop article, Step 5 evaluator | "a typed decider like Jev…" | `/writing/jev-system-one-model-explained` |
 | Loop article, Step 8 checkpoints | "see how Sellable gates high-value orders" | `/work/sellable` |
+| Loop article, metrics intro | "seven deterministic transaction scenarios" | `/work/sellable` |
 | Confluence article, intro | "full case study at Confluence" | `/work/confluence` |
 | Jev article, agent-fit intro | "the context/harness/loop blueprint" | `/writing/context-vs-loop-vs-harness-engineering` |
 | Jev article, risk-gate section | "how Sellable gates risky orders" | `/work/sellable` |
