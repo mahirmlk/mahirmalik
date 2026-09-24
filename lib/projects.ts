@@ -70,6 +70,7 @@ export const projects: Project[] = [
     ],
     year: 2026,
     tags: ["TypeScript", "Tauri", "Ink", "React"],
+    comingSoon: true,
     featured: false
   }
 ];

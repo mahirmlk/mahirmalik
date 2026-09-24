@@ -25,7 +25,12 @@ function projectSlugs() {
   try {
     const src = fs.readFileSync(path.join(root, "lib", "projects.ts"), "utf8");
     const slugs = [...src.matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1]);
-    if (slugs.length > 0) return slugs;
+    // Only submit slugs that have a case-study body; coming-soon cards have no
+    // content/projects/<slug>.md and would 404 if submitted.
+    const pages = slugs.filter((slug) =>
+      fs.existsSync(path.join(root, "content", "projects", `${slug}.md`))
+    );
+    if (pages.length > 0) return pages;
   } catch (error) {
     console.error("Could not read lib/projects.ts:", error);
   }

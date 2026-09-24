@@ -78,6 +78,7 @@ function readDir(sub) {
 
 const posts = readDir("writing");
 const projects = readDir("projects");
+const projectFiles = new Set(projects.map((p) => p.slug));
 const today = new Date().toISOString().slice(0, 10);
 
 let out = `# Mahir Malik — AI Engineer (complete site text)
@@ -93,11 +94,16 @@ for (const p of posts) {
 }
 
 out += `\n## Project index\n`;
-// Derived from lib/projects.ts (single source of truth) so entries like the
-// file-less Helion case study stay in sync automatically.
+// Derived from lib/projects.ts (single source of truth). A project with no
+// content/projects body (Helion — coming soon) is listed without a URL so this
+// file never points at a page that 404s.
 for (const entry of projectEntries) {
   const description = projectDescriptions[entry.slug] ?? "";
-  out += `- [${entry.title}](${siteUrl}/work/${entry.slug})${description ? `: ${description}` : ""}\n`;
+  if (projectFiles.has(entry.slug)) {
+    out += `- [${entry.title}](${siteUrl}/work/${entry.slug})${description ? `: ${description}` : ""}\n`;
+  } else {
+    out += `- ${entry.title} (coming soon)${description ? `: ${description}` : ""}\n`;
+  }
 }
 
 for (const p of posts) {

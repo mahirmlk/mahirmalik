@@ -43,6 +43,7 @@ export default function WorkPage() {
           description: "Projects archive for Mahir Malik — agentic commerce, ML visualization, and applied AI systems.",
           path: "/work",
           items: [...projects]
+            .filter((project) => !project.comingSoon)
             .sort((a, b) => b.year - a.year)
             .map((project) => ({
               name: project.title,

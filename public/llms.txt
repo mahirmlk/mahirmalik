@@ -9,7 +9,7 @@
 ## Projects
 - [Sellable](https://www.mahirmalik.in/work/sellable): AI agents that buy things autonomously with guardrails — machine-readable storefront, policy engine, Razorpay payment rails, and an XAI audit ledger.
 - [Confluence](https://www.mahirmalik.in/work/confluence): Interactive ML learning playground with 38 scikit-learn algorithms, live decision boundaries, frame-by-frame training playback, and 25 datasets.
-- [Helion](https://www.mahirmalik.in/work/helion): Agent harness in the terminal and on the desktop — live run timeline, steering, and human-in-the-loop tool approvals. In progress.
+- Helion (coming soon): Agent harness in the terminal and on the desktop — live run timeline, steering, and human-in-the-loop tool approvals. In progress.
 
 ## Writing
 - [Writing home](https://www.mahirmalik.in/writing): Long-form writing on LLM deployment, retrieval systems, evaluation discipline, and product decisions around AI.

@@ -19,9 +19,13 @@ export function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <article className="project-card group flex h-full flex-col overflow-hidden rounded-[20px] border border-black/[0.08] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04),0_16px_40px_-16px_rgba(0,0,0,0.14)] transition-all duration-300 hover:border-black/[0.14] hover:shadow-[0_1px_2px_rgba(0,0,0,0.05),0_24px_48px_-16px_rgba(0,0,0,0.18)]">
-      <Link href={detailsUrl} aria-label={`View ${project.title}`} className="block">
+      {project.comingSoon ? (
         <ProjectCardCover project={project} className="project-card-cover aspect-[16/9]" />
-      </Link>
+      ) : (
+        <Link href={detailsUrl} aria-label={`View ${project.title}`} className="block">
+          <ProjectCardCover project={project} className="project-card-cover aspect-[16/9]" />
+        </Link>
+      )}
 
       <div className="project-card-body flex flex-1 flex-col px-6 pb-4 pt-6 sm:px-7 sm:pt-7">
         <p

@@ -38,12 +38,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
-    url: `${siteUrl}/work/${project.slug}`,
-    lastModified: new Date(`${project.year}-12-31`),
-    changeFrequency: "yearly",
-    priority: 0.7,
-  }));
+  // Coming-soon cards (e.g. Helion) have no case-study page — never list a 404.
+  const projectRoutes: MetadataRoute.Sitemap = projects
+    .filter((project) => !project.comingSoon)
+    .map((project) => ({
+      url: `${siteUrl}/work/${project.slug}`,
+      lastModified: new Date(`${project.year}-12-31`),
+      changeFrequency: "yearly",
+      priority: 0.7,
+    }));
 
   const writingRoutes: MetadataRoute.Sitemap = getAllWritingPosts().map((post) => ({
     url: `${siteUrl}/writing/${post.slug}`,
