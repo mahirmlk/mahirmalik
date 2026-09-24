@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     absolute: "Mahir Malik",
   },
   description:
-    "Mahir Malik is an AI engineer building intelligent systems, ML products, and production-grade software — LLM agents, RAG pipelines, and full-stack AI applications.",
+    "Mahir Malik is an AI engineer working with machine learning, LLMs, agents, and model development, from early experiments to working systems.",
   keywords: [
     "Mahir Malik",
     "AI Engineer",
