@@ -8,6 +8,13 @@ import { ProjectHero } from "@/components/work/ProjectHero";
 import { TechBadge } from "@/components/work/TechBadge";
 import { getProjectBySlug, projects } from "@/lib/projects";
 import { JsonLd, techArticleSchema } from "@/lib/schema";
+import { renderInlineMarkdown } from "@/lib/writing";
+
+// Renders inline markdown (links, code, bold) from project content. The source
+// is HTML-escaped inside renderInlineMarkdown before any tags are added.
+function Inline({ text }: { text: string }) {
+  return <span dangerouslySetInnerHTML={{ __html: renderInlineMarkdown(text) }} />;
+}
 
 interface ProjectPageProps {
   params: Promise<{
@@ -97,7 +104,9 @@ function parseBlocks(raw: string): Block[] {
 }
 
 export async function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+  return projects
+    .filter((project) => !project.comingSoon)
+    .map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
@@ -156,6 +165,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   const content = await readProjectContent(slug);
+
+  // No body file = no case study. Coming-soon cards (Helion) must 404 here;
+  // their preview lives on the project card in the archive.
+  if (!content.trim()) {
+    notFound();
+  }
+
   const blocks = parseBlocks(content);
 
   return (
@@ -245,12 +261,18 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               return (
                 <ul key={`list-${index}`}>
                   {block.items.map((item) => (
-                    <li key={item}>{item}</li>
+                    <li key={item}>
+                      <Inline text={item} />
+                    </li>
                   ))}
                 </ul>
               );
             }
-            return <p key={`${block.value}-${index}`}>{block.value}</p>;
+            return (
+              <p key={`${block.value}-${index}`}>
+                <Inline text={block.value} />
+              </p>
+            );
           })
         ) : (
           <p>

@@ -14,4 +14,6 @@ export interface Project {
   liveUrl?: string;
   githubUrl?: string;
   featured: boolean;
+  /** No case-study page yet — the archive card shows a coming-soon preview only. */
+  comingSoon?: boolean;
 }
