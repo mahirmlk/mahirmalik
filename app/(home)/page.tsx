@@ -27,6 +27,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  other: {
+    "msvalidate.01": "88D37C1E9624BCF16F4E755CEB7E1C1D",
+  },
 };
 
 export default function HomePage() {
