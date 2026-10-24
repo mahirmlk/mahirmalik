@@ -152,99 +152,24 @@ html {
     inset: -8px;
   }
 
-  /* ─── Hero: own the illustration, kill the 100svh stretch ───
-     Single natural flow: name → role → tagline → description → tags →
-     stacked CTAs → illustration → About. Content determines the height. */
-  .hero.hero {
-    min-height: auto;
-    padding-top: 2.5rem;
-    padding-bottom: 0;
-    display: flex;
-    flex-direction: column;
+  /* ─── Hero (editorial revamp): stack the corner notes, size the badge ───
+     On phones the two serif notes would collide if they shared the desktop
+     top offset, so the right-hand note drops below the left one while
+     keeping its right alignment. The left note also wraps to three short
+     lines so it stays clear of the lanyard strap that descends toward the
+     badge. The badge scales up from the desktop vw-based clamp so it stays
+     graspable on small screens. */
+  .hero-note-left {
+    top: 5.25rem;
+    max-width: 10.75rem;
   }
 
-  .hero-grid.hero-grid {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
+  .hero-note-right {
+    top: 11.25rem;
   }
 
-  /* Fluid clamps use a rem + vw preferred value (not vw alone) so browser
-     zoom and user font-size preferences keep working (WCAG 1.4.4). Every
-     max is ≤ 2.5× its min, which keeps 200% resize effective. */
-  .hero-title.hero-title {
-    font-size: clamp(2.75rem, 1rem + 7.2vw, 4.5rem);
-    line-height: 0.95;
-    letter-spacing: -0.06em;
-    overflow-wrap: break-word;
-    text-wrap: balance;
-  }
-
-  .hero-role {
-    margin-top: 1rem;
-    max-width: 100%;
-    font-size: clamp(1.15rem, 0.5rem + 2.6vw, 1.35rem);
-    line-height: 1.4;
-    overflow-wrap: anywhere;
-  }
-
-  /* Longest rotating role ("Agentic Workflow Developer", 26 mono chars)
-     exceeds 320px viewports: let the typewriter caret wrap instead of
-     forcing horizontal overflow. */
-  .hero-role > span {
-    min-width: 0;
-    max-width: 100%;
-    flex-wrap: wrap;
-    row-gap: 0.25rem;
-  }
-
-  .hero-tagline {
-    margin-top: 1rem;
-    font-size: clamp(1.9rem, 0.75rem + 4.7vw, 2.6rem);
-    line-height: 1.18;
-    text-wrap: balance;
-  }
-
-  .hero-desc {
-    margin-top: 1rem;
-    max-width: 100%;
-    font-size: clamp(1.02rem, 0.625rem + 1.65vw, 1.2rem);
-    line-height: 1.6;
-  }
-
-  .hero-tags {
-    margin-top: 1.25rem;
-    gap: 10px;
-  }
-
-  .hero-tags > span {
-    padding: 10px 16px;
-    font-size: 10px;
-    white-space: nowrap;
-  }
-
-  .hero-actions.hero-actions {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-    margin-top: 1.5rem;
-  }
-
-  .hero-actions.hero-actions > * {
-    width: 100%;
-    min-height: 56px;
-  }
-
-  /* Illustration is desktop-only by request: hide the guy PNG on phones.
-     Root cause of the old "double guy" bug: `.hero-visual img { display:
-     block }` (0,1,1) outranked Tailwind's `.hidden` (0,1,0), so BOTH the
-     desktop (`hidden md:block`) and mobile (`md:hidden`) <Image> rendered
-     on phones. Hiding the whole `.hero-visual` block removes the
-     illustration, its gap, and any chance of duplication. Desktop is
-     untouched (this lives inside max-width: 767px). */
-  .hero-visual.hero-visual {
-    display: none;
+  :root {
+    --badge-w: clamp(170px, 48vw, 220px);
   }
 
   /* ─── About: compact, readable, no giant desktop gaps ─── */
@@ -457,13 +382,13 @@ html {
 /* ─── Small phones ─── */
 
 @media (max-width: 480px) {
-  .hero-title.hero-title {
-    font-size: clamp(2.5rem, 1rem + 8vw, 3.25rem);
+  /* Keep the serif notes clear of each other on narrow phones. */
+  .hero-note-left {
+    top: 4.75rem;
   }
 
-  /* Hero illustration stays hidden on small phones too (see 767px rule). */
-  .hero-visual.hero-visual {
-    display: none;
+  .hero-note-right {
+    top: 10.5rem;
   }
 
   .project-card-body {

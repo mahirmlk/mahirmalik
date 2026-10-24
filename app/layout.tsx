@@ -1,7 +1,5 @@
 import type { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
-import { Navbar } from "@/components/nav/Navbar";
 import { inter, jetbrainsMono, sora, playfairDisplay, montserrat, spaceGrotesk, gochiHand, pixelMono, schoolbell } from "@/lib/fonts";
 import "@/app/globals.css";
 import "@/app/mobile.css";
@@ -103,18 +101,6 @@ export default function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const themeScript = `
-    (() => {
-      try {
-        const storedTheme = localStorage.getItem("theme");
-        const theme = storedTheme === "dark" ? "dark" : "light";
-        const root = document.documentElement;
-        root.classList.toggle("dark", theme === "dark");
-        root.style.colorScheme = theme;
-      } catch {}
-    })();
-  `;
-
   return (
     <html
       lang="en"
@@ -122,9 +108,6 @@ export default function RootLayout({
       className={cn(inter.variable, jetbrainsMono.variable, sora.variable, playfairDisplay.variable, montserrat.variable, spaceGrotesk.variable, gochiHand.variable, pixelMono.variable, schoolbell.variable, "font-sans")}
     >
       <head>
-        <Script id="theme-init" strategy="beforeInteractive">
-          {themeScript}
-        </Script>
         <link rel="alternate" type="application/rss+xml" title="Mahir Malik — Writing RSS" href="/feed.xml" />
         <link rel="llms" href="/llms.txt" />
         <JsonLd data={homeGraph()} />
@@ -133,7 +116,6 @@ export default function RootLayout({
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <Navbar />
         <main id="main" className="relative z-10 pt-24 md:pt-28">{children}</main>
         <Analytics />
         <SpeedInsights />

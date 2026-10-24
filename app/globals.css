@@ -109,9 +109,7 @@ body {
 .page-shell {
   position: relative;
   isolation: isolate;
-  background:
-    radial-gradient(circle at top, color-mix(in srgb, var(--bg-elevated) 62%, transparent) 0%, transparent 32%),
-    var(--bg);
+  background: var(--bg);
 }
 
 .site-container {
@@ -886,4 +884,311 @@ body {
 ::view-transition-old(root), ::view-transition-new(root) {
     animation: none;
     mix-blend-mode: normal;
+}
+
+/* ─── Editorial hero revamp ────────────────────────────────────────────────
+   Pure-white full-viewport stage: serif notes in the upper corners, an
+   oversized serif name cropped at the viewport edges behind a hanging,
+   draggable ID badge. Colors are fixed (not theme variables) so the stage
+   stays white/black regardless of any stale theme preference. */
+
+:root {
+  --badge-w: clamp(196px, 15.5vw, 272px);
+  --badge-blue: #2b52ff;
+  --hero-ink: #0a0a0a;
+}
+
+.hero-stage {
+  position: relative;
+  height: 100svh;
+  min-height: 620px;
+  overflow: hidden;
+  background: #ffffff;
+  color: var(--hero-ink);
+}
+
+.hero-note {
+  position: absolute;
+  z-index: 2;
+  margin: 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.02rem, 0.8rem + 0.6vw, 1.4rem);
+  font-weight: 500;
+  line-height: 1.42;
+  letter-spacing: 0.002em;
+  color: #131313;
+}
+
+.hero-note-left {
+  left: clamp(1.25rem, 6vw, 6.5rem);
+  top: 28svh;
+}
+
+.hero-note-right {
+  right: clamp(1.25rem, 6vw, 6.5rem);
+  top: 28svh;
+  text-align: right;
+}
+
+.hero-note-right em {
+  font-weight: 600;
+}
+
+.hero-name {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: -0.06em;
+  transform: translateX(-50%);
+  margin: 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 19.1vw;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  color: var(--hero-ink);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ─── Lanyard + badge ─── */
+
+.badge-straps {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.badge-root {
+  position: absolute;
+  /* CSS-centered default so the badge hangs correctly without JS; the
+     component replaces this with a px transform once mounted. */
+  left: 50%;
+  top: 32svh;
+  z-index: 4;
+  width: 0;
+  height: 0;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  will-change: transform;
+}
+
+.badge-root:active {
+  cursor: grabbing;
+}
+
+.badge-root:focus-visible {
+  outline: none;
+}
+
+.badge-root:focus-visible .badge-card {
+  outline: 2px solid #111;
+  outline-offset: 6px;
+}
+
+/* Metal crimp where the two strap ends meet. */
+.badge-crimp {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 14px;
+  transform: translate(-50%, -62%);
+  border-radius: 3px;
+  background: linear-gradient(180deg, #ececec, #bdbdbd 45%, #8f8f8f);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 2px 4px rgba(0, 0, 0, 0.32);
+}
+
+/* Chrome swivel hook dropping through the badge slot. */
+.badge-hook {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 9px;
+  height: 26px;
+  transform: translateX(-50%);
+  border-radius: 5px;
+  background: linear-gradient(90deg, #969696, #f3f3f3 45%, #7d7d7d);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.28);
+}
+
+.badge-hook::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 17px;
+  height: 11px;
+  transform: translateX(-50%);
+  border: 3px solid #a9a9a9;
+  border-top-color: #ededed;
+  border-radius: 9999px;
+}
+
+/* Zero-size wrapper at the hook point; the card rotates around its origin. */
+.badge-swing {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.badge-card {
+  position: absolute;
+  left: 0;
+  top: 30px;
+  width: var(--badge-w);
+  margin-left: calc(var(--badge-w) / -2);
+  aspect-ratio: 250 / 386;
+  container-type: inline-size;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 15, 15, 0.13);
+  background:
+    linear-gradient(118deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0.42) 58%, rgba(255, 255, 255, 0) 84%),
+    linear-gradient(180deg, #fbfbfc, #f2f3f5);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.65),
+    inset 0 -12px 26px rgba(15, 23, 42, 0.05),
+    0 30px 60px rgba(10, 10, 10, 0.2),
+    0 8px 18px rgba(10, 10, 10, 0.1);
+}
+
+/* Punched holes + slot at the top of the plastic sleeve. */
+.badge-hole,
+.badge-slot {
+  position: absolute;
+  background: #e8e9eb;
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.badge-hole {
+  top: 4.2cqw;
+  width: 4.6cqw;
+  height: 4.6cqw;
+  border-radius: 9999px;
+}
+
+.badge-hole-l {
+  left: 5.4cqw;
+}
+
+.badge-hole-r {
+  right: 5.4cqw;
+}
+
+.badge-slot {
+  top: 4.4cqw;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16cqw;
+  height: 3.8cqw;
+  border-radius: 9999px;
+}
+
+.badge-paper {
+  position: absolute;
+  inset: 12.5cqw 4.2cqw 4.2cqw;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #ffffff, #fcfcfd);
+  box-shadow:
+    0 1px 3px rgba(15, 15, 15, 0.14),
+    inset 0 0 0 1px rgba(15, 15, 15, 0.05);
+  padding: 7cqw 6cqw 5.5cqw;
+  display: flex;
+  flex-direction: column;
+}
+
+.badge-name {
+  margin: 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 17.5cqw;
+  font-weight: 600;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+}
+
+.badge-name span {
+  display: block;
+}
+
+.badge-name-dark {
+  color: #101010;
+}
+
+.badge-name-blue {
+  color: var(--badge-blue);
+}
+
+.badge-role {
+  margin: 8.5cqw 0 0;
+  font-family: var(--font-mono), monospace;
+  font-size: 4.9cqw;
+  letter-spacing: 0.01em;
+  color: #191919;
+}
+
+.badge-line {
+  margin: 2cqw 0 0;
+  font-family: var(--font-mono), monospace;
+  font-size: 4.1cqw;
+  letter-spacing: 0.01em;
+  color: #6d7178;
+}
+
+.badge-foot {
+  margin-top: auto;
+}
+
+.badge-rule {
+  height: 1px;
+  background: #e7e8ea;
+  margin-bottom: 4cqw;
+}
+
+.badge-site {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-family: var(--font-mono), monospace;
+  font-size: 4cqw;
+  color: #3d3f43;
+}
+
+.badge-site span {
+  font-size: 3.1cqw;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #9aa0a6;
+}
+
+.badge-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2cqw;
+  margin-top: 3.6cqw;
+}
+
+.badge-chips span {
+  font-family: var(--font-mono), monospace;
+  font-size: 3.1cqw;
+  padding: 0.5em 1em;
+  border: 1px solid #e2e3e6;
+  border-radius: 9999px;
+  background: #fafafa;
+  color: #55585d;
+  white-space: nowrap;
 }

@@ -37,11 +37,10 @@ export const spaceGrotesk = Space_Grotesk({
 
 export const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
-  preload: false,
 });
 
 export const gochiHand = Gochi_Hand({
