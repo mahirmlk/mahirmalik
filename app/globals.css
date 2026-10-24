@@ -953,7 +953,7 @@ body {
   position: absolute;
   z-index: 1;
   left: 50%;
-  bottom: 3vw;
+  bottom: 4.5vw;
   transform: translateX(-50%);
   margin: 0;
   font-family: var(--font-serif), Georgia, serif;
@@ -1013,8 +1013,8 @@ body {
   position: absolute;
   left: 0;
   top: calc(-1 * var(--connector, 40px));
-  width: 26px;
-  height: 16px;
+  width: 34px;
+  height: 18px;
   transform: translate(-50%, -50%);
   border-radius: 3px;
   background: linear-gradient(180deg, #f0f0f0, #c2c2c2 40%, #8a8a8a 78%, #6f6f6f);
@@ -1152,19 +1152,11 @@ body {
 }
 
 .badge-role {
-  margin: 8.5cqw 0 0;
+  margin: 9cqw 0 0;
   font-family: var(--font-mono), monospace;
   font-size: 4.9cqw;
   letter-spacing: 0.01em;
   color: #191919;
-}
-
-.badge-line {
-  margin: 2cqw 0 0;
-  font-family: var(--font-mono), monospace;
-  font-size: 4.1cqw;
-  letter-spacing: 0.01em;
-  color: #6d7178;
 }
 
 .badge-foot {
@@ -1203,11 +1195,30 @@ body {
 
 .badge-chips span {
   font-family: var(--font-mono), monospace;
-  font-size: 3.1cqw;
-  padding: 0.5em 1em;
+  font-size: 3.4cqw;
+  padding: 0.5em 1.1em;
   border: 1px solid #e2e3e6;
   border-radius: 9999px;
   background: #fafafa;
   color: #55585d;
   white-space: nowrap;
+}
+
+/* Colored pills like the reference badge: ink, coral, violet. */
+.badge-chips span:nth-child(1) {
+  background: #141414;
+  border-color: #141414;
+  color: #ffffff;
+}
+
+.badge-chips span:nth-child(2) {
+  background: #e8503a;
+  border-color: #e8503a;
+  color: #ffffff;
+}
+
+.badge-chips span:nth-child(3) {
+  background: #5b50e8;
+  border-color: #5b50e8;
+  color: #ffffff;
 }

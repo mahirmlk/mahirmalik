@@ -79,8 +79,8 @@ export function IdBadge() {
       s.heroH = rect.height;
       s.cardW = card.offsetWidth;
       s.cardH = card.offsetHeight;
-      s.spread = clamp(s.heroW * 0.048, 24, 96);
-      s.stroke = clamp(s.heroW * 0.011, 12, 20);
+      s.spread = clamp(s.heroW * 0.065, 40, 130);
+      s.stroke = clamp(s.heroW * 0.012, 12, 22);
       s.restX = clamp(s.heroW / 2, s.cardW / 2 + 14, s.heroW - s.cardW / 2 - 14);
       s.restY = clamp(s.heroH * REST_Y, 88, s.heroH - CLIP_GAP - s.cardH - 16);
       svg.setAttribute("stroke-width", String(s.stroke));
@@ -98,6 +98,17 @@ export function IdBadge() {
       root.style.transform = `translate3d(${s.x}px, ${s.y}px, 0)`;
       swing.style.transform = `rotate(${s.angle}rad)`;
       const vy = s.y - CONNECTOR; // vertex where the two straps meet the crimp
+      // Each strap runs a little past the vertex so the junction is solid
+      // black under the crimp (butt caps, no rounding).
+      const overshoot = (ax: number, ay: number) => {
+        const dx = s.x - ax;
+        const dy = vy - ay;
+        const len = Math.hypot(dx, dy) || 1;
+        const t = (len + 12) / len;
+        return { ex: ax + dx * t, ey: ay + dy * t };
+      };
+      const left = overshoot(s.heroW / 2 - s.spread, -40);
+      const right = overshoot(s.heroW / 2 + s.spread, -40);
       const setLine = (
         ref: React.RefObject<SVGLineElement | null>,
         x1: number,
@@ -110,10 +121,10 @@ export function IdBadge() {
         ref.current?.setAttribute("x2", String(x2));
         ref.current?.setAttribute("y2", String(y2));
       };
-      setLine(strapRefs[0], s.heroW / 2 - s.spread, -40, s.x, vy);
-      setLine(strapRefs[1], s.heroW / 2 + s.spread, -40, s.x, vy);
-      setLine(sheenRefs[0], s.heroW / 2 - s.spread, -40, s.x, vy);
-      setLine(sheenRefs[1], s.heroW / 2 + s.spread, -40, s.x, vy);
+      setLine(strapRefs[0], s.heroW / 2 - s.spread, -40, left.ex, left.ey);
+      setLine(strapRefs[1], s.heroW / 2 + s.spread, -40, right.ex, right.ey);
+      setLine(sheenRefs[0], s.heroW / 2 - s.spread, -40, left.ex, left.ey);
+      setLine(sheenRefs[1], s.heroW / 2 + s.spread, -40, right.ex, right.ey);
       setLine(connectorRef, s.x, vy, s.x, s.y);
     };
 
@@ -322,17 +333,17 @@ export function IdBadge() {
   return (
     <>
       <svg ref={svgRef} aria-hidden className="badge-straps">
-        <line ref={strapRefs[0]} stroke="#0d0d0d" strokeLinecap="round" />
-        <line ref={strapRefs[1]} stroke="#0d0d0d" strokeLinecap="round" />
-        <line ref={sheenRefs[0]} stroke="rgba(255,255,255,0.14)" strokeLinecap="round" strokeWidth="2" />
-        <line ref={sheenRefs[1]} stroke="rgba(255,255,255,0.14)" strokeLinecap="round" strokeWidth="2" />
-        <line ref={connectorRef} stroke="#0d0d0d" strokeLinecap="round" />
+        <line ref={strapRefs[0]} stroke="#0d0d0d" strokeLinecap="butt" />
+        <line ref={strapRefs[1]} stroke="#0d0d0d" strokeLinecap="butt" />
+        <line ref={sheenRefs[0]} stroke="rgba(255,255,255,0.14)" strokeLinecap="butt" strokeWidth="2" />
+        <line ref={sheenRefs[1]} stroke="rgba(255,255,255,0.14)" strokeLinecap="butt" strokeWidth="2" />
+        <line ref={connectorRef} stroke="#0d0d0d" strokeLinecap="butt" />
       </svg>
 
       <div
         ref={rootRef}
         role="img"
-        aria-label="Hanging ID badge reading Mahir Malik, AI Systems Builder. Drag with a pointer or use the arrow keys to move it; it swings back to its hanging spot on release."
+        aria-label="Hanging ID badge reading Mahir Malik, AI Engineer. Drag with a pointer or use the arrow keys to move it; it swings back to its hanging spot on release."
         tabIndex={0}
         className="badge-root"
       >
@@ -351,8 +362,7 @@ export function IdBadge() {
                 <span className="badge-name-blue">Malik.</span>
               </p>
 
-              <p className="badge-role">AI Systems Builder</p>
-              <p className="badge-line">Agents · Automation · LLMs</p>
+              <p className="badge-role">AI Engineer</p>
 
               <div className="badge-foot">
                 <div className="badge-rule" />
