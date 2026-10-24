@@ -14,7 +14,10 @@ export function HeroSection() {
       <p className="hero-note hero-note-left">
         I build AI systems, agents,
         <br />
-        and automations.
+        and automations.{" "}
+        <a className="hero-more" href="#about">
+          [more]
+        </a>
       </p>
 
       <p className="hero-note hero-note-right">

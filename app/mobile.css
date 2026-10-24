@@ -155,13 +155,13 @@ html {
   /* ─── Hero (editorial revamp): stack the corner notes, size the badge ───
      On phones the two serif notes would collide if they shared the desktop
      top offset, so the right-hand note drops below the left one while
-     keeping its right alignment. The left note also wraps to three short
-     lines so it stays clear of the lanyard strap that descends toward the
-     badge. The badge scales up from the desktop vw-based clamp so it stays
-     graspable on small screens. */
+     keeping its right alignment. At the shared 1rem note size the left
+     note wraps to short lines that stay clear of the lanyard strap
+     descending toward the badge. The badge scales up from the desktop
+     vw-based clamp so it stays graspable on small screens. */
   .hero-note-left {
     top: 5.25rem;
-    max-width: 10.75rem;
+    max-width: 10rem;
   }
 
   .hero-note-right {

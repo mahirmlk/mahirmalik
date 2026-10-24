@@ -911,22 +911,26 @@ body {
   position: absolute;
   z-index: 2;
   margin: 0;
+  /* Matches the reference hero exactly: 1rem/1.25, tight tracking,
+     fixed 100px top offset. pointer-events off so the corner text never
+     interferes with dragging the badge; the [more] link opts back in. */
   font-family: var(--font-serif), Georgia, serif;
-  font-size: clamp(1.02rem, 0.8rem + 0.6vw, 1.4rem);
+  font-size: 1rem;
   font-weight: 500;
-  line-height: 1.42;
-  letter-spacing: 0.002em;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
   color: #131313;
+  pointer-events: none;
 }
 
 .hero-note-left {
   left: clamp(1.25rem, 6vw, 6.5rem);
-  top: 28svh;
+  top: 100px;
 }
 
 .hero-note-right {
   right: clamp(1.25rem, 6vw, 6.5rem);
-  top: 28svh;
+  top: 100px;
   text-align: right;
 }
 
@@ -934,11 +938,26 @@ body {
   font-weight: 600;
 }
 
+.hero-more {
+  pointer-events: auto;
+  color: #8a8792;
+  font: inherit;
+  letter-spacing: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 150ms ease;
+}
+
+.hero-more:hover {
+  color: #080808;
+}
+
 .hero-name {
   position: absolute;
   z-index: 1;
   left: 50%;
-  bottom: -0.06em;
+  bottom: 3vw;
   transform: translateX(-50%);
   margin: 0;
   font-family: var(--font-serif), Georgia, serif;
