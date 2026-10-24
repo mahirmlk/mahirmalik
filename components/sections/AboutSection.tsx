@@ -1,5 +1,4 @@
 import type { SVGProps } from "react";
-import Image from "next/image";
 import { Reveal } from "@/components/ui/Reveal";
 
 interface AboutSectionProps {
@@ -43,7 +42,10 @@ export function AboutSection({ standalone = false }: AboutSectionProps) {
 
       <Reveal delay={80}>
         <div className="mt-7 max-w-[76rem] lg:mt-8">
-          <p className="font-schoolbell max-w-[70rem] text-[1.02rem] leading-8 text-[var(--fg-muted)] sm:text-[1.1rem] sm:leading-9">
+          <p
+            className="max-w-[70rem] text-[1.06rem] leading-8 text-[var(--fg-muted)] sm:text-[1.15rem] sm:leading-9"
+            style={{ fontFamily: "var(--font-serif), Georgia, serif" }}
+          >
             i&apos;d rather understand how things work by building them. i
             spend my time with ml, large language models, ai agents, and
             full-stack software, turning ideas into working systems and
@@ -52,16 +54,10 @@ export function AboutSection({ standalone = false }: AboutSectionProps) {
             figuring out how software can become more capable, useful, and a
             little more autonomous.
           </p>
-          <Image
-            src="/assets/about-illustration.webp"
-            alt="minimal line illustration of a person working at a desk by a bright window"
-            width={1200}
-            height={425}
-            sizes="(max-width: 768px) 100vw, 62rem"
-            className="mt-1 block h-auto w-full max-w-[62rem] object-cover"
-            priority={false}
-          />
-          <p className="font-schoolbell mt-1 max-w-[70rem] text-[1.02rem] leading-8 text-[var(--fg-muted)] sm:text-[1.1rem] sm:leading-9">
+          <p
+            className="mt-7 max-w-[70rem] text-[1.06rem] leading-8 text-[var(--fg-muted)] sm:text-[1.15rem] sm:leading-9"
+            style={{ fontFamily: "var(--font-serif), Georgia, serif" }}
+          >
             got something on your mind? dm me on{" "}
             <a
               href="https://x.com/mahirmllk"

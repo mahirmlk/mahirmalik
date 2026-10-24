@@ -1,4 +1,4 @@
-import { Inter, JetBrains_Mono, Sora, Playfair_Display, Montserrat, Space_Grotesk, Gochi_Hand, VT323, Schoolbell } from "next/font/google";
+import { Inter, JetBrains_Mono, Sora, Playfair_Display, Montserrat, Space_Grotesk, VT323 } from "next/font/google";
 
 export const inter = Inter({
   subsets: ["latin"],
@@ -43,26 +43,10 @@ export const playfairDisplay = Playfair_Display({
   display: "swap",
 });
 
-export const gochiHand = Gochi_Hand({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-hand",
-  display: "swap",
-  preload: false,
-});
-
 export const pixelMono = VT323({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-pixel",
-  display: "swap",
-  preload: false,
-});
-
-export const schoolbell = Schoolbell({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-schoolbell",
   display: "swap",
   preload: false,
 });

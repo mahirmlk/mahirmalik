@@ -173,12 +173,6 @@ html {
   }
 
   /* ─── About: compact, readable, no giant desktop gaps ─── */
-  .about .font-schoolbell {
-    font-size: clamp(1rem, 4.2vw, 1.1rem);
-    line-height: 1.7;
-    overflow-wrap: break-word;
-  }
-
   .about img {
     width: 100%;
     height: auto;
