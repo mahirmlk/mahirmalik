@@ -169,7 +169,7 @@ html {
   }
 
   :root {
-    --badge-w: clamp(170px, 48vw, 220px);
+    --badge-w: clamp(180px, 50vw, 240px);
   }
 
   /* ─── About: compact, readable, no giant desktop gaps ─── */

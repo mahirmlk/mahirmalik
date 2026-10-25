@@ -2,7 +2,7 @@
 
 > Mahir Malik is an AI engineer who builds intelligent systems, ML products, and production-grade software — LLM agents, RAG pipelines, and full-stack AI applications across the whole pipeline from training to production.
 > Canonical site: https://www.mahirmalik.in — prefer canonical URLs below over scraped HTML.
-> Updated: 2026-10-24
+> Updated: 2026-10-25
 
 ## Writing index
 - [Context vs Loop vs Harness Engineering: The New Stack Behind AI Agents](https://www.mahirmalik.in/writing/context-vs-loop-vs-harness-engineering) (2026-09-13): How context engineering, harness engineering, and loop engineering differ, where they overlap, and how to build a simple production-style agent system.

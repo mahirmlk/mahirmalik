@@ -889,7 +889,7 @@ body {
    stays white/black regardless of any stale theme preference. */
 
 :root {
-  --badge-w: clamp(196px, 15.5vw, 272px);
+  --badge-w: clamp(200px, 16.5vw, 300px);
   --badge-blue: #2b52ff;
   --hero-ink: #0a0a0a;
 }
@@ -983,7 +983,7 @@ body {
   /* CSS-centered default so the badge hangs correctly without JS; the
      component replaces this with a px transform once mounted. */
   left: 50%;
-  top: 32svh;
+  top: 33svh;
   z-index: 4;
   width: 0;
   height: 0;
@@ -1007,50 +1007,8 @@ body {
   outline-offset: 6px;
 }
 
-/* Metal crimp where the two strap ends meet. The JS sets --connector to
-   the vertex-to-hook distance; the crimp sits exactly at that vertex. */
-.badge-crimp {
-  position: absolute;
-  left: 0;
-  top: calc(-1 * var(--connector, 40px));
-  width: 34px;
-  height: 18px;
-  transform: translate(-50%, -50%);
-  border-radius: 3px;
-  background: linear-gradient(180deg, #f0f0f0, #c2c2c2 40%, #8a8a8a 78%, #6f6f6f);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.35),
-    0 2px 5px rgba(0, 0, 0, 0.32);
-}
-
-/* Chrome swivel hook dropping through the badge slot. */
-.badge-hook {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 10px;
-  height: 27px;
-  transform: translateX(-50%);
-  border-radius: 5px;
-  background: linear-gradient(90deg, #8f8f8f, #f4f4f4 42%, #cfcfcf 60%, #767676);
-  box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.7),
-    0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.badge-hook::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -5px;
-  width: 18px;
-  height: 11px;
-  transform: translateX(-50%);
-  border: 3px solid #a4a4a4;
-  border-top-color: #ededed;
-  border-radius: 9999px;
-}
+/* The crimp and swivel clip are drawn inside the lanyard SVG (they rotate
+   with the pendulum); see IdBadge.tsx. */
 
 /* Zero-size wrapper at the hook point; the card rotates around its origin. */
 .badge-swing {
@@ -1066,21 +1024,24 @@ body {
 .badge-card {
   position: absolute;
   left: 0;
-  top: 30px;
+  top: 21px;
   width: var(--badge-w);
   margin-left: calc(var(--badge-w) / -2);
   aspect-ratio: 250 / 386;
   container-type: inline-size;
   border-radius: 14px;
-  border: 1px solid rgba(15, 15, 15, 0.13);
+  border: 1px solid rgba(15, 15, 15, 0.12);
   background:
-    linear-gradient(118deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0.42) 58%, rgba(255, 255, 255, 0) 84%),
-    linear-gradient(180deg, #fbfbfc, #f2f3f5);
+    linear-gradient(118deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0.4) 58%, rgba(255, 255, 255, 0) 84%),
+    linear-gradient(180deg, #fcfcfd, #f3f4f6);
+  /* Soft wall shadow offset down-right (real-time, follows the swing) plus
+     the close contact shadow. */
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.65),
     inset 0 -12px 26px rgba(15, 23, 42, 0.05),
-    0 30px 60px rgba(10, 10, 10, 0.2),
-    0 8px 18px rgba(10, 10, 10, 0.1);
+    30px 38px 50px rgba(10, 10, 10, 0.17),
+    12px 18px 30px rgba(10, 10, 10, 0.12),
+    0 10px 22px rgba(10, 10, 10, 0.1);
 }
 
 /* Punched holes + slot at the top of the plastic sleeve. */
