@@ -1024,16 +1024,19 @@ body {
 .badge-card {
   position: absolute;
   left: 0;
-  top: 21px;
+  top: 24px;
   width: var(--badge-w);
   margin-left: calc(var(--badge-w) / -2);
   aspect-ratio: 250 / 386;
   container-type: inline-size;
   border-radius: 14px;
   border: 1px solid rgba(15, 15, 15, 0.12);
+  /* Translucent plastic sleeve: the lanyard hardware behind it (hook,
+     connector, shadows) reads through, like clear vinyl. The paper below
+     stays opaque. */
   background:
-    linear-gradient(118deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0.4) 58%, rgba(255, 255, 255, 0) 84%),
-    linear-gradient(180deg, #fcfcfd, #f3f4f6);
+    linear-gradient(118deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 32%, rgba(255, 255, 255, 0.38) 58%, rgba(255, 255, 255, 0) 84%),
+    linear-gradient(180deg, rgba(252, 252, 253, 0.62), rgba(243, 244, 246, 0.55));
   /* Soft wall shadow offset down-right (real-time, follows the swing) plus
      the close contact shadow. */
   box-shadow:
@@ -1044,11 +1047,12 @@ body {
     0 10px 22px rgba(10, 10, 10, 0.1);
 }
 
-/* Punched holes + slot at the top of the plastic sleeve. */
+/* Punched holes + slot at the top of the plastic sleeve — mostly clear so
+   the hook/shadows behind them stay visible. */
 .badge-hole,
 .badge-slot {
   position: absolute;
-  background: #e8e9eb;
+  background: rgba(228, 229, 232, 0.4);
   box-shadow:
     inset 0 1px 2px rgba(0, 0, 0, 0.3),
     0 1px 0 rgba(255, 255, 255, 0.85);
@@ -1086,7 +1090,7 @@ body {
   box-shadow:
     0 1px 3px rgba(15, 15, 15, 0.14),
     inset 0 0 0 1px rgba(15, 15, 15, 0.05);
-  padding: 7cqw 6cqw 5.5cqw;
+  padding: 7cqw 5cqw 5.5cqw;
   display: flex;
   flex-direction: column;
 }
@@ -1149,15 +1153,16 @@ body {
 
 .badge-chips {
   display: flex;
-  flex-wrap: wrap;
-  gap: 2cqw;
+  flex-wrap: nowrap;
+  gap: 1.8cqw;
   margin-top: 3.6cqw;
 }
 
+/* Sized so all three pills fit one line at every badge width. */
 .badge-chips span {
   font-family: var(--font-mono), monospace;
-  font-size: 3.4cqw;
-  padding: 0.5em 1.1em;
+  font-size: 3.25cqw;
+  padding: 0.45em 1em;
   border: 1px solid #e2e3e6;
   border-radius: 9999px;
   background: #fafafa;
