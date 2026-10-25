@@ -23,16 +23,16 @@ import { useEffect, useRef } from "react";
 const HOOK_REST_Y = 0.33; // hook rest height, fraction of hero height
 const CARD_TOP = 24; // hook → card top, px (hook tip curls through the slot)
 const KEY_STEP = 44; // keyboard nudge, px
-const DRAG_K = 0.18; // follow stiffness while held (weighty, not glued)
-const DRAG_DAMP = 0.8;
-const SWING_K = 0.004; // release spring toward the hanging spot (slow)
-const SWING_DAMP = 0.97;
+const DRAG_K = 0.42; // follow smoothing while held (attached, not rubbery)
+const GRAVITY = 0.32; // px/frame² while falling under the thread
+const ROPE_DAMP = 0.982; // air drag on the free swing
 const CARD_K = 0.15; // card tilt spring toward the strap pull
 const CARD_DAMP = 0.85;
 const FLEX_K = 0.2; // strap bow spring
 const FLEX_DAMP = 0.85;
 const FLEX_PER_VX = 0.45; // px of bow per px/frame of horizontal speed
 const FLEX_MAX = 16;
+const SAG_MAX = 46; // strap sag while the thread is slack, px
 const PIVOT_ABOVE = 60; // pivot height beyond the hero's top edge, px
 const STRAP_INK = "#353736";
 const STRAP_LIGHT = "#4a4d4b";
@@ -70,6 +70,8 @@ export function IdBadge() {
     cardAngVel: 0,
     flex: 0,
     flexVel: 0,
+    sag: 0,
+    ropeLen: 0, // pivot → hook distance when the thread hangs taut
     dragging: false,
     raf: 0,
     heroW: 0,
@@ -162,6 +164,7 @@ export function IdBadge() {
       s.restX = s.heroW / 2;
       s.px = s.heroW / 2;
       s.py = -PIVOT_ABOVE;
+      s.ropeLen = s.restY + PIVOT_ABOVE;
       s.connector = clamp(s.heroH * 0.085, 56, 100);
       s.spread = clamp(s.heroW * 0.069, 40, 150);
       s.strokeW = clamp(s.heroW * 0.009, 10, 17);
@@ -215,19 +218,21 @@ export function IdBadge() {
         const mx = (ax + ex) / 2;
         const my = (ay + ey) / 2;
         const bx = mx + s.flex;
-        strapRefs[i].current?.setAttribute("d", `M ${ax} ${ay} Q ${bx} ${my} ${ex} ${ey}`);
+        const by = my + s.sag;
+        strapRefs[i].current?.setAttribute("d", `M ${ax} ${ay} Q ${bx} ${by} ${ex} ${ey}`);
         sheenRefs[i].current?.setAttribute(
           "d",
-          `M ${ax + ox} ${ay + oy} Q ${bx + ox} ${my + oy} ${ex + ox} ${ey + oy}`,
+          `M ${ax + ox} ${ay + oy} Q ${bx + ox} ${by + oy} ${ex + ox} ${ey + oy}`,
         );
         // Real-time cast shadow, offset down-right.
-        shadeRefs[i].current?.setAttribute("d", `M ${ax + 26} ${ay + 19} Q ${bx + 26} ${my + 19} ${ex + 26} ${ey + 19}`);
+        shadeRefs[i].current?.setAttribute("d", `M ${ax + 26} ${ay + 19} Q ${bx + 26} ${by + 19} ${ex + 26} ${ey + 19}`);
       });
       setLine(shadowConnectorRef, crimpX + 26, crimpY + 19, s.x + 26, s.y + 19);
     };
 
     const tick = () => {
       if (s.dragging) {
+        // Held: the badge is in hand — smooth but attached, no rubber lag.
         const nx = s.x + (s.targetX - s.x) * DRAG_K;
         s.vx = nx - s.x;
         s.x = nx;
@@ -235,18 +240,48 @@ export function IdBadge() {
         s.vy = ny - s.y;
         s.y = ny;
       } else {
-        // Ease slowly back to the hanging spot.
-        s.vx += (s.restX - s.x) * SWING_K;
-        s.vx *= SWING_DAMP;
+        // Rope physics: gravity pulls the badge down; the thread only
+        // resists when pulled taut (no spring pulling it back — that is
+        // what made it feel like elastic). Slack thread = free fall.
+        s.vy += GRAVITY;
+        s.vx *= ROPE_DAMP;
+        s.vy *= ROPE_DAMP;
         s.x += s.vx;
-        s.vy += (s.restY - s.y) * SWING_K;
-        s.vy *= SWING_DAMP;
         s.y += s.vy;
+
+        const dx = s.x - s.px;
+        const dy = s.y - s.py;
+        const d = Math.hypot(dx, dy) || 1;
+        if (d > s.ropeLen) {
+          // Taut: pin to the rope circle and remove the outward part of
+          // the velocity, keeping the tangential swing.
+          const ux = dx / d;
+          const uy = dy / d;
+          s.x = s.px + ux * s.ropeLen;
+          s.y = s.py + uy * s.ropeLen;
+          const radial = s.vx * ux + s.vy * uy;
+          if (radial > 0) {
+            s.vx -= radial * ux;
+            s.vy -= radial * uy;
+            // A little friction where the strap runs through the slide.
+            s.vx *= 0.992;
+            s.vy *= 0.992;
+          }
+        }
+        // Keep the badge inside the hero.
+        const b = bounds();
+        if (s.x < b.minX) { s.x = b.minX; s.vx = Math.max(0, s.vx); }
+        if (s.x > b.maxX) { s.x = b.maxX; s.vx = Math.min(0, s.vx); }
+        if (s.y < b.minY) { s.y = b.minY; s.vy = Math.max(0, s.vy); }
+        if (s.y > b.maxY) { s.y = b.maxY; s.vy = Math.min(0, s.vy); }
       }
-      // Card tilts to align with the pull of the strap toward the pivot.
+      // Card tilts to align with the pull of the strap toward the pivot;
+      // slack thread (badge well inside the radius) lets it hang vertical.
       const toPivotX = s.px - s.x;
       const toPivotY = s.py - s.y;
-      const tiltTarget = s.reducedMotion ? 0 : Math.atan2(toPivotX, -toPivotY);
+      const dist = Math.hypot(toPivotX, toPivotY) || 1;
+      const taut = clamp(dist / s.ropeLen, 0, 1);
+      const tiltTarget = s.reducedMotion ? 0 : Math.atan2(toPivotX, -toPivotY) * taut;
       s.cardAngVel += (tiltTarget - s.cardAngle) * CARD_K;
       s.cardAngVel *= CARD_DAMP;
       s.cardAngle += s.cardAngVel;
@@ -255,17 +290,21 @@ export function IdBadge() {
       s.flexVel += (flexTarget - s.flex) * FLEX_K;
       s.flexVel *= FLEX_DAMP;
       s.flex += s.flexVel;
+      // Slack thread: the straps sag away from the straight line.
+      s.sag = Math.min(SAG_MAX, Math.max(0, s.ropeLen - dist) * 0.5);
       draw();
 
+      const hanging = Math.abs(s.x - s.restX) < 0.6 && Math.abs(s.y - s.restY) < 0.6;
       const settled =
-        Math.abs(s.vx) < 0.05 &&
-        Math.abs(s.vy) < 0.05 &&
+        Math.abs(s.vx) < 0.06 &&
+        Math.abs(s.vy) < 0.06 &&
         Math.abs(s.cardAngVel) < 0.0008 &&
         Math.abs(s.flexVel) < 0.01 &&
         Math.abs(s.flex) < 0.05 &&
+        s.sag < 0.6 &&
         (s.dragging
           ? Math.abs(s.targetX - s.x) < 0.4 && Math.abs(s.targetY - s.y) < 0.4
-          : Math.abs(s.restX - s.x) < 0.4 && Math.abs(s.restY - s.y) < 0.4);
+          : hanging);
       if (settled) {
         if (!s.dragging) {
           s.x = s.restX;
@@ -276,6 +315,7 @@ export function IdBadge() {
         s.cardAngVel = 0;
         s.flex = 0;
         s.flexVel = 0;
+        s.sag = 0;
         draw();
         s.raf = 0;
         return;
@@ -347,6 +387,7 @@ export function IdBadge() {
         s.cardAngle = 0;
         s.cardAngVel = 0;
         s.flex = 0;
+        s.sag = 0;
         s.flexVel = 0;
         draw();
         return;
@@ -377,6 +418,7 @@ export function IdBadge() {
         s.cardAngle = 0;
         s.cardAngVel = 0;
         s.flex = 0;
+        s.sag = 0;
         s.flexVel = 0;
         draw();
       }
@@ -387,6 +429,7 @@ export function IdBadge() {
         if (s.raf) cancelAnimationFrame(s.raf);
         s.raf = 0;
         s.flex = 0;
+        s.sag = 0;
         s.flexVel = 0;
         if (!s.dragging) {
           s.x = s.restX;
