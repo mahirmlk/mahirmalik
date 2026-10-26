@@ -8,6 +8,8 @@ import { JsonLd, homeGraph } from "@/lib/schema";
 import { siteDescription } from "@/lib/site";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
+import "lenis/dist/lenis.css";
 
 const siteUrl = "https://www.mahirmalik.in";
 const siteTitle = "Mahir Malik";
@@ -112,13 +114,15 @@ export default function RootLayout({
         <link rel="llms" href="/llms.txt" />
         <JsonLd data={homeGraph()} />
       </head>
-      <body suppressHydrationWarning className="page-shell min-h-screen overflow-x-hidden antialiased">
-        <a href="#main" className="skip-link">
-          Skip to content
-        </a>
-        <main id="main" className="relative z-10 pt-24 md:pt-28">{children}</main>
-        <Analytics />
-        <SpeedInsights />
+      <body suppressHydrationWarning className="page-shell min-h-screen antialiased">
+        <SmoothScrollProvider>
+          <a href="#main" className="skip-link">
+            Skip to content
+          </a>
+          <main id="main" className="relative z-10 pt-24 md:pt-28">{children}</main>
+          <Analytics />
+          <SpeedInsights />
+        </SmoothScrollProvider>
       </body>
     </html>
   );

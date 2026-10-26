@@ -5,7 +5,6 @@ import { ContactSection } from "@/components/sections/ContactSection";
 import { GitHubCommitsSection } from "@/components/sections/GitHubCommitsSection";
 import { HeroSection } from "@/components/hero/HeroSection";
 import { ProjectsSection } from "@/components/sections/ProjectsSection";
-import { SnapshotSection } from "@/components/sections/SnapshotSection";
 import { SkillsSection } from "@/components/sections/SkillsSection";
 import { TheorySection } from "@/components/sections/TheorySection";
 
@@ -42,7 +41,6 @@ export default function HomePage() {
       <TheorySection />
       <SkillsSection />
       <GitHubCommitsSection />
-      <SnapshotSection />
       <ContactSection />
     </>
   );

@@ -1,5 +1,4 @@
-import { Reveal } from "@/components/ui/Reveal";
-import { cn } from "@/lib/utils";
+"use client";
 
 interface StackLogo {
   name: string;
@@ -221,6 +220,20 @@ function StackIcon({ item }: { item: StackLogo }) {
   }
 
   if (item.darkSrc) {
+    // The Simple Icons light variants are not present in this local bundle.
+    // Keep using the bundled icon and invert only these monochrome marks in dark mode.
+    if (item.darkSrc.startsWith("/assets/icons/si-")) {
+      return (
+        <img
+          src={item.src}
+          alt=""
+          aria-hidden
+          className="h-7 w-7 object-contain sm:h-8 sm:w-8 dark:brightness-0 dark:invert"
+          loading="lazy"
+        />
+      );
+    }
+
     return (
       <>
         <img
@@ -253,51 +266,52 @@ function StackIcon({ item }: { item: StackLogo }) {
 }
 
 export function SkillsSection() {
+  const rows = [0, 1, 2].map((rowIndex) =>
+    stackCategories.filter((_, categoryIndex) => categoryIndex % 3 === rowIndex),
+  );
+
   return (
-    <section id="skills" className="site-container section-block">
-      <Reveal>
-        <p className="section-eyebrow">The Stack</p>
-        <h2 className="section-title section-title-sm">
-          What I build with.
-        </h2>
-        <p className="section-copy mt-5">
-          A bunch of languages, frameworks, databases, and AI tools that somehow turn ideas
-          into functioning software. The stack changes, the building doesn&apos;t.
-        </p>
-      </Reveal>
+    <section id="skills" className="skills-section">
+      <div className="skills-section-inner">
+        <header className="skills-section-header">
+          <div className="skills-section-title-group">
+            <p className="skills-section-kicker">A working toolkit</p>
+            <h2 className="skills-section-heading">What I build with.</h2>
+          </div>
+          <p className="skills-section-copy">
+            A practical toolkit for taking ideas from a first experiment to something people can use.
+          </p>
+        </header>
 
-      <div className="mt-8 grid grid-flow-dense grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3">
-        {stackCategories.map((category, index) => (
-          <Reveal
-            key={category.title}
-            delay={Math.min(index, 6) * 30}
-            className={cn(category.wide && "sm:col-span-2 xl:col-span-2")}
-          >
-            <div className="h-full rounded-[24px] border border-[rgba(255,255,255,0.3)] bg-[rgba(255,255,255,0.16)] p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_0_0_1px_rgba(15,23,42,0.07),0_12px_32px_-14px_rgba(15,23,42,0.18)] [backdrop-filter:blur(24px)_saturate(130%)] [-webkit-backdrop-filter:blur(24px)_saturate(130%)] transition-all duration-300 hover:-translate-y-[2px] hover:border-[rgba(255,255,255,0.45)] hover:bg-[rgba(255,255,255,0.2)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_0_0_1px_rgba(15,23,42,0.09),0_20px_48px_-14px_rgba(15,23,42,0.24)] sm:p-6 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_0_0_1px_rgba(0,0,0,0.35),0_12px_32px_-14px_rgba(0,0,0,0.75)]">
-              <p className="text-[15px] font-semibold tracking-[-0.01em] text-[var(--fg)]">
-                {category.title}
-              </p>
-
-              <div className="mt-4 flex flex-wrap gap-x-5 gap-y-4 sm:mt-5 sm:gap-x-6 sm:gap-y-5">
-                {category.items.map((item) => (
+        <div className="skills-marquee" aria-label="Tools and technologies I work with">
+          {rows.map((categories, rowIndex) => (
+            <div className={`skills-marquee-track skills-marquee-track-${rowIndex + 1}`} key={rowIndex}>
+              <div className="skills-marquee-belt">
+                {[false, true].map((duplicate) => (
                   <div
-                    key={`${category.title}-${item.name}`}
-                    title={item.name}
-                    aria-label={item.name}
-                    className="flex w-14 flex-col items-center gap-1.5 text-center sm:w-16 sm:gap-2"
+                    className="skills-marquee-sequence"
+                    key={duplicate ? "repeat" : "main"}
+                    aria-hidden={duplicate || undefined}
                   >
-                    <div className="flex h-[3.25rem] w-[3.25rem] items-center justify-center rounded-[18px] border border-white/60 bg-white/55 shadow-[inset_0_1px_0_rgba(255,255,255,0.75),0_2px_10px_-2px_rgba(0,0,0,0.14)] sm:h-14 sm:w-14 dark:border-white/10 dark:bg-white/[0.08] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_2px_10px_-2px_rgba(0,0,0,0.6)]">
-                      <StackIcon item={item} />
-                    </div>
-                    <span className="w-full break-words text-[11px] leading-tight text-[var(--fg-muted)] sm:text-[11.5px]">
-                      {item.name}
-                    </span>
+                    {categories.map((category) => (
+                      <article className="skills-marquee-group" key={category.title}>
+                        <h3 className="skills-category-title">{category.title}</h3>
+                        <ul className="skills-category-items">
+                          {category.items.map((item) => (
+                            <li className="skills-item" key={`${category.title}-${item.name}`} title={item.name}>
+                              <span className="skills-item-icon"><StackIcon item={item} /></span>
+                              <span className="skills-item-name">{item.name}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </article>
+                    ))}
                   </div>
                 ))}
               </div>
             </div>
-          </Reveal>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

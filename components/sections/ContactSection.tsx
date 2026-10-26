@@ -1,6 +1,5 @@
 import type { ReactElement, SVGProps } from "react";
-import { ArrowUp, House } from "lucide-react";
-import { Reveal } from "@/components/ui/Reveal";
+import Image from "next/image";
 
 type BrandIconProps = SVGProps<SVGSVGElement>;
 
@@ -95,6 +94,28 @@ const socials: Array<{ label: string; href: string; render: (props: IconProps) =
     ),
   },
   {
+    label: "DEV.to",
+    href: "https://dev.to/mahirmlk",
+    render: (p) => (
+      <>
+        <img
+          src="/assets/icons/si-devdotto-111111.svg"
+          alt=""
+          aria-hidden
+          loading="lazy"
+          className={`object-contain dark:hidden ${p.className ?? ""}`}
+        />
+        <img
+          src="/assets/icons/si-devdotto-f6f7f8.svg"
+          alt=""
+          aria-hidden
+          loading="lazy"
+          className={`hidden object-contain dark:block ${p.className ?? ""}`}
+        />
+      </>
+    ),
+  },
+  {
     label: "Reddit",
     href: "https://www.reddit.com/user/nightmareofai/",
     render: (p) => (
@@ -116,99 +137,60 @@ const socials: Array<{ label: string; href: string; render: (props: IconProps) =
       </>
     ),
   },
-  {
-    label: "DEV",
-    href: "https://dev.to/mahirmlk",
-    render: (p) => (
-      <>
-        <img
-          src="/assets/icons/si-devdotto-111111.svg"
-          alt=""
-          aria-hidden
-          loading="lazy"
-          className={`object-contain dark:hidden ${p.className ?? ""}`}
-        />
-        <img
-          src="/assets/icons/si-devdotto-f6f7f8.svg"
-          alt=""
-          aria-hidden
-          loading="lazy"
-          className={`hidden object-contain dark:block ${p.className ?? ""}`}
-        />
-      </>
-    ),
-  },
 ];
+
+type SocialLinkItem = (typeof socials)[number];
+
+function SocialLink({ social }: { social: SocialLinkItem }) {
+  const { label, href, render } = social;
+
+  return (
+    <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} title={label} className="contact-social-link">
+      <span className="contact-social-icon">{render({ className: "h-[18px] w-[18px] shrink-0" })}</span>
+      <span className="contact-social-label">{label}</span>
+    </a>
+  );
+}
 
 export function ContactSection() {
   return (
-    <section id="contact" className="site-container section-block text-center">
-      <Reveal>
-        <p className="section-eyebrow">Beyond</p>
-        <h2 className="section-title section-title-sm">
-          More to build. More to figure out.
-        </h2>
-        <p className="mx-auto mt-5 max-w-2xl text-[0.98rem] leading-7 text-[var(--fg-muted)] sm:text-base sm:leading-8">
-          More systems, deeper work, better agents, and ideas I haven&apos;t figured out yet.
-        </p>
-      </Reveal>
-
-      <Reveal delay={100}>
-        <div className="contact-socials mt-10 flex flex-wrap justify-center gap-3.5">
-          {socials.map(({ label, href, render }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noreferrer"
-              title={label}
-              aria-label={label}
-              className="inline-flex h-12 w-12 items-center justify-center rounded-[16px] border border-white/50 bg-white/40 text-[var(--fg-muted)] shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_6px_20px_-8px_rgba(0,0,0,0.16)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/60 hover:text-[var(--fg)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_12px_28px_-8px_rgba(0,0,0,0.22)] dark:border-white/[0.14] dark:bg-white/[0.07] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_6px_20px_-8px_rgba(0,0,0,0.7)] dark:hover:bg-white/[0.12] dark:hover:text-[var(--fg)]"
-            >
-              {render({ className: "h-[19px] w-[19px] shrink-0" })}
+    <section id="contact" className="contact-footer">
+      <footer className="contact-footer-content site-container">
+        <div className="contact-footer-main">
+          <div className="contact-footer-intro">
+            <p className="section-eyebrow">Find me elsewhere</p>
+            <h2>Good work starts with a conversation.</h2>
+            <a className="contact-footer-email" href="mailto:mahirmalikx@gmail.com">
+              mahirmalikx@gmail.com
             </a>
-          ))}
+          </div>
         </div>
-      </Reveal>
 
-      <Reveal delay={200}>
-        <footer className="mt-16 border-t border-[var(--border)] pt-7">
-          <div className="flex flex-col items-center gap-5 text-center">
-            <a
-              href="/"
-              aria-label="Go to home"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border-mid)] text-[var(--fg-subtle)] transition hover:border-[var(--border-hover)] hover:text-[var(--fg)]"
-            >
-              <House size={16} strokeWidth={2} />
-            </a>
-
-            <nav className="flex flex-wrap items-center justify-center gap-x-7 gap-y-2">
-              <a href="/" className="mono text-[11px] uppercase tracking-[0.16em] text-[var(--fg-subtle)] transition hover:text-[var(--fg)]">
-                Home
-              </a>
-              <a href="/work" className="mono text-[11px] uppercase tracking-[0.16em] text-[var(--fg-subtle)] transition hover:text-[var(--fg)]">
-                Archive
-              </a>
-              <a href="/writing" className="mono text-[11px] uppercase tracking-[0.16em] text-[var(--fg-subtle)] transition hover:text-[var(--fg)]">
-                Writing
-              </a>
+        <div className="contact-footer-image">
+          <Image
+            src="/assets/footer.webp"
+            alt=""
+            fill
+            sizes="100vw"
+            className="contact-footer-image-photo"
+            loading="lazy"
+          />
+          <div className="contact-footer-image-shade" />
+          <div className="contact-footer-image-content">
+            <nav className="contact-socials" aria-label="Social profiles">
+              <div className="contact-socials-topline">
+                {socials.slice(0, 4).map((social) => <SocialLink key={social.label} social={social} />)}
+              </div>
+              <div className="contact-socials-flank contact-socials-left">
+                {socials.slice(4, 6).map((social) => <SocialLink key={social.label} social={social} />)}
+              </div>
+              <div className="contact-socials-flank contact-socials-right">
+                {socials.slice(6, 8).map((social) => <SocialLink key={social.label} social={social} />)}
+              </div>
             </nav>
           </div>
-
-          <div className="mt-8 flex items-center justify-between gap-4 pb-2">
-            <p className="mono text-[11px] uppercase tracking-[0.16em] text-[var(--fg-subtle)]">
-              {new Date().getFullYear()} Mahir Malik
-            </p>
-            <a
-              href="#"
-              aria-label="Back to top"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border-mid)] text-[var(--fg-subtle)] transition hover:-translate-y-0.5 hover:border-[var(--border-hover)] hover:text-[var(--fg)]"
-            >
-              <ArrowUp size={15} strokeWidth={2} />
-            </a>
-          </div>
-        </footer>
-      </Reveal>
+        </div>
+      </footer>
     </section>
   );
 }
