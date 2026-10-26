@@ -1,6 +1,6 @@
-/* ─── Mobile-only overrides ─────────────────────────────────────────────
-   Every responsive rule in this file lives inside a max-width media query,
-   so the desktop (web) UI is never affected. Desktop styles stay where they
+/* ─── Mobile overrides ──────────────────────────────────────────────────
+   Responsive changes are isolated inside breakpoint media queries, so the
+   desktop (web) UI keeps its existing layout. Desktop styles stay where they
    are: app/globals.css for the site chrome, components/writing/writing.css
    for articles. Add future phone tweaks here, never in those files.
 
@@ -29,56 +29,98 @@
   --mobile-gutter: 32px; /* 16px each side */
 }
 
-html,
-body {
-  overflow-x: hidden;
-}
-
-@supports (overflow: clip) {
+@media (min-width: 768px) {
   html,
   body {
-    overflow-x: clip;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
-}
 
-img {
-  max-width: 100%;
-  height: auto;
-}
+  @supports (overflow: clip) {
+    html,
+    body {
+      overflow-x: clip;
+    }
+  }
 
-/* Prevent iOS Safari from inflating text on orientation change, which would
-   break the carefully bounded mobile type scale. No visual change otherwise. */
-html {
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 
-/* Keyboard / screen-reader skip link: fully hidden until focused, so the
-   desktop UI is visually untouched while keyboard users get a bypass. */
-.skip-link {
-  position: fixed;
-  top: -100px;
-  left: 1rem;
-  z-index: 100;
-  padding: 0.75rem 1.25rem;
-  border-radius: 0.5rem;
-  background: var(--fg);
-  color: var(--bg);
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: top 160ms ease;
-}
+  .about-mobile {
+    display: none;
+  }
 
-.skip-link:focus-visible {
-  top: 1rem;
-  outline: 2px solid var(--bg);
-  outline-offset: 2px;
+  .skip-link {
+    position: fixed;
+    top: -100px;
+    left: 1rem;
+    z-index: 100;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.5rem;
+    background: var(--fg);
+    color: var(--bg);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: top 160ms ease;
+  }
+
+  .skip-link:focus-visible {
+    top: 1rem;
+    outline: 2px solid var(--bg);
+    outline-offset: 2px;
+  }
 }
 
 /* ─── Phones: normal + large (up to tablet breakpoint) ─── */
 
 @media (max-width: 767px) {
+  .about-mobile {
+    display: block;
+  }
+
+  .skip-link {
+    position: fixed;
+    top: -100px;
+    left: 1rem;
+    z-index: 100;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.5rem;
+    background: var(--fg);
+    color: var(--bg);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: top 160ms ease;
+  }
+
+  .skip-link:focus-visible {
+    top: 1rem;
+    outline: 2px solid var(--bg);
+    outline-offset: 2px;
+  }
+  html,
+  body {
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  @supports (overflow: clip) {
+    html,
+    body {
+      overflow-x: clip;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
   /* Consistent mobile container: ~16px gutters, never touches screen edges.
      Uses 100% (not 100vw) so the vertical scrollbar can't cause overflow. */
   .site-container {
@@ -152,111 +194,159 @@ html {
     inset: -8px;
   }
 
-  /* ─── Hero: own the illustration, kill the 100svh stretch ───
-     Single natural flow: name → role → tagline → description → tags →
-     stacked CTAs → illustration → About. Content determines the height. */
-  .hero.hero {
-    min-height: auto;
-    padding-top: 2.5rem;
-    padding-bottom: 0;
-    display: flex;
-    flex-direction: column;
+  /* ─── Hero (editorial revamp): stack the corner notes, size the badge ───
+     On phones the two serif notes would collide if they shared the desktop
+     top offset, so the right-hand note drops below the left one while
+     keeping its right alignment. At the shared 1rem note size the left
+     note wraps to short lines that stay clear of the lanyard strap
+     descending toward the badge. The badge scales up from the desktop
+     vw-based clamp so it stays graspable on small screens. */
+  .hero-note-left {
+    top: 5.25rem;
+    max-width: 10rem;
+    font-size: 0.88rem;
   }
 
-  .hero-grid.hero-grid {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
+  .hero-note-right {
+    top: 11.25rem;
+    max-width: 11rem;
+    font-size: 0.88rem;
   }
 
-  /* Fluid clamps use a rem + vw preferred value (not vw alone) so browser
-     zoom and user font-size preferences keep working (WCAG 1.4.4). Every
-     max is ≤ 2.5× its min, which keeps 200% resize effective. */
-  .hero-title.hero-title {
-    font-size: clamp(2.75rem, 1rem + 7.2vw, 4.5rem);
-    line-height: 0.95;
-    letter-spacing: -0.06em;
-    overflow-wrap: break-word;
-    text-wrap: balance;
+  .hero-name {
+    bottom: 8vw;
+    font-size: clamp(3.35rem, 15vw, 5.5rem);
   }
 
-  .hero-role {
-    margin-top: 1rem;
-    max-width: 100%;
-    font-size: clamp(1.15rem, 0.5rem + 2.6vw, 1.35rem);
-    line-height: 1.4;
-    overflow-wrap: anywhere;
+  .hero-note-left {
+    max-width: 8.5rem;
   }
 
-  /* Longest rotating role ("Agentic Workflow Developer", 26 mono chars)
-     exceeds 320px viewports: let the typewriter caret wrap instead of
-     forcing horizontal overflow. */
-  .hero-role > span {
-    min-width: 0;
-    max-width: 100%;
-    flex-wrap: wrap;
-    row-gap: 0.25rem;
-  }
-
-  .hero-tagline {
-    margin-top: 1rem;
-    font-size: clamp(1.9rem, 0.75rem + 4.7vw, 2.6rem);
-    line-height: 1.18;
-    text-wrap: balance;
-  }
-
-  .hero-desc {
-    margin-top: 1rem;
-    max-width: 100%;
-    font-size: clamp(1.02rem, 0.625rem + 1.65vw, 1.2rem);
-    line-height: 1.6;
-  }
-
-  .hero-tags {
-    margin-top: 1.25rem;
-    gap: 10px;
-  }
-
-  .hero-tags > span {
-    padding: 10px 16px;
-    font-size: 10px;
-    white-space: nowrap;
-  }
-
-  .hero-actions.hero-actions {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-    margin-top: 1.5rem;
-  }
-
-  .hero-actions.hero-actions > * {
-    width: 100%;
-    min-height: 56px;
-  }
-
-  /* Illustration is desktop-only by request: hide the guy PNG on phones.
-     Root cause of the old "double guy" bug: `.hero-visual img { display:
-     block }` (0,1,1) outranked Tailwind's `.hidden` (0,1,0), so BOTH the
-     desktop (`hidden md:block`) and mobile (`md:hidden`) <Image> rendered
-     on phones. Hiding the whole `.hero-visual` block removes the
-     illustration, its gap, and any chance of duplication. Desktop is
-     untouched (this lives inside max-width: 767px). */
-  .hero-visual.hero-visual {
-    display: none;
+  :root {
+    --badge-w: clamp(180px, 50vw, 240px);
   }
 
   /* ─── About: compact, readable, no giant desktop gaps ─── */
-  .about .font-schoolbell {
-    font-size: clamp(1rem, 4.2vw, 1.1rem);
-    line-height: 1.7;
-    overflow-wrap: break-word;
-  }
-
   .about img {
     width: 100%;
     height: auto;
+  }
+
+  /* The desktop's pinned timeline becomes a linear, touch-friendly story. */
+  .about-journey {
+    height: auto !important;
+    min-height: 0;
+    overflow: clip;
+  }
+
+  .about-journey-sticky {
+    display: none;
+  }
+
+  .about-mobile {
+    display: block;
+    padding: 4.75rem var(--mobile-gutter) 5rem;
+    background: #f7f6f3;
+    color: #111;
+  }
+
+  .about-mobile-intro h2,
+  .about-mobile-ending h2 {
+    margin: 0;
+    font-family: var(--font-serif), Georgia, serif;
+    font-size: clamp(3rem, 13vw, 4.6rem);
+    font-weight: 500;
+    letter-spacing: -0.07em;
+    line-height: 0.98;
+  }
+
+  .about-mobile-intro p {
+    max-width: 19rem;
+    margin: 1rem 0 0;
+    color: #77736f;
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .about-mobile-art {
+    width: min(12rem, 48vw);
+    margin: 2.5rem 0 2.25rem auto;
+    opacity: 0.92;
+  }
+
+  .about-mobile-art svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .about-mobile-timeline {
+    position: relative;
+    display: grid;
+    gap: 0;
+    margin-left: 0.25rem;
+    padding-left: 1.5rem;
+  }
+
+  .about-mobile-timeline::before {
+    position: absolute;
+    top: 0.4rem;
+    bottom: 0.4rem;
+    left: 0;
+    width: 1px;
+    background: #c9c5be;
+    content: "";
+  }
+
+  .about-mobile-milestone {
+    position: relative;
+    padding: 0 0 2rem;
+  }
+
+  .about-mobile-dot {
+    position: absolute;
+    top: 0.35rem;
+    left: calc(-1.5rem - 4px);
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #6f6b65;
+    box-shadow: 0 0 0 4px #f7f6f3;
+  }
+
+  .about-mobile-milestone h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.35;
+  }
+
+  .about-mobile-milestone p {
+    max-width: 29rem;
+    margin: 0.35rem 0 0;
+    color: #797670;
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  .about-mobile-ending {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #d9d6d0;
+  }
+
+  .about-mobile-ending h2 {
+    max-width: 12ch;
+    font-size: clamp(2.7rem, 11vw, 4rem);
+  }
+
+  .about-mobile-ending > p {
+    margin: 1.15rem 0 0;
+    color: #282722;
+    font-family: var(--font-serif), Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.65;
   }
 
   /* ─── Projects: reflow, don't shrink — 1 column, landscape previews ───
@@ -290,6 +380,172 @@ html {
     min-height: 1.75rem;
   }
 
+  /* Homepage projects keep their editorial copy first, then stack the screens. */
+  .projects-showcase {
+    width: calc(100% - var(--mobile-gutter));
+    padding-block: 3.5rem;
+  }
+
+  .projects-showcase-heading {
+    padding-bottom: 0.8rem;
+  }
+
+  .projects-showcase-archive {
+    font-size: 0.61rem;
+  }
+
+  .project-showcase-row {
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.6rem;
+    padding-block: 3.5rem;
+  }
+
+  .project-showcase-meta {
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
+    font-size: 0.61rem;
+  }
+
+  .project-showcase-copy h3 {
+    font-size: clamp(3rem, 14vw, 4.5rem);
+  }
+
+  .project-showcase-description {
+    margin-top: 0.95rem;
+    font-size: 1.08rem;
+    line-height: 1.55;
+  }
+
+  .project-showcase-year {
+    margin-top: 0.7rem;
+    font-size: 0.95rem;
+  }
+
+  .project-showcase-tags {
+    gap: 0.35rem 0.6rem;
+    margin-top: 0.8rem;
+    font-size: 0.58rem;
+  }
+
+  .project-showcase-tags li + li::before {
+    margin-right: 0.6rem;
+  }
+
+  .project-showcase-actions {
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .project-showcase-artwork {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 1.35;
+  }
+
+  .helion-preview-topbar {
+    height: 2rem;
+    padding-inline: 0.65rem;
+    font-size: 0.45rem;
+  }
+
+  .helion-preview-content {
+    padding: 1.2rem 7% 1rem;
+  }
+
+  .helion-preview-row {
+    grid-template-columns: 1.3rem 1fr;
+    gap: 0.4rem;
+    padding-block: 0.75rem;
+    font-size: 0.58rem;
+  }
+
+  .helion-preview-row small {
+    display: none;
+  }
+
+  .helion-preview-footer {
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-top: 1rem;
+    font-size: 0.5rem;
+  }
+
+  .projects-showcase.projects-showcase {
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0;
+  }
+
+  .projects-showcase-aside {
+    position: relative;
+    top: auto;
+    height: auto;
+    padding: 4rem var(--mobile-gutter) 3rem;
+    border-right: 0;
+    border-bottom: 1px solid #e4e1dc;
+  }
+
+  .projects-showcase-aside .section-eyebrow {
+    margin-bottom: 0.9rem;
+  }
+
+  .projects-showcase-aside h2 {
+    max-width: 12ch;
+    font-family: var(--font-heading), sans-serif;
+    font-size: clamp(3rem, 12vw, 4.25rem);
+  }
+
+  .projects-showcase-intro {
+    max-width: 34rem;
+    margin-top: 1rem;
+    font-size: 0.94rem;
+  }
+
+  .projects-showcase-aside .projects-showcase-archive {
+    margin-top: 1.25rem;
+  }
+
+  .projects-showcase-list {
+    padding-inline: var(--mobile-gutter);
+  }
+
+  .projects-showcase-list .project-showcase-row {
+    min-height: 0;
+    padding-block: 2.5rem;
+  }
+
+  .projects-showcase-list .project-showcase-row h3 {
+    font-family: var(--font-heading), sans-serif;
+    font-size: clamp(2.8rem, 11vw, 4rem);
+  }
+
+  .projects-showcase-list .project-showcase-description {
+    margin-top: 0.8rem;
+    font-family: var(--font-body), sans-serif;
+    font-size: 0.9rem;
+  }
+
+  .project-showcase-stack {
+    gap: 0.35rem;
+    margin-top: 0.75rem;
+  }
+
+  .project-showcase-stack li {
+    padding: 0.22rem 0.5rem;
+    font-size: 0.62rem;
+  }
+
+  .project-showcase-stack-row {
+    gap: 0.45rem;
+    margin-top: 0.75rem;
+  }
+
+  .project-showcase-live-link {
+    width: 1.65rem;
+    height: 1.65rem;
+  }
+
   /* ─── Homepage writing preview: centered, compact, no desktop spread ─── */
   .blogs-grid.blogs-grid {
     column-gap: 1.5rem;
@@ -310,18 +566,6 @@ html {
 
   .theory a span {
     overflow-wrap: break-word;
-  }
-
-  /* ─── Contact: natural 2-up wrap, email never bursts the layout ─── */
-  .contact-socials a {
-    flex: 1 1 140px;
-    min-width: 0;
-  }
-
-  /* Footer text links are 11px with no padding: enlarge the hit area toward
-     the 44px comfort target without moving the visual layout apart. */
-  #contact footer a {
-    padding-block: 0.55rem;
   }
 
   a[href^="mailto:"] {
@@ -368,6 +612,13 @@ html {
   .gh-tooltip {
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .gh-graph-scroll-wrapper {
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
   }
 
   /* ─── Writing index: proper offset under navbar, compact editorial flow ─── */
@@ -457,22 +708,19 @@ html {
 /* ─── Small phones ─── */
 
 @media (max-width: 480px) {
-  .hero-title.hero-title {
-    font-size: clamp(2.5rem, 1rem + 8vw, 3.25rem);
+  /* Keep the serif notes clear of each other on narrow phones. */
+  .hero-note-left {
+    top: 4.75rem;
   }
 
-  /* Hero illustration stays hidden on small phones too (see 767px rule). */
-  .hero-visual.hero-visual {
-    display: none;
+  .hero-note-right {
+    top: 10.5rem;
   }
 
   .project-card-body {
     padding-inline: 1.25rem;
   }
 
-  .contact-socials a {
-    flex-basis: 100%;
-  }
 }
 
 /* ─── Very small phones: shave the gutter, nothing else ─── */
@@ -490,5 +738,332 @@ html {
   .writing .w-diagram-scroll {
     margin: 0 -1rem;
     padding: 0 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .work-archive,
+  .project-case-study {
+    width: calc(100% - 2.5rem);
+  }
+
+  .work-archive {
+    padding-block: 2rem 5rem;
+  }
+
+  .work-archive-header {
+    padding-bottom: 3rem;
+  }
+
+  .work-archive-header h1 {
+    max-width: 10ch;
+    margin-top: 1rem;
+    font-size: clamp(3.4rem, 15vw, 5.5rem);
+  }
+
+  .work-archive-intro-row {
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .work-archive-intro-row p {
+    font-size: 0.9rem;
+  }
+
+  .work-archive-down {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  .work-project {
+    padding-block: 2.5rem;
+  }
+
+  .work-project-heading {
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .work-project-heading h2 {
+    font-size: clamp(2.25rem, 10vw, 3.3rem);
+  }
+
+  .work-project-heading > a,
+  .work-project-status {
+    font-size: 0.68rem;
+  }
+
+  .work-project-description {
+    font-size: 0.88rem;
+  }
+
+  .work-project-footer {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .project-case-study {
+    padding-block: 1.5rem 5rem;
+  }
+
+  .case-study-header {
+    padding-block: 3.5rem 2.5rem;
+  }
+
+  .case-study-header h1 {
+    font-size: clamp(3.25rem, 14vw, 5.2rem);
+  }
+
+  .case-study-summary {
+    font-size: 0.9rem;
+  }
+
+  .case-study-hero-media {
+    width: 100%;
+    aspect-ratio: 1.4;
+  }
+
+  .case-study-features,
+  .case-study-prose {
+    margin-top: 3.5rem;
+  }
+
+  .case-study-features li {
+    font-size: 0.82rem;
+  }
+
+  .case-study-prose h2 {
+    margin-top: 2.7rem;
+    font-size: clamp(1.65rem, 7vw, 2.1rem);
+  }
+
+  .case-study-prose p,
+  .case-study-prose li {
+    font-size: 0.86rem;
+  }
+}
+
+
+@media (max-width: 767px) {
+  .theory-parallax {
+    height: auto;
+    min-height: 0;
+  }
+
+  .theory-parallax-stage {
+    position: relative;
+    top: auto;
+    display: block;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+    padding: 4rem 0;
+  }
+
+  .theory.section-block {
+    padding-block: 0;
+  }
+
+  .theory-parallax-content {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .theory-row > a {
+    transform: none !important;
+  }
+
+  .theory-row {
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+
+  #implementations .theory-parallax-heading {
+    font-size: clamp(2rem, 8vw, 3rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  .blogs-writing {
+    height: auto;
+    min-height: 0;
+  }
+
+  .blogs-writing-stage {
+    position: relative;
+    top: auto;
+    display: block;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+    padding: 4rem var(--mobile-gutter);
+  }
+
+  .blogs-writing-layout,
+  .blogs-writing-intro,
+  .blogs-writing-feed {
+    transform: none !important;
+    opacity: 1 !important;
+    scale: 1 !important;
+  }
+
+  .blogs-writing-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.75rem;
+  }
+
+  .blogs-writing-intro h2 {
+    max-width: 12ch;
+    font-size: clamp(2.6rem, 10vw, 3.8rem);
+  }
+
+  .blogs-writing-intro > p {
+    margin-top: 0.9rem;
+    font-size: 0.88rem;
+  }
+
+  .blogs-writing-all {
+    margin-top: 1rem;
+  }
+
+  .blogs-writing-entry {
+    grid-template-columns: minmax(0, 1fr) 1.2rem;
+    gap: 0.5rem 0.8rem;
+    padding-block: 1.15rem;
+  }
+
+  .blogs-writing-entry-meta {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    gap: 0.75rem;
+    padding-top: 0;
+    font-size: 0.62rem;
+  }
+
+  .blogs-writing-entry-copy h3 {
+    font-size: 1.1rem;
+  }
+
+  .blogs-writing-entry-copy p {
+    font-size: 0.76rem;
+  }
+
+  .blogs-writing-entry-arrow {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .blogs-writing-feed-head {
+    padding-bottom: 0.65rem;
+  }
+
+  .blogs-writing-entry {
+    transition: none;
+  }
+
+  .contact-footer-content {
+    padding-top: 2.75rem;
+  }
+
+  .contact-footer-main {
+    padding-bottom: 2rem;
+  }
+
+  .contact-footer-image {
+    height: 30rem;
+    min-height: 0;
+  }
+
+  .contact-footer-image-content {
+    height: 30rem;
+    min-height: 30rem;
+    padding-top: 1.5rem;
+  }
+
+  .contact-footer-image-photo {
+    object-fit: cover;
+    object-position: center 42%;
+  }
+
+  .contact-socials {
+    height: 100%;
+  }
+
+  .contact-socials-topline {
+    width: 100%;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
+  .contact-socials-topline .contact-social-link {
+    grid-template-columns: 1rem minmax(0, 1fr);
+    gap: 0.3rem;
+  }
+
+  .contact-socials-flank {
+    top: 25%;
+    width: 34%;
+    gap: 0.4rem;
+  }
+
+  .contact-socials-left {
+    left: 0;
+  }
+
+  .contact-socials-right {
+    right: 0;
+    width: 34%;
+  }
+
+  .contact-social-link {
+    min-height: 2.6rem;
+    grid-template-columns: 1.1rem minmax(0, 1fr);
+    gap: 0.45rem;
+    padding-inline: 0.1rem;
+    font-size: 0.76rem;
+  }
+
+  .contact-social-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .contact-social-label {
+    font-size: clamp(0.66rem, 2.8vw, 0.74rem);
+    letter-spacing: -0.015em;
+  }
+
+}
+
+@media (max-width: 380px) {
+  .hero-note-left,
+  .hero-note-right {
+    max-width: 9rem;
+    font-size: 0.82rem;
+  }
+
+  .hero-name {
+    font-size: clamp(3.2rem, 15vw, 3.6rem);
+  }
+
+  .contact-socials-topline .contact-social-link {
+    grid-template-columns: 0.9rem minmax(0, 1fr);
+    gap: 0.2rem;
+  }
+
+  .contact-social-link {
+    font-size: 0.72rem;
+  }
+
+  .contact-social-label {
+    font-size: 0.66rem;
+  }
+
+  .contact-socials-flank {
+    width: 37%;
+  }
+
+  .contact-socials-right {
+    width: 37%;
   }
 }

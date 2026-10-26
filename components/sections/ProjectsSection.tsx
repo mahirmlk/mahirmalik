@@ -1,79 +1,81 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Reveal } from "@/components/ui/Reveal";
-import { ProjectGrid } from "@/components/work/ProjectGrid";
+import { motion, useReducedMotion } from "motion/react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import type { Project } from "@/types";
 import { projects } from "@/lib/projects";
 
-export function ProjectsSection() {
-  const categories = [...new Set(projects.map((project) => project.category))];
-  const [selectedCategory, setSelectedCategory] = useState<string>("All Projects");
-  const visibleProjects = useMemo(() => {
-    const base =
-      selectedCategory === "All Projects"
-        ? projects
-        : projects.filter((project) => project.category === selectedCategory);
+const projectNotes: Record<string, string> = {
+  sellable:
+    "An agent-ready storefront where AI buyers can find products and negotiate within seller-set rules. Purchases pass through consent checks, spending limits, and Razorpay test payments, with each step recorded for review.",
+  confluence:
+    "An interactive way to see machine learning at work. Compare 38 scikit-learn algorithms, explore 25 datasets, and step through how models learn with decision-boundary views, loss curves, and a tree builder.",
+  helion:
+    "An agent harness for your terminal and desktop. Watch runs unfold, steer them mid-flight, and approve tool calls as they happen.",
+};
 
-    return [...base].sort((a, b) => Number(b.featured) - Number(a.featured));
-  }, [selectedCategory]);
+const projectStacks: Record<string, string[]> = {
+  sellable: ["Python", "FastAPI", "LangGraph", "Razorpay"],
+  confluence: ["Next.js", "FastAPI", "scikit-learn", "TypeScript"],
+};
+
+function ProjectRow({ project }: { project: Project }) {
+  const reduceMotion = useReducedMotion();
+  const note = projectNotes[project.slug] ?? project.description;
+  const stack = projectStacks[project.slug] ?? project.tags.slice(0, 4);
 
   return (
-    <section id="projects" className="site-container section-block">
-      <Reveal>
-        <div className="space-y-8">
-          <div>
-            <p className="section-eyebrow">Projects</p>
-            <h2
-              className="section-title section-title-sm"
-            >
-              Things I&apos;ve been busy building.
-            </h2>
-          </div>
+    <motion.article
+      className="project-showcase-row"
+      initial={reduceMotion ? false : { opacity: 0, y: 22 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={reduceMotion ? { duration: 0 } : { duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <h3>
+        {project.comingSoon ? project.title : <Link href={`/work/${project.slug}`}>{project.title}</Link>}
+      </h3>
+      <p className="project-showcase-description">{note}</p>
+      <div className="project-showcase-stack-row">
+        <ul className="project-showcase-stack" aria-label={`${project.title} main technology stack`}>
+          {stack.map((technology) => <li key={technology}>{technology}</li>)}
+        </ul>
+        {project.liveUrl ? (
+          <a
+            className="project-showcase-live-link"
+            href={project.liveUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`Open ${project.title} live project`}
+            title="Open live project"
+          >
+            <ArrowUpRight aria-hidden="true" />
+          </a>
+        ) : project.comingSoon ? (
+          <span className="project-showcase-coming">In progress</span>
+        ) : null}
+      </div>
+    </motion.article>
+  );
+}
 
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => setSelectedCategory("All Projects")}
-                className={`glass-chip mono rounded-full px-3.5 py-2 text-[10px] uppercase tracking-[0.16em] transition ${
-                  selectedCategory === "All Projects"
-                    ? "border-[var(--border-hover)] text-[var(--fg)]"
-                    : "text-[var(--fg-subtle)]"
-                }`}
-              >
-                All Projects
-              </button>
-              {categories.map((category) => (
-                <button
-                  type="button"
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`glass-chip mono rounded-full px-3.5 py-2 text-[10px] uppercase tracking-[0.16em] transition ${
-                    selectedCategory === category
-                      ? "border-[var(--border-hover)] text-[var(--fg)]"
-                      : "text-[var(--fg-subtle)]"
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
+export function ProjectsSection() {
+  return (
+    <section id="projects" className="projects-showcase">
+      <aside className="projects-showcase-aside">
+        <h2>A few things I’ve been building.</h2>
+        <p className="projects-showcase-intro">
+          I work on AI systems, agents, and machine-learning tools. Each project started with something I wanted to understand or make easier to use.
+        </p>
+        <Link href="/work" className="projects-showcase-archive">
+          Full archive <ArrowRight aria-hidden="true" />
+        </Link>
+      </aside>
 
-            <Link
-              href="/work"
-              className="mono inline-flex items-center gap-2 self-start text-xs uppercase tracking-[0.18em] text-[var(--fg-muted)] transition hover:text-[var(--fg)] md:self-auto"
-            >
-              Full archive <ArrowRight size={14} />
-            </Link>
-          </div>
-        </div>
-      </Reveal>
-
-      <Reveal delay={120} className="mt-8">
-        <ProjectGrid projects={visibleProjects} />
-      </Reveal>
+      <div className="projects-showcase-list">
+        {projects.map((project) => <ProjectRow key={project.slug} project={project} />)}
+      </div>
     </section>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Reveal } from "@/components/ui/Reveal";
+import { ArrowDownRight } from "lucide-react";
 import { ProjectGrid } from "@/components/work/ProjectGrid";
 import { projects } from "@/lib/projects";
 import { JsonLd, collectionPageSchema } from "@/lib/schema";
@@ -52,19 +52,19 @@ export default function WorkPage() {
             })),
         })}
       />
-    <section className="site-container section-block">
-      <Reveal>
-        <p className="section-eyebrow">Work Archive</p>
-        <h1 className="section-title">Repository-backed systems and applied ML work.</h1>
-        <p className="section-copy mt-5">
-          The archive now focuses on real project repos instead of placeholder demos, with work
-          spanning agentic commerce infrastructure and interactive ML systems.
-        </p>
-      </Reveal>
+    <section className="work-archive">
+      <header className="work-archive-header">
+        <p className="work-archive-eyebrow">Selected work / 2022—now</p>
+        <h1>Built, tested, and put to use.</h1>
+        <div className="work-archive-intro-row">
+          <p>Projects in applied machine learning and agent systems, shaped by the parts that have to work in practice.</p>
+          <a href="#project-list" aria-label="Scroll to selected projects" className="work-archive-down">
+            <ArrowDownRight aria-hidden="true" />
+          </a>
+        </div>
+      </header>
 
-      <Reveal className="mt-10" delay={100}>
-        <ProjectGrid projects={[...projects].sort((a, b) => b.year - a.year)} />
-      </Reveal>
+      <ProjectGrid projects={[...projects].sort((a, b) => b.year - a.year)} />
     </section>
     </>
   );

@@ -1,8 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
-import { Navbar } from "@/components/nav/Navbar";
-import { inter, jetbrainsMono, sora, playfairDisplay, montserrat, spaceGrotesk, gochiHand, pixelMono, schoolbell } from "@/lib/fonts";
+import { inter, jetbrainsMono, sora, playfairDisplay, montserrat, spaceGrotesk, pixelMono } from "@/lib/fonts";
 import "@/app/globals.css";
 import "@/app/mobile.css";
 import { cn } from "@/lib/utils";
@@ -10,6 +8,8 @@ import { JsonLd, homeGraph } from "@/lib/schema";
 import { siteDescription } from "@/lib/site";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
+import "lenis/dist/lenis.css";
 
 const siteUrl = "https://www.mahirmalik.in";
 const siteTitle = "Mahir Malik";
@@ -103,40 +103,26 @@ export default function RootLayout({
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const themeScript = `
-    (() => {
-      try {
-        const storedTheme = localStorage.getItem("theme");
-        const theme = storedTheme === "dark" ? "dark" : "light";
-        const root = document.documentElement;
-        root.classList.toggle("dark", theme === "dark");
-        root.style.colorScheme = theme;
-      } catch {}
-    })();
-  `;
-
   return (
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(inter.variable, jetbrainsMono.variable, sora.variable, playfairDisplay.variable, montserrat.variable, spaceGrotesk.variable, gochiHand.variable, pixelMono.variable, schoolbell.variable, "font-sans")}
+      className={cn(inter.variable, jetbrainsMono.variable, sora.variable, playfairDisplay.variable, montserrat.variable, spaceGrotesk.variable, pixelMono.variable, "font-sans")}
     >
       <head>
-        <Script id="theme-init" strategy="beforeInteractive">
-          {themeScript}
-        </Script>
         <link rel="alternate" type="application/rss+xml" title="Mahir Malik — Writing RSS" href="/feed.xml" />
         <link rel="llms" href="/llms.txt" />
         <JsonLd data={homeGraph()} />
       </head>
-      <body suppressHydrationWarning className="page-shell min-h-screen overflow-x-hidden antialiased">
-        <a href="#main" className="skip-link">
-          Skip to content
-        </a>
-        <Navbar />
-        <main id="main" className="relative z-10 pt-24 md:pt-28">{children}</main>
-        <Analytics />
-        <SpeedInsights />
+      <body suppressHydrationWarning className="page-shell min-h-screen antialiased">
+        <SmoothScrollProvider>
+          <a href="#main" className="skip-link">
+            Skip to content
+          </a>
+          <main id="main" className="relative z-10 pt-24 md:pt-28">{children}</main>
+          <Analytics />
+          <SpeedInsights />
+        </SmoothScrollProvider>
       </body>
     </html>
   );

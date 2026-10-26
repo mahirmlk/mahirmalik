@@ -177,111 +177,72 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <>
       <JsonLd data={techArticleSchema(project)} />
-      <article className="project-detail site-container section-block">
-      <Link
-        href="/work"
-        className="glass-chip mono inline-flex rounded-full px-4 py-2 text-[11px] uppercase tracking-[0.18em] text-[var(--fg-muted)] transition hover:text-[var(--fg)]"
-      >
-        Back to archive
-      </Link>
+      <article className="project-detail project-case-study">
+        <Link href="/work" className="case-study-back">← All work</Link>
 
-      <div className="mt-8 grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-        <div>
-          <p className="section-eyebrow">Case Study / {project.year}</p>
-          <h1 className="section-title">{project.title}</h1>
-          <p className="mono-body mt-5 max-w-[44rem] text-[0.92rem] leading-8 text-[var(--fg-muted)]">{project.description}</p>
-          <div className="mt-6 flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <TechBadge key={tag}>{tag}</TechBadge>
-            ))}
+        <header className="case-study-header">
+          <p className="case-study-kicker">{project.category} <span>·</span> {project.year}</p>
+          <h1>{project.title}</h1>
+          <p className="case-study-summary">{project.description}</p>
+          <div className="case-study-tech">
+            {project.tags.map((tag) => <TechBadge key={tag}>{tag}</TechBadge>)}
           </div>
-          <div className="mt-8 flex flex-wrap items-center gap-6">
+          <div className="case-study-links">
             {project.liveUrl ? (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 text-[0.9rem] font-medium text-[var(--fg)] transition hover:opacity-70"
-              >
-                <Globe size={13} strokeWidth={1.5} />
-                Live project
+              <a href={project.liveUrl} target="_blank" rel="noreferrer">
+                <Globe size={14} strokeWidth={1.5} /> Live project
               </a>
             ) : null}
             {project.githubUrl ? (
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 text-[0.9rem] font-medium text-[var(--fg)] transition hover:opacity-70"
-              >
-                <Github size={13} strokeWidth={1.5} />
-                Source code
+              <a href={project.githubUrl} target="_blank" rel="noreferrer">
+                <Github size={14} strokeWidth={1.5} /> Source code
               </a>
             ) : null}
           </div>
-        </div>
+        </header>
 
-        <div className="overflow-hidden rounded-[1.75rem] border border-[var(--border)] shadow-[0_25px_60px_rgba(0,0,0,0.18)]">
-          <ProjectHero project={project} className="aspect-[16/10] w-full" />
-        </div>
-      </div>
+        <figure className="case-study-hero">
+          <ProjectHero project={project} className="case-study-hero-media" />
+        </figure>
 
-      <div className="mt-10 rounded-[1.5rem] border border-[var(--border)] bg-[var(--bg-card)] p-6 md:p-7">
-        <div className="features-head flex items-end justify-between gap-4 border-b border-[var(--border)] pb-4">
-          <div>
-            <p className="section-eyebrow">Project Features</p>
-            <h2 className="font-section mt-3 text-[1.5rem] font-semibold tracking-[-0.02em] text-[var(--fg)]">
-              What this case study includes
-            </h2>
-          </div>
-          <p className="mono text-[11px] uppercase tracking-[0.16em] text-[var(--fg-subtle)]">
-            {String(project.features.length).padStart(2, "0")} features
-          </p>
-        </div>
+        <section className="case-study-features" aria-labelledby="case-study-features-title">
+          <h2 id="case-study-features-title">What it does</h2>
+          <ul>
+            {project.features.map((feature) => <li key={feature}>{feature}</li>)}
+          </ul>
+        </section>
 
-        <div className="mt-5 grid gap-3 md:grid-cols-2">
-          {project.features.map((feature) => (
-            <div
-              key={feature}
-              className="mono-body rounded-[1rem] border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3 text-[0.8rem] leading-7 text-[var(--fg-muted)]"
-            >
-              {feature}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="prose-article mono-body mt-14 max-w-3xl">
-        {blocks.length ? (
-          blocks.map((block, index) => {
-            if (block.type === "heading") {
-              return <h2 key={`${block.value}-${index}`}>{block.value}</h2>;
-            }
-            if (block.type === "list") {
+        <div className="prose-article case-study-prose">
+          {blocks.length ? (
+            blocks.map((block, index) => {
+              if (block.type === "heading") {
+                return <h2 key={`${block.value}-${index}`}>{block.value}</h2>;
+              }
+              if (block.type === "list") {
+                return (
+                  <ul key={`list-${index}`}>
+                    {block.items.map((item) => (
+                      <li key={item}>
+                        <Inline text={item} />
+                      </li>
+                    ))}
+                  </ul>
+                );
+              }
               return (
-                <ul key={`list-${index}`}>
-                  {block.items.map((item) => (
-                    <li key={item}>
-                      <Inline text={item} />
-                    </li>
-                  ))}
-                </ul>
+                <p key={`${block.value}-${index}`}>
+                  <Inline text={block.value} />
+                </p>
               );
-            }
-            return (
-              <p key={`${block.value}-${index}`}>
-                <Inline text={block.value} />
-              </p>
-            );
-          })
-        ) : (
-          <p>
-            The case study content for this project lives in <code>content/projects/{project.slug}.md</code>{" "}
-            and can be expanded with richer narrative detail.
-          </p>
-        )}
-      </div>
-    </article>
+            })
+          ) : (
+            <p>
+              The case study content for this project lives in <code>content/projects/{project.slug}.md</code>{" "}
+              and can be expanded with richer narrative detail.
+            </p>
+          )}
+        </div>
+      </article>
     </>
   );
 }
