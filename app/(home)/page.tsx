@@ -12,7 +12,7 @@ import { siteDescription, siteName, siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: {
-    absolute: `${siteName} — AI Engineer`,
+    absolute: siteName,
   },
   description: siteDescription,
   authors: [{ name: siteName, url: siteUrl }],

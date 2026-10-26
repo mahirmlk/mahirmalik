@@ -10,7 +10,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import "lenis/dist/lenis.css";
 
-const siteTitle = `${siteName} — AI Engineer`;
+const siteTitle = siteName;
 const previewImage = {
   url: "/og-image.jpg",
   width: 1200,
