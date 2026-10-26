@@ -1,4 +1,4 @@
-import { personDescription, personId, personJobTitle, personKnowsAbout, personSameAs, siteDescription, siteName, siteUrl, websiteId } from "@/lib/site";
+import { personDescription, personEmail, personId, personJobTitle, personKnowsAbout, personSameAs, siteDescription, siteName, siteUrl, websiteId } from "@/lib/site";
 
 function escapeJsonLd(value: unknown): string {
   return JSON.stringify(value).replace(/</g, "\\u003c");
@@ -35,6 +35,7 @@ export function personSchema() {
     url: siteUrl,
     jobTitle: personJobTitle,
     description: personDescription,
+    email: `mailto:${personEmail}`,
     sameAs: personSameAs,
     knowsAbout: personKnowsAbout,
   };
@@ -104,7 +105,7 @@ export function writingPostingSchema(post: {
         inLanguage: "en",
         image: `${siteUrl}/og-image.jpg`,
         datePublished: post.date,
-        dateModified: post.updated,
+        ...(post.updated !== post.date ? { dateModified: post.updated } : {}),
         author: authorRef(),
         publisher: { "@id": personId },
         keywords: post.tags.join(", "),
@@ -121,11 +122,10 @@ export function writingPostingSchema(post: {
   };
 }
 
-export function techArticleSchema(project: {
+export function projectSchema(project: {
   slug: string;
   title: string;
   description: string;
-  year: number;
   category: string;
   tags: string[];
   image?: string;
@@ -135,20 +135,17 @@ export function techArticleSchema(project: {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "TechArticle",
-        "@id": `${url}#article`,
-        headline: project.title,
+        "@type": "CreativeWork",
+        "@id": `${url}#project`,
+        name: project.title,
         description: project.description,
         url,
         mainEntityOfPage: url,
         inLanguage: "en",
-        image: project.image ?? `${siteUrl}/og-image.jpg`,
-        datePublished: `${project.year}-01-01`,
-        dateModified: `${project.year}-12-31`,
-        author: authorRef(),
-        publisher: { "@id": personId },
-        keywords: project.tags.join(", "),
-        articleSection: project.category,
+        image: project.image ? `${siteUrl}${project.image}` : `${siteUrl}/og-image.jpg`,
+        creator: authorRef(),
+        about: project.category,
+        keywords: project.tags,
       },
       breadcrumbSchema([
         { name: "Home", path: "/" },

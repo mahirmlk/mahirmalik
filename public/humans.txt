@@ -7,4 +7,5 @@
 /* SITE */
   Stack: Next.js 16, React 19, FastAPI, scikit-learn, Supabase
   RSS: https://www.mahirmalik.in/feed.xml
-  AI text: https://www.mahirmalik.in/llms-full.txt
+  Machine-readable site index: https://www.mahirmalik.in/llms.txt
+  Full article and project text: https://www.mahirmalik.in/llms-full.txt

@@ -3,12 +3,12 @@ import { ArrowDownRight } from "lucide-react";
 import { ProjectGrid } from "@/components/work/ProjectGrid";
 import { projects } from "@/lib/projects";
 import { JsonLd, collectionPageSchema } from "@/lib/schema";
+import { siteName, siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Work",
-  description: "Projects archive for Mahir Malik — agentic commerce, ML visualization, and applied AI systems.",
-  keywords: ["Mahir Malik", "AI projects", "agentic commerce", "ML visualization", "case studies"],
-  authors: [{ name: "Mahir Malik", url: "https://www.mahirmalik.in" }],
+  description: "A closer look at Mahir Malik’s software projects, including policy-controlled agent commerce and interactive machine-learning visualization.",
+  authors: [{ name: siteName, url: siteUrl }],
   alternates: {
     canonical: "/work",
   },
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "/work",
     title: "Work | Mahir Malik",
-    description: "Projects archive for Mahir Malik — agentic commerce, ML visualization, and applied AI systems.",
+    description: "A closer look at Mahir Malik’s software projects, including policy-controlled agent commerce and interactive machine-learning visualization.",
     images: [
       {
         url: "/og-image.jpg",
@@ -40,7 +40,7 @@ export default function WorkPage() {
       <JsonLd
         data={collectionPageSchema({
           title: "Work | Mahir Malik",
-          description: "Projects archive for Mahir Malik — agentic commerce, ML visualization, and applied AI systems.",
+          description: "A closer look at Mahir Malik’s software projects, including policy-controlled agent commerce and interactive machine-learning visualization.",
           path: "/work",
           items: [...projects]
             .filter((project) => !project.comingSoon)
@@ -48,7 +48,6 @@ export default function WorkPage() {
             .map((project) => ({
               name: project.title,
               path: `/work/${project.slug}`,
-              datePublished: `${project.year}-01-01`,
             })),
         })}
       />

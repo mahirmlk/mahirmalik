@@ -4,15 +4,13 @@ import { inter, jetbrainsMono, sora, playfairDisplay, montserrat, spaceGrotesk, 
 import "@/app/globals.css";
 import "@/app/mobile.css";
 import { cn } from "@/lib/utils";
-import { JsonLd, homeGraph } from "@/lib/schema";
-import { siteDescription } from "@/lib/site";
+import { siteDescription, siteName, siteUrl } from "@/lib/site";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import "lenis/dist/lenis.css";
 
-const siteUrl = "https://www.mahirmalik.in";
-const siteTitle = "Mahir Malik";
+const siteTitle = `${siteName} — AI Engineer`;
 const previewImage = {
   url: "/og-image.jpg",
   width: 1200,
@@ -37,26 +35,10 @@ export const metadata: Metadata = {
     default: siteTitle
   },
   description: siteDescription,
-  keywords: [
-    "Mahir Malik",
-    "AI Engineer",
-    "Machine Learning",
-    "LLM agents",
-    "RAG systems",
-    "Next.js",
-    "FastAPI",
-    "PyTorch",
-    "production ML systems",
-  ],
   authors: [{ name: "Mahir Malik", url: siteUrl }],
   creator: "Mahir Malik",
   publisher: "Mahir Malik",
   category: "technology",
-  alternates: {
-    // Fallback canonical for any route without its own.
-    // Every per-page `alternates.canonical` overrides this.
-    canonical: "/",
-  },
   robots: {
     index: true,
     follow: true,
@@ -77,7 +59,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: siteUrl,
-    siteName: siteTitle,
+    siteName,
     title: siteTitle,
     description: siteDescription,
     images: [previewImage]
@@ -111,8 +93,6 @@ export default function RootLayout({
     >
       <head>
         <link rel="alternate" type="application/rss+xml" title="Mahir Malik — Writing RSS" href="/feed.xml" />
-        <link rel="llms" href="/llms.txt" />
-        <JsonLd data={homeGraph()} />
       </head>
       <body suppressHydrationWarning className="page-shell min-h-screen antialiased">
         <SmoothScrollProvider>

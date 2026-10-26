@@ -3,12 +3,12 @@ import { AboutSection } from "@/components/sections/AboutSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { SkillsSection } from "@/components/sections/SkillsSection";
 import { JsonLd, profilePageSchema } from "@/lib/schema";
+import { personDescription, siteName, siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Extended background, working principles, and technical profile for Mahir Malik.",
-  keywords: ["Mahir Malik", "AI Engineer", "about", "working principles", "ML profile"],
-  authors: [{ name: "Mahir Malik", url: "https://www.mahirmalik.in" }],
+  description: personDescription,
+  authors: [{ name: siteName, url: siteUrl }],
   alternates: {
     canonical: "/about",
   },
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     type: "profile",
     url: "/about",
     title: "About | Mahir Malik",
-    description: "Extended background, working principles, and technical profile for Mahir Malik.",
+    description: personDescription,
     images: [
       {
         url: "/og-image.jpg",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "About | Mahir Malik",
-    description: "Extended background, working principles, and technical profile for Mahir Malik.",
+    description: personDescription,
     images: ["/og-image.jpg"],
   },
 };

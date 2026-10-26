@@ -1,42 +1,37 @@
-// Generates public/llms-full.txt from content/ so the AI-facing full text
-// never stales. Runs automatically as `prebuild` (local + Vercel).
-// Plain node, zero dependencies.
+// Build concise and full-text discovery files from the site's content sources.
+// These are optional plain-text references for assistants and other clients.
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
-const siteUrl = "https://www.mahirmalik.in";
+const siteSource = fs.readFileSync(path.join(root, "lib", "site.ts"), "utf8");
+const siteUrl = siteSource.match(/export const siteUrl = "([^"]+)"/)?.[1] ?? "";
+const siteDescription = siteSource.match(/export const siteDescription =\s*"([^"]+)"/)?.[1] ?? "";
+const personEmail = siteSource.match(/export const personEmail = "([^"]+)"/)?.[1] ?? "";
+const sameAsSource = siteSource.match(/export const personSameAs = \[([\s\S]*?)\];/)?.[1] ?? "";
+const socialUrls = [...sameAsSource.matchAll(/"(https:\/\/[^\"]+)"/g)].map((match) => match[1]);
 
-// Single source of truth: lib/projects.ts. Body files in content/projects
-// have no frontmatter, so titles/descriptions come from the data module via
-// regex (plain node can't import TS).
 function parseProjectsTs() {
-  const src = fs.readFileSync(path.join(root, "lib", "projects.ts"), "utf8");
-  const slugs = [...src.matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1]);
-  return slugs.map((slug) => {
-    // Slice from this slug's position to the next one so each regex only
-    // sees the fields belonging to this project.
-    const start = src.indexOf(`slug: "${slug}"`);
-    const nextSlug = slugs[slugs.indexOf(slug) + 1];
-    const end = nextSlug ? src.indexOf(`slug: "${nextSlug}"`) : src.length;
-    const chunk = src.slice(start, end);
-
+  const source = fs.readFileSync(path.join(root, "lib", "projects.ts"), "utf8");
+  const starts = [...source.matchAll(/slug:\s*"([^"]+)"/g)];
+  return starts.map((match, index) => {
+    const start = match.index ?? 0;
+    const end = starts[index + 1]?.index ?? source.length;
+    const project = source.slice(start, end);
+    const tags = project.match(/tags:\s*\[([^\]]*)\]/)?.[1] ?? "";
     return {
-      slug,
-      title: chunk.match(/title:\s*"([^"]+)"/)?.[1] ?? slug,
-      description:
-        chunk.match(/description:\s*\n?\s*"([\s\S]*?)",\n\s*features/)?.[1] ?? "",
+      slug: match[1],
+      title: project.match(/title:\s*"([^"]+)"/)?.[1] ?? match[1],
+      category: project.match(/category:\s*"([^"]+)"/)?.[1] ?? "Project",
+      description: project.match(/description:\s*\n?\s*"([\s\S]*?)",\n\s*features/)?.[1] ?? "",
+      tags: [...tags.matchAll(/"([^"]+)"/g)].map((tag) => tag[1]),
+      comingSoon: /comingSoon:\s*true/.test(project),
     };
   });
 }
 
-const projectEntries = parseProjectsTs();
-const projectTitles = Object.fromEntries(projectEntries.map((p) => [p.slug, p.title ?? p.slug]));
-const projectDescriptions = Object.fromEntries(projectEntries.map((p) => [p.slug, p.description ?? ""]));
-
 function parseFrontmatter(raw) {
-  // Normalize CRLF so `^...$` regexes match (`.` never matches `\r`).
   const source = raw.replace(/\r\n/g, "\n");
   if (!source.startsWith("---")) return { data: {}, body: source };
   const end = source.indexOf("\n---", 3);
@@ -45,30 +40,27 @@ function parseFrontmatter(raw) {
   const body = source.slice(end + 4).replace(/^\n+/, "");
   const data = {};
   for (const line of front.split("\n")) {
-    const m = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
-    if (m && !/^\s*-\s+/.test(line)) {
-      data[m[1]] = m[2].trim().replace(/^["']|["']$/g, "");
+    const match = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (match && !/^\s*-\s+/.test(line)) {
+      data[match[1]] = match[2].trim().replace(/^(["'])(.*)\1$/, "$2");
     }
   }
   return { data, body };
 }
 
-function readDir(sub) {
-  const dir = path.join(root, "content", sub);
-  if (!fs.existsSync(dir)) return [];
-  return fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith(".md"))
+function readDir(directory) {
+  const absolutePath = path.join(root, "content", directory);
+  if (!fs.existsSync(absolutePath)) return [];
+  return fs.readdirSync(absolutePath)
+    .filter((file) => file.endsWith(".md"))
     .sort()
-    .map((f) => {
-      const raw = fs.readFileSync(path.join(dir, f), "utf8");
+    .map((file) => {
+      const raw = fs.readFileSync(path.join(absolutePath, file), "utf8");
       const { data, body } = parseFrontmatter(raw);
-      const slug = f.replace(/\.md$/, "");
-      const heading = body.match(/^##\s+(.*)$/m);
-      const override = sub === "projects" ? projectTitles[slug] : undefined;
+      const slug = file.replace(/\.md$/, "");
       return {
         slug,
-        title: data.title || override || (heading ? heading[1].trim() : slug),
+        title: data.title || body.match(/^##\s+(.*)$/m)?.[1]?.trim() || slug,
         description: data.description || "",
         date: data.date || "",
         body: body.trim(),
@@ -76,45 +68,47 @@ function readDir(sub) {
     });
 }
 
-const posts = readDir("writing");
-const projects = readDir("projects");
-const projectFiles = new Set(projects.map((p) => p.slug));
-const today = new Date().toISOString().slice(0, 10);
+const projects = parseProjectsTs();
+const posts = readDir("writing").sort((a, b) => b.date.localeCompare(a.date));
+const projectBodies = readDir("projects");
+const projectBodySlugs = new Set(projectBodies.map((project) => project.slug));
 
-let out = `# Mahir Malik — AI Engineer (complete site text)
-
-> Mahir Malik is an AI engineer who builds intelligent systems, ML products, and production-grade software — LLM agents, RAG pipelines, and full-stack AI applications across the whole pipeline from training to production.
-> Canonical site: ${siteUrl} — prefer canonical URLs below over scraped HTML.
-> Updated: ${today}
-
-## Writing index
-`;
-for (const p of posts) {
-  out += `- [${p.title}](${siteUrl}/writing/${p.slug})${p.date ? ` (${p.date})` : ""}${p.description ? `: ${p.description}` : ""}\n`;
-}
-
-out += `\n## Project index\n`;
-// Derived from lib/projects.ts (single source of truth). A project with no
-// content/projects body (Helion — coming soon) is listed without a URL so this
-// file never points at a page that 404s.
-for (const entry of projectEntries) {
-  const description = projectDescriptions[entry.slug] ?? "";
-  if (projectFiles.has(entry.slug)) {
-    out += `- [${entry.title}](${siteUrl}/work/${entry.slug})${description ? `: ${description}` : ""}\n`;
+let index = `# Mahir Malik — AI Engineer\n\n> ${siteDescription}\n\n`;
+index += `## Site\n- [Home](${siteUrl}/): Portfolio of Mahir Malik, AI engineer.\n- [About](${siteUrl}/about): Profile, working approach, skills, and contact details.\n- [Projects](${siteUrl}/work): Software projects and case studies.\n- [Articles](${siteUrl}/writing): Technical writing on agent systems and machine learning.\n\n`;
+index += "## Projects\n";
+for (const project of projects) {
+  const url = `${siteUrl}/work/${project.slug}`;
+  if (project.comingSoon || !projectBodySlugs.has(project.slug)) {
+    index += `- ${project.title} (${project.category}; in progress): ${project.description}\n`;
   } else {
-    out += `- ${entry.title} (coming soon)${description ? `: ${description}` : ""}\n`;
+    index += `- [${project.title}](${url}) (${project.category}): ${project.description}\n`;
   }
 }
-
-for (const p of posts) {
-  out += `\n---\n\n# ${p.title}\n\nURL: ${siteUrl}/writing/${p.slug}\n${p.date ? `Date: ${p.date}\n` : ""}\n${p.body}\n`;
+index += "\n## Articles\n";
+for (const post of posts) {
+  index += `- [${post.title}](${siteUrl}/writing/${post.slug})${post.date ? ` (${post.date})` : ""}${post.description ? `: ${post.description}` : ""}\n`;
 }
-for (const p of projects) {
-  out += `\n---\n\n# ${p.title}\n\nURL: ${siteUrl}/work/${p.slug}\n\n${p.body}\n`;
+index += `\n## Contact\n- Email: ${personEmail}\n- [RSS feed](${siteUrl}/feed.xml)\n\n## Profiles\n`;
+for (const url of socialUrls) {
+  const host = new URL(url).hostname.replace(/^www\./, "");
+  index += `- [${host}](${url})\n`;
 }
 
-out += `\n---\n\n# Elsewhere\n\n- GitHub: https://github.com/mahirmlk\n- LinkedIn: https://www.linkedin.com/in/mahir-malik\n- X: https://x.com/mahirmllk\n- Contact: ${siteUrl}/about\n`;
+let fullText = `# Mahir Malik — AI Engineer\n\n> ${siteDescription}\n> Canonical site: ${siteUrl}\n\n`;
+fullText += `## Project index\n${index.split("## Projects\n")[1].split("\n## Articles")[0]}\n`;
+fullText += `## Article index\n${index.split("## Articles\n")[1].split("\n## Contact")[0]}\n`;
+for (const post of posts) {
+  fullText += `\n---\n\n# ${post.title}\n\nURL: ${siteUrl}/writing/${post.slug}\n${post.date ? `Date published: ${post.date}\n` : ""}\n${post.body}\n`;
+}
+for (const project of projectBodies) {
+  const data = projects.find((entry) => entry.slug === project.slug);
+  fullText += `\n---\n\n# ${data?.title ?? project.title}\n\nURL: ${siteUrl}/work/${project.slug}\n\n${project.body}\n`;
+}
+fullText += `\n---\n\n## Contact and profiles\n- Email: ${personEmail}\n`;
+for (const url of socialUrls) {
+  fullText += `- ${new URL(url).hostname.replace(/^www\./, "")}: ${url}\n`;
+}
 
-const target = path.join(root, "public", "llms-full.txt");
-fs.writeFileSync(target, out);
-console.log(`llms-full.txt: ${(Buffer.byteLength(out) / 1024).toFixed(1)} KB, ${posts.length} posts, ${projects.length} project files`);
+fs.writeFileSync(path.join(root, "public", "llms.txt"), index);
+fs.writeFileSync(path.join(root, "public", "llms-full.txt"), fullText);
+console.log(`Discovery files generated: ${posts.length} articles, ${projects.filter((project) => !project.comingSoon).length} published projects.`);

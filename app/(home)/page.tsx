@@ -7,22 +7,15 @@ import { HeroSection } from "@/components/hero/HeroSection";
 import { ProjectsSection } from "@/components/sections/ProjectsSection";
 import { SkillsSection } from "@/components/sections/SkillsSection";
 import { TheorySection } from "@/components/sections/TheorySection";
+import { JsonLd, homeGraph } from "@/lib/schema";
+import { siteDescription, siteName, siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Mahir Malik",
+    absolute: `${siteName} — AI Engineer`,
   },
-  description:
-    "Mahir Malik is an AI engineer working with machine learning, LLMs, agents, and model development, from early experiments to working systems.",
-  keywords: [
-    "Mahir Malik",
-    "AI Engineer",
-    "LLM agents",
-    "RAG pipelines",
-    "ML products",
-    "portfolio",
-  ],
-  authors: [{ name: "Mahir Malik", url: "https://www.mahirmalik.in" }],
+  description: siteDescription,
+  authors: [{ name: siteName, url: siteUrl }],
   alternates: {
     canonical: "/",
   },
@@ -34,6 +27,7 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
+      <JsonLd data={homeGraph()} />
       <HeroSection />
       <AboutSection />
       <ProjectsSection />

@@ -1,29 +1,33 @@
 # Mahir Malik — AI Engineer
 
-> Mahir Malik is an AI engineer who builds intelligent systems, ML products, and production-grade software — LLM agents, RAG pipelines, and full-stack AI applications across the whole pipeline from training to production.
+> Mahir Malik is an AI engineer building agent systems and interactive machine-learning tools, including Sellable and Confluence.
 
-## About
-- [About Mahir Malik](https://www.mahirmalik.in/about): Bio, working principles, skills, and contact information. Canonical profile and identity page.
-- [Work](https://www.mahirmalik.in/work): Project archive covering agentic commerce, ML visualization, and AI infrastructure.
+## Site
+- [Home](https://www.mahirmalik.in/): Portfolio of Mahir Malik, AI engineer.
+- [About](https://www.mahirmalik.in/about): Profile, working approach, skills, and contact details.
+- [Projects](https://www.mahirmalik.in/work): Software projects and case studies.
+- [Articles](https://www.mahirmalik.in/writing): Technical writing on agent systems and machine learning.
 
 ## Projects
-- [Sellable](https://www.mahirmalik.in/work/sellable): AI agents that buy things autonomously with guardrails — machine-readable storefront, policy engine, Razorpay payment rails, and an XAI audit ledger.
-- [Confluence](https://www.mahirmalik.in/work/confluence): Interactive ML learning playground with 38 scikit-learn algorithms, live decision boundaries, frame-by-frame training playback, and 25 datasets.
-- Helion (coming soon): Agent harness in the terminal and on the desktop — live run timeline, steering, and human-in-the-loop tool approvals. In progress.
+- [Sellable](https://www.mahirmalik.in/work/sellable) (Agentic Commerce): Sellable is an agentic commerce prototype where buyer and seller agents negotiate within explicit policy limits. It combines a machine-readable storefront, deterministic transaction checks, single-use consent, Razorpay test-mode payments, and an audit trail.
+- [Confluence](https://www.mahirmalik.in/work/confluence) (ML Visualization): Confluence is an interactive machine-learning playground powered by real scikit-learn compute. It pairs 38 algorithms and 25 datasets with live decision boundaries, training playback, prediction explanations, and reproducible Python exports.
+- Helion (Agent Harness; in progress): Helion is an agent harness in development for terminal and desktop workflows. It is designed to show agent runs, allow mid-run steering, and gate tool calls for human approval.
 
-## Writing
-- [Writing home](https://www.mahirmalik.in/writing): Long-form writing on LLM deployment, retrieval systems, evaluation discipline, and product decisions around AI.
-- [Context vs Loop vs Harness Engineering](https://www.mahirmalik.in/writing/context-vs-loop-vs-harness-engineering): What context engineering, harness engineering, and loop engineering each do, where they overlap, and how to build a simple production-style agent system.
-- [I made a visualization tool for ML algorithms](https://www.mahirmalik.in/writing/i-made-a-visualization-tool-for-ml-algorithms): Confluence — learning ML by watching 38 real scikit-learn algorithms run, with decision boundaries you can poke and training you can scrub frame by frame.
-
-## Feed
-- [Writing RSS](https://www.mahirmalik.in/feed.xml): Full RSS feed of all writing. Poll for fresh content.
-- [Full site text](https://www.mahirmalik.in/llms-full.txt): Complete markdown of every project and article on this site. Prefer this over scraping HTML.
+## Articles
+- [Jev Explained: The Small Model That Decides Instead of Writing](https://www.mahirmalik.in/writing/jev-system-one-model-explained) (2026-09-20): Jev by TypeSafe AI is a System One model for fast typed decisions: how its Choice, Score and Noul primitives work, what it costs, and where it fits beside an LLM.
+- [Context vs Loop vs Harness Engineering: The New Stack Behind AI Agents](https://www.mahirmalik.in/writing/context-vs-loop-vs-harness-engineering) (2026-09-13): How context engineering, harness engineering, and loop engineering differ, where they overlap, and how to build a simple production-style agent system.
+- [I made a visualization tool for ML algorithms](https://www.mahirmalik.in/writing/i-made-a-visualization-tool-for-ml-algorithms) (2026-08-28): Confluence is a playground for learning ML by watching it work: 38 real scikit-learn algorithms, decision boundaries you can poke at, and training you can scrub through frame by frame.
 
 ## Contact
-- [About + contact](https://www.mahirmalik.in/about): Bio, working principles, and contact information. Email: mahirmalikx@gmail.com.
+- Email: mahirmalikx@gmail.com
+- [RSS feed](https://www.mahirmalik.in/feed.xml)
 
-## Elsewhere
-- [GitHub](https://github.com/mahirmlk): Open-source projects and code.
-- [LinkedIn](https://www.linkedin.com/in/mahir-malik): Professional profile.
-- [X](https://x.com/mahirmllk): Social profile.
+## Profiles
+- [github.com](https://github.com/mahirmlk)
+- [linkedin.com](https://www.linkedin.com/in/mahir-malik)
+- [x.com](https://x.com/mahirmllk)
+- [kaggle.com](https://www.kaggle.com/mahirmlk)
+- [huggingface.co](https://huggingface.co/mahirmalik)
+- [daily.dev](https://daily.dev/mahirmalik)
+- [dev.to](https://dev.to/mahirmlk)
+- [reddit.com](https://www.reddit.com/user/nightmareofai/)

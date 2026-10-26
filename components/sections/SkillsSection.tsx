@@ -12,8 +12,8 @@ interface StackCategory {
   items: StackLogo[];
 }
 
-// Icons are vendored to /public/assets/icons (see scripts/icon-map.json) so
-// the stack section makes zero third-party requests at runtime.
+// Icons are vendored locally so the stack section makes no third-party
+// requests at runtime.
 const si = (slug: string, color: string) => `/assets/icons/si-${slug}-${color}.svg`;
 const favicon = (domain: string) => `/assets/icons/fav-${domain}.png`;
 

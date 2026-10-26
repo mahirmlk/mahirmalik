@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getWritingPost, getWritingSlugs } from "@/lib/writing";
 import { getWritingFaqs } from "@/lib/writing-faq";
-import { siteUrl } from "@/lib/site";
+import { siteName, siteUrl } from "@/lib/site";
 import { ArticleBody } from "@/components/writing/ArticleBody";
 import { ArticleFaq, ArticleFooter, ArticleHeader, ArticleLayout } from "@/components/writing/ArticleLayout";
 import { JsonLd, faqPageSchema, writingPostingSchema } from "@/lib/schema";
@@ -30,8 +30,7 @@ export async function generateMetadata({ params }: WritingPageProps): Promise<Me
   return {
     title: post.title,
     description: post.description,
-    keywords: post.tags,
-    authors: [{ name: "Mahir Malik", url: "https://www.mahirmalik.in" }],
+    authors: [{ name: siteName, url: siteUrl }],
     alternates: {
       canonical: url,
     },
@@ -43,7 +42,7 @@ export async function generateMetadata({ params }: WritingPageProps): Promise<Me
       publishedTime: post.date,
       section: post.category,
       tags: post.tags,
-      authors: ["Mahir Malik"],
+      authors: [siteName],
       images: [
         {
           url: "/og-image.jpg",

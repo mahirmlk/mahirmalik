@@ -7,7 +7,8 @@ import { Github, Globe } from "lucide-react";
 import { ProjectHero } from "@/components/work/ProjectHero";
 import { TechBadge } from "@/components/work/TechBadge";
 import { getProjectBySlug, projects } from "@/lib/projects";
-import { JsonLd, techArticleSchema } from "@/lib/schema";
+import { JsonLd, projectSchema } from "@/lib/schema";
+import { siteName, siteUrl } from "@/lib/site";
 import { renderInlineMarkdown } from "@/lib/writing";
 
 // Renders inline markdown (links, code, bold) from project content. The source
@@ -123,8 +124,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   return {
     title: project.title,
     description: project.description,
-    keywords: project.tags,
-    authors: [{ name: "Mahir Malik", url: "https://www.mahirmalik.in" }],
+    authors: [{ name: siteName, url: siteUrl }],
     alternates: {
       canonical: url,
     },
@@ -133,7 +133,6 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
       url,
       title: project.title,
       description: project.description,
-      publishedTime: `${project.year}-01-01`,
       section: project.category,
       tags: project.tags,
       images: [
@@ -176,7 +175,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   return (
     <>
-      <JsonLd data={techArticleSchema(project)} />
+      <JsonLd data={projectSchema(project)} />
       <article className="project-detail project-case-study">
         <Link href="/work" className="case-study-back">← All work</Link>
 

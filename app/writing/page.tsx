@@ -5,7 +5,7 @@ import { WritingList } from "@/components/writing/WritingList";
 import { JsonLd, collectionPageSchema } from "@/lib/schema";
 
 const WRITING_DESCRIPTION =
-  "Technical notes on AI agents, harness engineering, model routing, and interactive ML tools.";
+  "Technical articles by Mahir Malik on AI agent systems, harness engineering, model routing, and interactive machine-learning tools.";
 
 export const metadata: Metadata = {
   title: "Writing",
