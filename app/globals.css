@@ -2611,7 +2611,7 @@ body {
 }
 
 /* Keep heading typography consistent with the lighter About heading. */
-h1,
+h1:not(.hero-name),
 h2,
 h3,
 h4,
