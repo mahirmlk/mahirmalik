@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import { AboutSection } from "@/components/sections/AboutSection";
-import { BlogsSection } from "@/components/sections/BlogsSection";
+import { ArticlesImplementationsTransition } from "@/components/sections/ArticlesImplementationsTransition";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { GitHubCommitsSection } from "@/components/sections/GitHubCommitsSection";
-import { HeroSection } from "@/components/hero/HeroSection";
+import { HeroAboutTransition } from "@/components/sections/HeroAboutTransition";
 import { ProjectsSection } from "@/components/sections/ProjectsSection";
 import { SkillsSection } from "@/components/sections/SkillsSection";
-import { TheorySection } from "@/components/sections/TheorySection";
 import { JsonLd, homeGraph } from "@/lib/schema";
+import { getAllWritingPosts } from "@/lib/writing";
 import { siteDescription, siteName, siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -25,14 +24,14 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  const posts = getAllWritingPosts();
+
   return (
     <>
       <JsonLd data={homeGraph()} />
-      <HeroSection />
-      <AboutSection />
+      <HeroAboutTransition />
       <ProjectsSection />
-      <BlogsSection />
-      <TheorySection />
+      <ArticlesImplementationsTransition posts={posts} />
       <SkillsSection />
       <GitHubCommitsSection />
       <ContactSection />

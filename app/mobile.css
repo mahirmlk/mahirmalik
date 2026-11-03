@@ -24,7 +24,6 @@
 /* ─── Shared tokens + global safety (no visual change on desktop) ─── */
 
 :root {
-  --mobile-nav-height: 4.75rem; /* matches .nav-frame min-height (76px) */
   --mobile-section-space: clamp(4rem, 0.5rem + 10vw, 6rem);
   --mobile-gutter: 32px; /* 16px each side */
 }
@@ -47,10 +46,6 @@
   img {
     max-width: 100%;
     height: auto;
-  }
-
-  .about-mobile {
-    display: none;
   }
 
   .skip-link {
@@ -78,10 +73,6 @@
 /* ─── Phones: normal + large (up to tablet breakpoint) ─── */
 
 @media (max-width: 767px) {
-  .about-mobile {
-    display: block;
-  }
-
   .skip-link {
     position: fixed;
     top: -100px;
@@ -133,16 +124,6 @@
     padding-block: var(--mobile-section-space);
   }
 
-  /* Anchored sections (#about, #projects, #contact…) must clear the fixed
-     navbar when jumped to. */
-  html {
-    scroll-padding-top: calc(var(--mobile-nav-height) + 1rem);
-  }
-
-  section[id] {
-    scroll-margin-top: calc(var(--mobile-nav-height) + 1.5rem);
-  }
-
   .section-eyebrow {
     font-size: 0.72rem;
     letter-spacing: 0.18em;
@@ -175,23 +156,9 @@
     line-height: 1.75;
   }
 
-  /* ─── Navbar: stay minimal, keep in normal flow offset ───
-     main already reserves 6rem (pt-24) for the 4.75rem fixed navbar, leaving
-     a ~20px breathing gap. Re-assert the frame width with the shared gutter
-     and invisibly enlarge touch targets instead of enlarging visuals. */
-  .nav-frame {
-    width: min(1180px, calc(100% - var(--mobile-gutter)));
-    gap: 0.75rem;
-  }
-
-  .nav-icon-button {
-    position: relative;
-  }
-
-  .nav-icon-button::after {
-    content: "";
-    position: absolute;
-    inset: -8px;
+  /* Keep touch gestures on the draggable hero badge available for page scroll. */
+  .badge-root {
+    touch-action: pan-y;
   }
 
   /* ─── Hero (editorial revamp): stack the corner notes, size the badge ───
@@ -207,6 +174,22 @@
     font-size: 0.88rem;
   }
 
+  .hero-skeleton-note-left {
+    top: 5.25rem;
+    left: var(--mobile-gutter);
+    width: 8.5rem;
+  }
+
+  .hero-skeleton-note-right {
+    top: 11.25rem;
+    right: var(--mobile-gutter);
+    width: 10rem;
+  }
+
+  .hero-skeleton-note i {
+    height: 0.6rem;
+  }
+
   .hero-note-right {
     top: 11.25rem;
     max-width: 11rem;
@@ -218,135 +201,18 @@
     font-size: clamp(3.35rem, 15vw, 5.5rem);
   }
 
+  .hero-skeleton-name {
+    bottom: 8vw;
+    width: 76vw;
+    height: clamp(3.2rem, 14vw, 5rem);
+  }
+
   .hero-note-left {
     max-width: 8.5rem;
   }
 
   :root {
     --badge-w: clamp(180px, 50vw, 240px);
-  }
-
-  /* ─── About: compact, readable, no giant desktop gaps ─── */
-  .about img {
-    width: 100%;
-    height: auto;
-  }
-
-  /* The desktop's pinned timeline becomes a linear, touch-friendly story. */
-  .about-journey {
-    height: auto !important;
-    min-height: 0;
-    overflow: clip;
-  }
-
-  .about-journey-sticky {
-    display: none;
-  }
-
-  .about-mobile {
-    display: block;
-    padding: 4.75rem var(--mobile-gutter) 5rem;
-    background: #f7f6f3;
-    color: #111;
-  }
-
-  .about-mobile-intro h2,
-  .about-mobile-ending h2 {
-    margin: 0;
-    font-family: var(--font-serif), Georgia, serif;
-    font-size: clamp(3rem, 13vw, 4.6rem);
-    font-weight: 500;
-    letter-spacing: -0.07em;
-    line-height: 0.98;
-  }
-
-  .about-mobile-intro p {
-    max-width: 19rem;
-    margin: 1rem 0 0;
-    color: #77736f;
-    font-size: 0.9rem;
-    line-height: 1.55;
-  }
-
-  .about-mobile-art {
-    width: min(12rem, 48vw);
-    margin: 2.5rem 0 2.25rem auto;
-    opacity: 0.92;
-  }
-
-  .about-mobile-art svg {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-
-  .about-mobile-timeline {
-    position: relative;
-    display: grid;
-    gap: 0;
-    margin-left: 0.25rem;
-    padding-left: 1.5rem;
-  }
-
-  .about-mobile-timeline::before {
-    position: absolute;
-    top: 0.4rem;
-    bottom: 0.4rem;
-    left: 0;
-    width: 1px;
-    background: #c9c5be;
-    content: "";
-  }
-
-  .about-mobile-milestone {
-    position: relative;
-    padding: 0 0 2rem;
-  }
-
-  .about-mobile-dot {
-    position: absolute;
-    top: 0.35rem;
-    left: calc(-1.5rem - 4px);
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: #6f6b65;
-    box-shadow: 0 0 0 4px #f7f6f3;
-  }
-
-  .about-mobile-milestone h3 {
-    margin: 0;
-    font-size: 1.05rem;
-    font-weight: 500;
-    letter-spacing: -0.035em;
-    line-height: 1.35;
-  }
-
-  .about-mobile-milestone p {
-    max-width: 29rem;
-    margin: 0.35rem 0 0;
-    color: #797670;
-    font-size: 0.88rem;
-    line-height: 1.6;
-  }
-
-  .about-mobile-ending {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid #d9d6d0;
-  }
-
-  .about-mobile-ending h2 {
-    max-width: 12ch;
-    font-size: clamp(2.7rem, 11vw, 4rem);
-  }
-
-  .about-mobile-ending > p {
-    margin: 1.15rem 0 0;
-    color: #282722;
-    font-family: var(--font-serif), Georgia, serif;
-    font-size: 1rem;
-    line-height: 1.65;
   }
 
   /* ─── Projects: reflow, don't shrink — 1 column, landscape previews ───
@@ -377,98 +243,14 @@
   /* "More / Less" toggle: guarantee the 24px AA minimum hit area without
      visibly changing the card. */
   .project-card-body > button {
-    min-height: 1.75rem;
+    min-height: 2.75rem;
+    padding-inline: 0.35rem;
   }
 
   /* Homepage projects keep their editorial copy first, then stack the screens. */
-  .projects-showcase {
-    width: calc(100% - var(--mobile-gutter));
-    padding-block: 3.5rem;
-  }
-
-  .projects-showcase-heading {
-    padding-bottom: 0.8rem;
-  }
-
   .projects-showcase-archive {
     font-size: 0.61rem;
-  }
-
-  .project-showcase-row {
-    min-height: 0;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.6rem;
-    padding-block: 3.5rem;
-  }
-
-  .project-showcase-meta {
-    gap: 0.6rem;
-    margin-bottom: 0.9rem;
-    font-size: 0.61rem;
-  }
-
-  .project-showcase-copy h3 {
-    font-size: clamp(3rem, 14vw, 4.5rem);
-  }
-
-  .project-showcase-description {
-    margin-top: 0.95rem;
-    font-size: 1.08rem;
-    line-height: 1.55;
-  }
-
-  .project-showcase-year {
-    margin-top: 0.7rem;
-    font-size: 0.95rem;
-  }
-
-  .project-showcase-tags {
-    gap: 0.35rem 0.6rem;
-    margin-top: 0.8rem;
-    font-size: 0.58rem;
-  }
-
-  .project-showcase-tags li + li::before {
-    margin-right: 0.6rem;
-  }
-
-  .project-showcase-actions {
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-
-  .project-showcase-artwork {
-    height: auto;
-    min-height: 0;
-    aspect-ratio: 1.35;
-  }
-
-  .helion-preview-topbar {
-    height: 2rem;
-    padding-inline: 0.65rem;
-    font-size: 0.45rem;
-  }
-
-  .helion-preview-content {
-    padding: 1.2rem 7% 1rem;
-  }
-
-  .helion-preview-row {
-    grid-template-columns: 1.3rem 1fr;
-    gap: 0.4rem;
-    padding-block: 0.75rem;
-    font-size: 0.58rem;
-  }
-
-  .helion-preview-row small {
-    display: none;
-  }
-
-  .helion-preview-footer {
-    flex-direction: column;
-    gap: 0.35rem;
-    margin-top: 1rem;
-    font-size: 0.5rem;
+    min-height: 2.75rem;
   }
 
   .projects-showcase.projects-showcase {
@@ -492,8 +274,9 @@
 
   .projects-showcase-aside h2 {
     max-width: 12ch;
-    font-family: var(--font-heading), sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: clamp(3rem, 12vw, 4.25rem);
+    font-weight: 400;
   }
 
   .projects-showcase-intro {
@@ -516,8 +299,9 @@
   }
 
   .projects-showcase-list .project-showcase-row h3 {
-    font-family: var(--font-heading), sans-serif;
+    font-family: var(--font-body), sans-serif;
     font-size: clamp(2.8rem, 11vw, 4rem);
+    font-weight: 400;
   }
 
   .projects-showcase-list .project-showcase-description {
@@ -542,8 +326,8 @@
   }
 
   .project-showcase-live-link {
-    width: 1.65rem;
-    height: 1.65rem;
+    width: 2.75rem;
+    height: 2.75rem;
   }
 
   /* ─── Homepage writing preview: centered, compact, no desktop spread ─── */
@@ -597,12 +381,6 @@
     min-width: 640px;
   }
 
-  /* Cheaper blur for scroll performance on phones; visually identical. */
-  .nav-shell-scrolled {
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
-  }
-
   .gh-commits-container {
     padding: 1.25rem;
   }
@@ -621,7 +399,7 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  /* ─── Writing index: proper offset under navbar, compact editorial flow ─── */
+  /* ─── Writing index: compact editorial flow ─── */
   .writing {
     overflow-x: clip;
   }
@@ -875,8 +653,14 @@
   }
 
   .theory-row {
-    align-items: flex-start;
-    gap: 0.85rem;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 1rem;
+  }
+
+  .theory-row > a img {
+    width: 6rem;
+    height: 6rem;
   }
 
   #implementations .theory-parallax-heading {
@@ -962,77 +746,18 @@
   }
 
   .contact-footer-content {
-    padding-top: 2.75rem;
+    padding-block: 1.25rem calc(2rem + env(safe-area-inset-bottom));
   }
 
-  .contact-footer-main {
-    padding-bottom: 2rem;
+  .contact-footer-marquee-track span {
+    font-size: clamp(6.5rem, 25vw, 11.5rem);
   }
 
-  .contact-footer-image {
-    height: 30rem;
-    min-height: 0;
+  .contact-footer-social-link {
+    font-size: 1.15rem;
+    min-height: 2.75rem;
+    padding-block: 0.35rem;
   }
-
-  .contact-footer-image-content {
-    height: 30rem;
-    min-height: 30rem;
-    padding-top: 1.5rem;
-  }
-
-  .contact-footer-image-photo {
-    object-fit: cover;
-    object-position: center 42%;
-  }
-
-  .contact-socials {
-    height: 100%;
-  }
-
-  .contact-socials-topline {
-    width: 100%;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.35rem;
-  }
-
-  .contact-socials-topline .contact-social-link {
-    grid-template-columns: 1rem minmax(0, 1fr);
-    gap: 0.3rem;
-  }
-
-  .contact-socials-flank {
-    top: 25%;
-    width: 34%;
-    gap: 0.4rem;
-  }
-
-  .contact-socials-left {
-    left: 0;
-  }
-
-  .contact-socials-right {
-    right: 0;
-    width: 34%;
-  }
-
-  .contact-social-link {
-    min-height: 2.6rem;
-    grid-template-columns: 1.1rem minmax(0, 1fr);
-    gap: 0.45rem;
-    padding-inline: 0.1rem;
-    font-size: 0.76rem;
-  }
-
-  .contact-social-icon {
-    width: 1.1rem;
-    height: 1.1rem;
-  }
-
-  .contact-social-label {
-    font-size: clamp(0.66rem, 2.8vw, 0.74rem);
-    letter-spacing: -0.015em;
-  }
-
 }
 
 @media (max-width: 380px) {
@@ -1046,24 +771,4 @@
     font-size: clamp(3.2rem, 15vw, 3.6rem);
   }
 
-  .contact-socials-topline .contact-social-link {
-    grid-template-columns: 0.9rem minmax(0, 1fr);
-    gap: 0.2rem;
-  }
-
-  .contact-social-link {
-    font-size: 0.72rem;
-  }
-
-  .contact-social-label {
-    font-size: 0.66rem;
-  }
-
-  .contact-socials-flank {
-    width: 37%;
-  }
-
-  .contact-socials-right {
-    width: 37%;
-  }
 }

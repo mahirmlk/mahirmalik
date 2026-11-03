@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { IdBadge } from "@/components/hero/IdBadge";
 
 /**
@@ -9,8 +12,44 @@ import { IdBadge } from "@/components/hero/IdBadge";
  * other routes) so this stage starts flush with the viewport top.
  */
 export function HeroSection() {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => setReady(true));
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
   return (
-    <section className="hero-stage -mt-24 md:-mt-28" aria-label="Introduction">
+    <section
+      className="hero-stage -mt-24 md:-mt-28"
+      aria-label="Introduction"
+      aria-busy={!ready}
+      data-ready={ready ? "true" : "false"}
+    >
+      <div className="hero-skeleton" aria-hidden="true">
+        <div className="hero-skeleton-note hero-skeleton-note-left">
+          <i />
+          <i />
+        </div>
+        <div className="hero-skeleton-note hero-skeleton-note-right">
+          <i />
+          <i />
+        </div>
+        <i className="hero-skeleton-name" />
+        <i className="hero-skeleton-lanyard" />
+        <div className="hero-skeleton-badge">
+          <i className="hero-skeleton-badge-mark" />
+          <i className="hero-skeleton-badge-title" />
+          <i className="hero-skeleton-badge-subtitle" />
+          <i className="hero-skeleton-badge-rule" />
+          <div className="hero-skeleton-badge-chips">
+            <i />
+            <i />
+            <i />
+          </div>
+        </div>
+      </div>
+
       <p className="hero-note hero-note-left">
         I build AI systems, agents,
         <br />

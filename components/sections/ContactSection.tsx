@@ -1,5 +1,9 @@
-import type { ReactElement, SVGProps } from "react";
-import Image from "next/image";
+"use client";
+
+import type { CSSProperties, ReactElement, SVGProps } from "react";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 type BrandIconProps = SVGProps<SVGSVGElement>;
 
@@ -145,50 +149,86 @@ function SocialLink({ social }: { social: SocialLinkItem }) {
   const { label, href, render } = social;
 
   return (
-    <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} title={label} className="contact-social-link">
-      <span className="contact-social-icon">{render({ className: "h-[18px] w-[18px] shrink-0" })}</span>
-      <span className="contact-social-label">{label}</span>
+    <a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} title={label} className="contact-footer-social-link">
+      <span className="contact-footer-social-icon">{render({ className: "h-[18px] w-[18px] shrink-0" })}</span>
+      <span className="contact-footer-social-word" aria-hidden="true">
+        {Array.from(label).map((character, index) => {
+          const letterStyle = { "--letter-delay": `${index * 18}ms` } as CSSProperties;
+          const visibleCharacter = character === " " ? "\u00a0" : character;
+
+          return (
+            <span className="contact-footer-social-letter" key={`${character}-${index}`} style={letterStyle}>
+              <span className="contact-footer-social-letter-current">{visibleCharacter}</span>
+              <span className="contact-footer-social-letter-next">{visibleCharacter}</span>
+            </span>
+          );
+        })}
+      </span>
     </a>
   );
 }
 
 export function ContactSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const context = gsap.context(() => {
+      const media = gsap.matchMedia();
+
+      media.add("(prefers-reduced-motion: no-preference) and (min-width: 768px)", () => {
+        const section = sectionRef.current;
+        const previousSection = section?.previousElementSibling;
+        if (!section || !(previousSection instanceof HTMLElement)) return;
+
+        const entrance = gsap.fromTo(
+          section,
+          { yPercent: 75 },
+          {
+            yPercent: 0,
+            ease: "none",
+            scrollTrigger: {
+              trigger: previousSection,
+              start: "bottom bottom",
+              end: "bottom top",
+              scrub: 0.7,
+              pin: previousSection,
+              pinSpacing: false,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+            },
+          },
+        );
+
+        return () => {
+          entrance.scrollTrigger?.kill();
+          entrance.kill();
+        };
+      });
+
+      return () => media.revert();
+    }, sectionRef);
+
+    return () => context.revert();
+  }, []);
+
   return (
-    <section id="contact" className="contact-footer">
-      <footer className="contact-footer-content site-container">
-        <div className="contact-footer-main">
-          <div className="contact-footer-intro">
-            <p className="section-eyebrow">Find me elsewhere</p>
-            <h2>Good work starts with a conversation.</h2>
-            <a className="contact-footer-email" href="mailto:mahirmalikx@gmail.com">
-              mahirmalikx@gmail.com
-            </a>
+    <section ref={sectionRef} id="contact" className="contact-footer">
+      <footer className="contact-footer-content">
+        <h2 className="sr-only">Mahir Malik · AI engineer</h2>
+        <div className="contact-footer-marquee" aria-hidden="true">
+          <div className="contact-footer-marquee-track">
+            <span>MAHIR MALIK <i>•</i> AI ENGINEER</span>
+            <span>MAHIR MALIK <i>•</i> AI ENGINEER</span>
           </div>
         </div>
 
-        <div className="contact-footer-image">
-          <Image
-            src="/assets/footer.webp"
-            alt=""
-            fill
-            sizes="100vw"
-            className="contact-footer-image-photo"
-            loading="lazy"
-          />
-          <div className="contact-footer-image-shade" />
-          <div className="contact-footer-image-content">
-            <nav className="contact-socials" aria-label="Social profiles">
-              <div className="contact-socials-topline">
-                {socials.slice(0, 4).map((social) => <SocialLink key={social.label} social={social} />)}
-              </div>
-              <div className="contact-socials-flank contact-socials-left">
-                {socials.slice(4, 6).map((social) => <SocialLink key={social.label} social={social} />)}
-              </div>
-              <div className="contact-socials-flank contact-socials-right">
-                {socials.slice(6, 8).map((social) => <SocialLink key={social.label} social={social} />)}
-              </div>
-            </nav>
-          </div>
+        <div className="contact-footer-links">
+          <h2 className="contact-footer-heading">Good work starts with a conversation.</h2>
+          <nav className="contact-footer-socials" aria-label="Social profiles">
+            {socials.map((social) => <SocialLink key={social.label} social={social} />)}
+          </nav>
         </div>
       </footer>
     </section>

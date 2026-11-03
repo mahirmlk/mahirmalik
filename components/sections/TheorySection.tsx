@@ -42,7 +42,7 @@ export function TheorySection() {
                 <h2 className="section-title section-title-sm theory-parallax-heading">
                   Because reading the paper wasn&apos;t enough.
                 </h2>
-                <div className="theory-row mt-5 flex items-center gap-3 sm:gap-4">
+                <div className="theory-row">
                   <motion.a
                     href={papersBaseUrl}
                     target="_blank"
@@ -61,18 +61,22 @@ export function TheorySection() {
                       priority={false}
                     />
                   </motion.a>
-                  <div className="min-w-0">
+                  <div className="theory-copy">
                     <p className="section-copy mt-0">
                       I take interesting papers, ideas, and algorithms and actually build them from
                       scratch.
+                    </p>
+                    <p className="section-copy theory-followup">
+                      Then I test them with different data, compare the results, and write down what
+                      I learn. It&apos;s a hands-on way to see how an idea works beyond the page.
                     </p>
                     <a
                       href={papersBaseUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-3 inline-flex flex-wrap items-center gap-2 text-[var(--fg-muted)] transition hover:text-[var(--fg)]"
+                      className="theory-site-link mt-3 inline-flex flex-wrap items-center gap-2 text-[var(--fg-muted)] transition hover:text-[var(--fg)]"
                     >
-                      <span className="mono text-[10px] uppercase tracking-[0.16em]">
+                      <span className="theory-site-link-label mono text-[10px] uppercase tracking-[0.16em]">
                         papers.mahirmalik.in
                       </span>
                       <ArrowUpRight size={14} />

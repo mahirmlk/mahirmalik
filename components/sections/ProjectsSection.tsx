@@ -27,7 +27,7 @@ function ProjectRow({ project }: { project: Project }) {
 
   return (
     <motion.article
-      className="project-showcase-row"
+      className={`project-showcase-row project-showcase-row-${project.slug}`}
       initial={reduceMotion ? false : { opacity: 0, y: 22 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
@@ -66,7 +66,7 @@ export function ProjectsSection() {
       <aside className="projects-showcase-aside">
         <h2>A few things I’ve been building.</h2>
         <p className="projects-showcase-intro">
-          I work on AI systems, agents, and machine-learning tools. Each project started with something I wanted to understand or make easier to use.
+          I like building things with AI and machine learning. I start with a small idea, try it out, and keep improving it until it’s useful.
         </p>
         <Link href="/work" className="projects-showcase-archive">
           Full archive <ArrowRight aria-hidden="true" />

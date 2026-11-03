@@ -6,7 +6,7 @@ Canonical: `https://www.mahirmalik.in/`. All internal links are relative and res
 
 - Nav (`components/nav/Navbar.tsx`): `/about`, `/work`, `/writing`, `/#contact`, `/` (home icon), `/writing` (Explore button)
 - Footer (`components/sections/ContactSection.tsx`): `/work`, `/writing`
-- Home sections: `ProjectsSection` → `/work`; `BlogsSection` → `/writing`
+- Home sections: `ProjectsSection` → `/work`; `WritingParallax` → `/writing`
 - Article header/footer (`components/writing/ArticleLayout.tsx`): `/writing` (back, ×2), `/about` (byline + author bio)
 - Project page (`app/work/[slug]/page.tsx`): `/work` (back)
 - Grids: `ProjectGrid`/`WritingList` link every slug; no orphan indexable page exists

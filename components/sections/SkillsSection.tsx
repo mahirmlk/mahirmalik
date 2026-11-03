@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
+
 interface StackLogo {
   name: string;
   src?: string;
-  darkSrc?: string;
 }
 
 interface StackCategory {
@@ -17,8 +18,6 @@ interface StackCategory {
 const si = (slug: string, color: string) => `/assets/icons/si-${slug}-${color}.svg`;
 const favicon = (domain: string) => `/assets/icons/fav-${domain}.png`;
 
-const LIGHT_DARK = "f6f7f8";
-
 const stackCategories: StackCategory[] = [
   {
     title: "Programming Languages",
@@ -29,7 +28,6 @@ const stackCategories: StackCategory[] = [
       {
         name: "Rust",
         src: si("rust", "111111"),
-        darkSrc: si("rust", LIGHT_DARK),
       },
     ],
   },
@@ -40,7 +38,6 @@ const stackCategories: StackCategory[] = [
       {
         name: "Next.js",
         src: si("nextdotjs", "111111"),
-        darkSrc: si("nextdotjs", LIGHT_DARK),
       },
       { name: "Tailwind CSS", src: si("tailwindcss", "06B6D4") },
     ],
@@ -56,7 +53,6 @@ const stackCategories: StackCategory[] = [
       {
         name: "WebSockets",
         src: si("socketdotio", "111111"),
-        darkSrc: si("socketdotio", LIGHT_DARK),
       },
       { name: "GraphQL", src: si("graphql", "E10098") },
       { name: "gRPC", src: favicon("grpc.io") },
@@ -74,7 +70,6 @@ const stackCategories: StackCategory[] = [
       {
         name: "Matplotlib",
         src: "/assets/icons/matplotlib-light.svg",
-        darkSrc: "/assets/icons/matplotlib-dark.svg",
       },
       { name: "Plotly", src: si("plotly", "3F4F75") },
       { name: "Jupyter", src: si("jupyter", "F37626") },
@@ -99,7 +94,6 @@ const stackCategories: StackCategory[] = [
       {
         name: "Ollama",
         src: si("ollama", "111111"),
-        darkSrc: si("ollama", LIGHT_DARK),
       },
       { name: "vLLM", src: favicon("docs.vllm.ai") },
       { name: "LiteLLM", src: favicon("docs.litellm.ai") },
@@ -147,7 +141,6 @@ const stackCategories: StackCategory[] = [
       {
         name: "Temporal",
         src: si("temporal", "111111"),
-        darkSrc: si("temporal", LIGHT_DARK),
       },
     ],
   },
@@ -163,12 +156,10 @@ const stackCategories: StackCategory[] = [
       {
         name: "Vercel",
         src: si("vercel", "111111"),
-        darkSrc: si("vercel", LIGHT_DARK),
       },
       {
         name: "Railway",
         src: si("railway", "111111"),
-        darkSrc: si("railway", LIGHT_DARK),
       },
       { name: "Fly.io", src: favicon("fly.io") },
       { name: "Render", src: si("render", "46E3B7") },
@@ -194,7 +185,6 @@ const stackCategories: StackCategory[] = [
       {
         name: "GitHub",
         src: si("github", "111111"),
-        darkSrc: si("github", LIGHT_DARK),
       },
       { name: "VS Code", src: favicon("code.visualstudio.com") },
       { name: "Postman", src: si("postman", "FF6C37") },
@@ -208,49 +198,13 @@ const stackCategories: StackCategory[] = [
 ];
 
 function StackIcon({ item }: { item: StackLogo }) {
-  if (!item.src) {
+  const [failed, setFailed] = useState(false);
+
+  if (!item.src || failed) {
     return (
-      <span
-        aria-hidden
-        className="mono flex h-7 w-7 items-center justify-center text-base font-semibold uppercase text-[var(--fg-subtle)] sm:h-8 sm:w-8 sm:text-lg"
-      >
-        {item.name.charAt(0)}
+      <span aria-hidden className="skills-icon-fallback">
+        {item.name.slice(0, 2)}
       </span>
-    );
-  }
-
-  if (item.darkSrc) {
-    // The Simple Icons light variants are not present in this local bundle.
-    // Keep using the bundled icon and invert only these monochrome marks in dark mode.
-    if (item.darkSrc.startsWith("/assets/icons/si-")) {
-      return (
-        <img
-          src={item.src}
-          alt=""
-          aria-hidden
-          className="h-7 w-7 object-contain sm:h-8 sm:w-8 dark:brightness-0 dark:invert"
-          loading="lazy"
-        />
-      );
-    }
-
-    return (
-      <>
-        <img
-          src={item.src}
-          alt=""
-          aria-hidden
-          className="h-7 w-7 object-contain sm:h-8 sm:w-8 dark:hidden"
-          loading="lazy"
-        />
-        <img
-          src={item.darkSrc}
-          alt=""
-          aria-hidden
-          className="hidden h-7 w-7 object-contain sm:h-8 sm:w-8 dark:block"
-          loading="lazy"
-        />
-      </>
     );
   }
 
@@ -259,15 +213,19 @@ function StackIcon({ item }: { item: StackLogo }) {
       src={item.src}
       alt=""
       aria-hidden
-      className="h-7 w-7 object-contain sm:h-8 sm:w-8"
+      className="skills-icon-image"
       loading="lazy"
+      onError={() => setFailed(true)}
     />
   );
 }
 
 export function SkillsSection() {
+  const stackItems = stackCategories.flatMap((category) =>
+    category.items.map((item) => ({ ...item, category: category.title })),
+  );
   const rows = [0, 1, 2].map((rowIndex) =>
-    stackCategories.filter((_, categoryIndex) => categoryIndex % 3 === rowIndex),
+    stackItems.filter((_, itemIndex) => itemIndex % 3 === rowIndex),
   );
 
   return (
@@ -275,7 +233,6 @@ export function SkillsSection() {
       <div className="skills-section-inner">
         <header className="skills-section-header">
           <div className="skills-section-title-group">
-            <p className="skills-section-kicker">A working toolkit</p>
             <h2 className="skills-section-heading">What I build with.</h2>
           </div>
           <p className="skills-section-copy">
@@ -284,29 +241,22 @@ export function SkillsSection() {
         </header>
 
         <div className="skills-marquee" aria-label="Tools and technologies I work with">
-          {rows.map((categories, rowIndex) => (
+          {rows.map((items, rowIndex) => (
             <div className={`skills-marquee-track skills-marquee-track-${rowIndex + 1}`} key={rowIndex}>
               <div className="skills-marquee-belt">
                 {[false, true].map((duplicate) => (
-                  <div
+                  <ul
                     className="skills-marquee-sequence"
                     key={duplicate ? "repeat" : "main"}
                     aria-hidden={duplicate || undefined}
                   >
-                    {categories.map((category) => (
-                      <article className="skills-marquee-group" key={category.title}>
-                        <h3 className="skills-category-title">{category.title}</h3>
-                        <ul className="skills-category-items">
-                          {category.items.map((item) => (
-                            <li className="skills-item" key={`${category.title}-${item.name}`} title={item.name}>
-                              <span className="skills-item-icon"><StackIcon item={item} /></span>
-                              <span className="skills-item-name">{item.name}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </article>
+                    {items.map((item) => (
+                      <li className="skills-item" key={`${item.category}-${item.name}`} title={item.name}>
+                        <span className="skills-item-icon"><StackIcon item={item} /></span>
+                        <span className="skills-item-name">{item.name}</span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 ))}
               </div>
             </div>
