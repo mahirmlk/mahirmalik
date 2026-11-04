@@ -1,6 +1,9 @@
 import type { WritingBlock } from "@/lib/writing";
 import { renderInlineMarkdown } from "@/lib/writing";
-import { DIAGRAMS } from "@/components/writing/diagrams/AgentDiagrams";
+import { DIAGRAMS as ARTICLE_DIAGRAMS } from "@/components/writing/diagrams/AgentDiagrams";
+import { WEIGHT_SPACE_DIAGRAMS } from "@/components/writing/diagrams/WeightSpaceDiagrams";
+
+const DIAGRAMS = { ...ARTICLE_DIAGRAMS, ...WEIGHT_SPACE_DIAGRAMS };
 
 function containsBoxDrawing(code: string): boolean {
   return /[┌┐└┘├┤┬┴┼─│▼▲►◄↓↑]/.test(code);
