@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import type { WritingPost } from "@/lib/writing";
 
@@ -12,17 +11,9 @@ function formatDate(date: string) {
   }).format(new Date(date));
 }
 
-function WritingEntry({ post, index }: { post: WritingPost; index: number }) {
-  const reduceMotion = useReducedMotion();
-
+function WritingEntry({ post }: { post: WritingPost }) {
   return (
-    <motion.article
-      className="blogs-writing-entry"
-      initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={reduceMotion ? { duration: 0 } : { duration: 0.5, delay: Math.min(index * 0.04, 0.16), ease: [0.22, 1, 0.36, 1] }}
-    >
+    <article className="blogs-writing-entry">
       <a className="blogs-writing-entry-link" href={`/writing/${post.slug}`}>
         <div className="blogs-writing-entry-meta">
           <time dateTime={post.date}>{formatDate(post.date)}</time>
@@ -34,7 +25,7 @@ function WritingEntry({ post, index }: { post: WritingPost; index: number }) {
         </div>
         <ArrowUpRight className="blogs-writing-entry-arrow" aria-hidden="true" />
       </a>
-    </motion.article>
+    </article>
   );
 }
 
@@ -56,8 +47,8 @@ export function WritingSection({ posts }: { posts: WritingPost[] }) {
         <div className="blogs-writing-feed-head">
           <span>Latest</span>
         </div>
-        {posts.map((post, index) => (
-          <WritingEntry key={post.slug} post={post} index={index} />
+        {posts.map((post) => (
+          <WritingEntry key={post.slug} post={post} />
         ))}
       </div>
     </section>
