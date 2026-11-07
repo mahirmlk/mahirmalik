@@ -711,10 +711,6 @@
     transition: none;
   }
 
-  .blogs-writing-entry:hover .blogs-writing-entry-link {
-    padding-inline: 0;
-  }
-
   .blogs-writing-entry-meta {
     grid-column: 1 / -1;
     flex-direction: row;
