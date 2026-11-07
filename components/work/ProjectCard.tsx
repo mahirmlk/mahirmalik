@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { Project } from "@/types";
 
@@ -12,10 +11,10 @@ export function ProjectCard({ project }: { project: Project }) {
         <div className="work-project-heading">
           <h2>{project.title}</h2>
           {!project.comingSoon ? (
-            <Link href={detailsUrl} aria-label={`Read the ${project.title} case study`}>
+            <a href={detailsUrl} aria-label={`Read the ${project.title} case study`}>
               <span>Case study</span>
               <ArrowUpRight aria-hidden="true" />
-            </Link>
+            </a>
           ) : (
             <span className="work-project-status">In progress</span>
           )}

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import type { Project } from "@/types";
@@ -34,7 +33,7 @@ function ProjectRow({ project }: { project: Project }) {
       transition={reduceMotion ? { duration: 0 } : { duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
     >
       <h3>
-        {project.comingSoon ? project.title : <Link href={`/work/${project.slug}`}>{project.title}</Link>}
+        {project.comingSoon ? project.title : <a href={`/work/${project.slug}`}>{project.title}</a>}
       </h3>
       <p className="project-showcase-description">{note}</p>
       <div className="project-showcase-stack-row">
@@ -68,9 +67,9 @@ export function ProjectsSection() {
         <p className="projects-showcase-intro">
           I like building things with AI and machine learning. I start with a small idea, try it out, and keep improving it until it’s useful.
         </p>
-        <Link href="/work" className="projects-showcase-archive">
+        <a href="/work" className="projects-showcase-archive">
           Full archive <ArrowRight aria-hidden="true" />
-        </Link>
+        </a>
       </aside>
 
       <div className="projects-showcase-list">

@@ -1,7 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Github, Globe } from "lucide-react";
 import { ProjectHero } from "@/components/work/ProjectHero";
@@ -177,7 +176,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     <>
       <JsonLd data={projectSchema(project)} />
       <article className="project-detail project-case-study">
-        <Link href="/work" className="case-study-back">← All work</Link>
+        <a href="/work" className="case-study-back">← All work</a>
 
         <header className="case-study-header">
           <p className="case-study-kicker">{project.category} <span>·</span> {project.year}</p>
